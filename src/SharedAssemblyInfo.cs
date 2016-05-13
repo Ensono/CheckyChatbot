@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("debug")]
 [assembly: AssemblyCompany("Richard Slater")]
 [assembly: AssemblyProduct("Checky Chatbot")]
-[assembly: AssemblyCopyright("Â©2016 Richard Slater, All Rights Reserved")]
+[assembly: AssemblyCopyright("©2016 Richard Slater, All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
