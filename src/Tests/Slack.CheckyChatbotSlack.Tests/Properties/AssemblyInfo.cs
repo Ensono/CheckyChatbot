@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Chatbot")]
+[assembly: AssemblyTitle("Slack.CheckyChatbotSlack.Tests")]
 [assembly: AssemblyDescription("")]
 
-[assembly: Guid("f52d1b30-7bc5-4aff-9510-14b50f2e32e8")]
+[assembly: Guid("f70167a8-d5bf-46ec-942a-4350475c9ece")]
