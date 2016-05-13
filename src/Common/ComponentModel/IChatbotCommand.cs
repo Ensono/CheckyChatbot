@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComponentModel
-{
+namespace ComponentModel {
     public interface IChatbotCommand {
         bool CanAccept(string receivedText, bool wasMentioned);
 
