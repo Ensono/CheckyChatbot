@@ -15,13 +15,17 @@ namespace Healthbot {
             var configuration = ConfigurationManager.ConnectionStrings;
             var datasource = configuration["Datasource"];
 
-            var connectionString = datasource == null ? System.Environment.GetEnvironmentVariable("CONNECTIONSTRING_Datasource") : datasource.ConnectionString;
+            var connectionString = datasource == null
+                ? System.Environment.GetEnvironmentVariable("CONNECTIONSTRING_Datasource")
+                : datasource.ConnectionString;
 
             if (connectionString == null) {
                 throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
             }
 
-            _context = connectionString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToDictionary(key => key.Split('=')[0], value => value.Split(new[] { '=' }, 2)[1]);
+            _context =
+                connectionString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
+                    .ToDictionary(key => key.Split('=')[0], value => value.Split(new[] {'='}, 2)[1]);
             _client = new DocumentClient(new Uri(_context["AccountEndpoint"]), _context["AccountKey"]);
 
             _feedOptions = new FeedOptions {
@@ -38,6 +42,5 @@ namespace Healthbot {
                 .AsEnumerable()
                 .SingleOrDefault(x => string.Equals(x.Id, environment, StringComparison.InvariantCultureIgnoreCase));
         }
-
     }
 }
