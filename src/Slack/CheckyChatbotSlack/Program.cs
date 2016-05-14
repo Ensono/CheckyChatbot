@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Hunabku.Skive;
 using System.Configuration;
 
@@ -12,11 +11,14 @@ namespace CheckyChatbotSlack {
             var configuration = ConfigurationManager.AppSettings;
             string authToken = configuration["SlackBotToken"];
 
-            var store = new EventHandlersStore()
-                .Register("message", () => new EchoMessageHandler());
+            if (string.IsNullOrWhiteSpace(authToken)) {
+                authToken = Environment.GetEnvironmentVariable("APPSETTING_SlackBotToken");
+            }
 
-            using (var sb = new BotEngine(store))
-            {
+            var store = new EventHandlersStore()
+                .Register("message", () => new HealthcheckMessageHandler());
+
+            using (var sb = new BotEngine(store)) {
                 sb.Connect(authToken).Wait();
                 Console.ReadLine();
             }
