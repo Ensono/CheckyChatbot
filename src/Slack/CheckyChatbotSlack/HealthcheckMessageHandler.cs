@@ -7,7 +7,7 @@ using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
     public class HealthcheckMessageHandler : ISlackEventHandler {
-        private EnvironmentRepository _environments = new EnvironmentRepository();
+        private readonly EnvironmentRepository _environments = new EnvironmentRepository();
 
         public Task Handle(ISlackEventContext context) {
             dynamic eventData = context.Event;
@@ -20,34 +20,42 @@ namespace CheckyChatbotSlack {
             }
             string channelId = eventData.channel;
 
-            var matcher = new Regex("^<@U([A-Z0-9]+)>\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)", RegexOptions.Compiled);
+            var matcher = new Regex("^<@U([A-Z0-9]+)>\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)", RegexOptions.Compiled);
             var match = matcher.Match(receivedText);
 
             if (!match.Success) {
-                return context.BotChatPostMessage(channelId, $"<@{eventData.user}>: Sorry, I didn't understand `{receivedText}` try `@checky 52dev delivery`.");
+                return context.BotChatPostMessage(channelId,
+                    $"<@{eventData.user}>: Sorry, I didn't understand `{receivedText}` try `@checky 52dev delivery`.");
             }
 
-            var environmentText = match.Groups[2].Value;
-            var serviceText = match.Groups[3].Value;
+            var command = match.Groups[2].Value;
+            var environmentText = match.Groups[3].Value;
+            var serviceText = match.Groups[4].Value;
+
+            if (!"status".StartsWith(command)) {
+                return context.BotChatPostMessage(channelId,
+                    $"I'm sorry, <@{eventData.user}>, I'm afraid I can't do that.");
+            }
 
             var environment = _environments.Get(environmentText);
 
-            if (environment == null) return context.BotChatPostMessage(channelId, $"<@{eventData.user}>: Unable to find {environmentText}");
+            if (environment == null)
+                return context.BotChatPostMessage(channelId, $"<@{eventData.user}>: Unable to find {environmentText}");
 
             var services = environment.Services.Select(x => x.Name).ToList();
 
-            if (!services.Any(x => string.Equals(x, serviceText, StringComparison.InvariantCultureIgnoreCase)))
+            if (!services.Any(x => x.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase)))
                 return context.BotChatPostMessage(channelId,
                     $"<@{eventData.user}>: Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {String.Join(", ", services)}");
 
             var service =
                 environment.Services.Single(
-                    x => string.Equals(x.Name, serviceText, StringComparison.InvariantCultureIgnoreCase));
+                    x => x.Name.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase));
             var client = new HealthcheckClient();
             var state = client.GetHealth(service.BaseUri);
             var formatter = new HealthcheckFormatter();
 
-            return context.BotChatPostMessage(channelId, formatter.Render(environment.Id, state));
+            return context.BotChatPostMessage(channelId, $"<@{eventData.user}>: " + formatter.Render(environment.Id, service.Name, state));
         }
     }
 }

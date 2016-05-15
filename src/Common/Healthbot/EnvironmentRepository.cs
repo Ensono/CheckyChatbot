@@ -22,7 +22,7 @@ namespace Healthbot {
             if (connectionString == null) {
                 throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
             }
-
+            
             _context =
                 connectionString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                     .ToDictionary(key => key.Split('=')[0], value => value.Split(new[] {'='}, 2)[1]);
@@ -40,7 +40,7 @@ namespace Healthbot {
             var collection = _client.CreateDocumentQuery<Environment>(_environmentsCollection, _feedOptions);
             return collection
                 .AsEnumerable()
-                .SingleOrDefault(x => string.Equals(x.Id, environment, StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefault(x => x.Id.StartsWith(environment, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
