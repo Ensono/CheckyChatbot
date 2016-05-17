@@ -20,12 +20,12 @@ namespace CheckyChatbotSlack {
             }
             string channelId = eventData.channel;
 
-            var matcher = new Regex("^<@U([A-Z0-9]+)>\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)", RegexOptions.Compiled);
+            var matcher = new Regex("^<@U([A-Z0-9]+)>[:?]\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)", RegexOptions.Compiled);
             var match = matcher.Match(receivedText);
 
             if (!match.Success) {
                 return context.BotChatPostMessage(channelId,
-                    $"<@{eventData.user}>: Sorry, I didn't understand `{receivedText}` try `@checky 52dev delivery`.");
+                    $"<@{eventData.user}>: Sorry, I didn't understand `{receivedText}` try `@checky status 52dev delivery`.");
             }
 
             var command = match.Groups[2].Value;
