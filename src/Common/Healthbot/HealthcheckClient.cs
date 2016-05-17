@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Healthbot {
     public class HealthcheckClient {
-        private HttpClient client = new HttpClient();
+        private readonly HttpClient client = new HttpClient();
 
         public Healthcheck GetHealth(Uri baseUri) {
             var version = client.GetStringAsync($"{baseUri}/version");

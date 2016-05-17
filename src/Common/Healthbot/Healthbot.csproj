@@ -56,6 +56,7 @@
     <Compile Include="DeployedVersion.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="EnvironmentRepository.cs" />
+    <Compile Include="HealthBotCommand.cs" />
     <Compile Include="Healthcheck.cs" />
     <Compile Include="HealthcheckClient.cs" />
     <Compile Include="HealthcheckFormatter.cs" />
@@ -70,6 +71,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
+      <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
+      <Name>ComponentModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Azure.DocumentDB.1.7.1\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\..\packages\Microsoft.Azure.DocumentDB.1.7.1\build\Microsoft.Azure.DocumentDB.targets')" />

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace ComponentModel {
     public interface IChatbotCommand {
-        bool CanAccept(string receivedText, bool wasMentioned);
+        bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage);
 
-        int Priority { get; set; }
+        int Priority { get; }
 
-        void Process(string command, Action<string> messageHandler);
+        Task Process(string command, string user, Func<string, Task> responseHandler);
+
+        string HelpText { get; }
+
+        string Example { get; }
     }
 }
