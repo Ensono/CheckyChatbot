@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Hunabku.Skive;
 using System.Configuration;
+using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
-    class Program {
-        static void Main(string[] args) {
+    internal class Program {
+        private static void Main(string[] args) {
             var configuration = ConfigurationManager.AppSettings;
-            string authToken = configuration["SlackBotToken"];
+            var authToken = configuration["SlackBotToken"];
 
             if (string.IsNullOrWhiteSpace(authToken)) {
                 authToken = Environment.GetEnvironmentVariable("APPSETTING_SlackBotToken");

@@ -6,8 +6,8 @@ using Microsoft.Azure.Documents.Client;
 
 namespace Healthbot {
     public class EnvironmentRepository {
-        private readonly Dictionary<string, string> _context;
         private readonly DocumentClient _client;
+        private readonly Dictionary<string, string> _context;
         private readonly Uri _environmentsCollection;
         private readonly FeedOptions _feedOptions;
 

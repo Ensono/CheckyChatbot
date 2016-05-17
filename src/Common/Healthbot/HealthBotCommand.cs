@@ -1,10 +1,8 @@
-﻿using ComponentModel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ComponentModel;
 
 namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
@@ -47,7 +45,7 @@ namespace Healthbot {
             if (!services.Any(x => x.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase)))
                 return
                     responseHandler(
-                        $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {String.Join(", ", services)}");
+                        $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {string.Join(", ", services)}");
 
             var service =
                 environment.Services.Single(

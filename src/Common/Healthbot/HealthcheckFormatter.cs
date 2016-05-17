@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Healthbot {
     public class HealthcheckFormatter {
-        private Dictionary<Status, string> emojiLookup = new Dictionary<Status, string> {
+        private readonly Dictionary<Status, string> emojiLookup = new Dictionary<Status, string> {
             {Status.Up, ":green_heart: Up"},
             {Status.Degraded, ":yellow_heart: Degraded"},
             {Status.Down, ":red_heart: Down"}
@@ -22,7 +20,7 @@ namespace Healthbot {
             if (aggregateState == Status.Degraded || aggregateState == Status.Down) {
                 foreach (var check in healthcheck.Checks) {
                     var checkState = emojiLookup[check.Status];
-                    if (String.IsNullOrWhiteSpace(check.ExtraInformation)) {
+                    if (string.IsNullOrWhiteSpace(check.ExtraInformation)) {
                         builder.AppendLine($"  {check.Description} {checkState}");
                     } else {
                         builder.AppendLine($"  {check.Description} {checkState} ({check.ExtraInformation})");
