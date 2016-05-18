@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -8,20 +9,19 @@ namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
         private readonly EnvironmentRepository _environments = new EnvironmentRepository();
 
+        public string Verb => "Status";
+
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([s|S][0-9A-Za-z]+)", RegexOptions.Compiled);
             var match = matcher.Match(receivedText);
-            if (match.Success) {
-                var command = match.Groups[2].Value;
-                return "status".StartsWith(command, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return false;
+            if (!match.Success) return false;
+            var command = match.Groups[1].Value;
+            return "status".StartsWith(command, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public int Priority => 50;
 
-        public Task Process(string receivedText, string user, Func<string, Task> responseHandler) {
+        public Task Process(string receivedText, string user, Func<string, Task> responseHandler, IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
                 new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s[s|S][0-9A-Za-z]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
                     RegexOptions.Compiled);

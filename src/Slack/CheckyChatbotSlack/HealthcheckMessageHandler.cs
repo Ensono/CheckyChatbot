@@ -1,10 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Chatbot;
+using ComponentModel;
 using Healthbot;
 using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
     public class HealthcheckMessageHandler : ISlackEventHandler {
+        private readonly IEnumerable<IChatbotCommand> _commands = new List<IChatbotCommand> {
+            new HealthBotCommand(),
+            new FallbackCommand()
+        };
+
         public Task Handle(ISlackEventContext context) {
             dynamic eventData = context.Event;
             string subtype = eventData.subtype;
@@ -22,13 +31,14 @@ namespace CheckyChatbotSlack {
                 message =>
                     context.BotChatPostMessage(channelId, $"<@{user}>: {message}");
 
-            var command = new HealthBotCommand();
-            if (command.CanAccept(receivedText, context.BotProfile.WasMentionedIn(receivedText),
-                channelType == ChannelType.DirectMessage)) {
-                return command.Process(receivedText, user, response);
-            }
+            var wasMentioned = context.BotProfile.WasMentionedIn(receivedText);
+            var isDirectMessage = channelType == ChannelType.DirectMessage;
+            var winningCommand = _commands
+                .Where(x => x.CanAccept(receivedText, wasMentioned, isDirectMessage))
+                .OrderBy(x => x.Priority)
+                .First();
 
-            return Task.FromResult((object) null);
+            return winningCommand.Process(receivedText, user, response, _commands);
         }
     }
 }
