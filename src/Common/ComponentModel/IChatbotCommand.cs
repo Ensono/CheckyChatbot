@@ -14,6 +14,7 @@ namespace ComponentModel {
 
         bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage);
 
-        Task Process(string command, string user, Func<string, Task> responseHandler, IEnumerable<IChatbotCommand> otherCommands);
+        Task Process(string command, string user, Func<string, Task> responseHandler,
+                     IEnumerable<IChatbotCommand> otherCommands);
     }
 }

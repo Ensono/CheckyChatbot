@@ -12,7 +12,7 @@ namespace Healthbot {
         public string Verb => "Status";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
-            var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([s|S][0-9A-Za-z]+)", RegexOptions.Compiled);
+            var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([s|S][0-9A-Za-z]*)", RegexOptions.Compiled);
             var match = matcher.Match(receivedText);
             if (!match.Success) return false;
             var command = match.Groups[1].Value;
@@ -21,9 +21,10 @@ namespace Healthbot {
 
         public int Priority => 50;
 
-        public Task Process(string receivedText, string user, Func<string, Task> responseHandler, IEnumerable<IChatbotCommand> otherCommands) {
+        public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
+                            IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
-                new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s[s|S][0-9A-Za-z]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
+                new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s[s|S][0-9A-Za-z]*\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
                     RegexOptions.Compiled);
             var match = matcher.Match(receivedText);
 
@@ -40,16 +41,26 @@ namespace Healthbot {
             if (environment == null)
                 return responseHandler($"Unable to find {environmentText}");
 
-            var services = environment.Services.Select(x => x.Name).ToList();
+            var services = environment.Services.ToList();
 
-            if (!services.Any(x => x.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase)))
+            Func<Service, bool> servicePredicate =
+                x =>
+                    x.Name.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase);
+
+            if (!services.Any(servicePredicate))
                 return
                     responseHandler(
                         $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {string.Join(", ", services)}");
 
+            var matchedServices = services.Where(servicePredicate).Select(x => x.Name).ToList();
+            if (matchedServices.Count > 1) {
+                return
+                    responseHandler(
+                        $"Matched {matchedServices.Count} services: `{string.Join("`, `", matchedServices)}` be more specific!");
+            }
+
             var service =
-                environment.Services.Single(
-                    x => x.Name.StartsWith(serviceText, StringComparison.InvariantCultureIgnoreCase));
+                environment.Services.Single(servicePredicate);
             var client = new HealthcheckClient();
             var state = client.GetHealth(service.BaseUri);
             var formatter = new HealthcheckFormatter();
