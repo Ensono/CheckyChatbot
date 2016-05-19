@@ -9,7 +9,7 @@ namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
         private readonly EnvironmentRepository _environments = new EnvironmentRepository();
 
-        public string Verb => "Status";
+        public string Verb => "status";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([s|S][0-9A-Za-z]*)", RegexOptions.Compiled);
