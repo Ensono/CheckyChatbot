@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Chatbot;
 using ComponentModel;
@@ -11,6 +12,7 @@ namespace CheckyChatbotSlack {
     public class HealthcheckMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands = new List<IChatbotCommand> {
             new HealthBotCommand(),
+            new UrlBotCommand(),
             new FallbackCommand()
         };
 
@@ -38,7 +40,18 @@ namespace CheckyChatbotSlack {
                 .OrderBy(x => x.Priority)
                 .First();
 
-            return winningCommand.Process(receivedText, user, response, _commands);
+            try {
+                return winningCommand.Process(receivedText, user, response, _commands);
+            } catch (AggregateException agex) {
+                var builder = new StringBuilder("One or more exceptions occured while processing command: `{receivedText}`.");
+                foreach (var ex in agex.InnerExceptions) {
+                    builder.Append($"*#1*:\n```{ex.Message}\n{ex.StackTrace}```");
+                }
+                return response(builder.ToString());
+            } catch (Exception ex) {
+                return response($"Exception thrown when processing command: `{receivedText}`: ```{ex.Message}\n{ex.StackTrace}```");
+            }
+            
         }
     }
 }
