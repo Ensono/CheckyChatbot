@@ -75,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Chatbot\Chatbot.csproj">
+      <Project>{f52d1b30-7bc5-4aff-9510-14b50f2e32e8}</Project>
+      <Name>Chatbot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
       <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
       <Name>ComponentModel</Name>
