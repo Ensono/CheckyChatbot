@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ComponentModel;
+using Datastore;
 
 namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {

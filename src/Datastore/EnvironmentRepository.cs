@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using Microsoft.Azure.Documents.Client;
 
-namespace Healthbot {
+namespace Datastore {
     public class EnvironmentRepository {
         private readonly DocumentClient _client;
         private readonly Dictionary<string, string> _context;

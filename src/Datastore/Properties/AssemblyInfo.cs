@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ComponentModel")]
+[assembly: AssemblyTitle("Datastore")]
 [assembly: AssemblyDescription("")]
-[assembly: Guid("79e8b43c-1f65-4a4d-a640-ab02c438f5a5")]
+[assembly: Guid("5941d708-1a3e-4f50-9cde-11f81f117bdc")]
