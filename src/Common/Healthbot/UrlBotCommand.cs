@@ -22,8 +22,7 @@ namespace Healthbot {
         }
 
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
-                            IEnumerable<IChatbotCommand> otherCommands)
-        {
+                            IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
                 new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s[u|U][0-9A-Za-z]*\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
                     RegexOptions.Compiled);
@@ -31,8 +30,7 @@ namespace Healthbot {
 
             Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
 
-            if (!match.Success)
-            {
+            if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");
             }
 
@@ -55,8 +53,7 @@ namespace Healthbot {
                         $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {string.Join(", ", services)}");
 
             var matchedServices = services.Where(servicePredicate).Select(x => x.Name).ToList();
-            if (matchedServices.Count > 1)
-            {
+            if (matchedServices.Count > 1) {
                 return
                     responseHandler(
                         $"Matched {matchedServices.Count} services: `{string.Join("`, `", matchedServices)}` be more specific!");
@@ -65,7 +62,9 @@ namespace Healthbot {
             var service =
                 environment.Services.Single(servicePredicate);
 
-            return responseHandler($"*Base Uri*: {service.BaseUri}\n*Healthcheck*: {service.BaseUri}healthcheck\n*Version*: {service.BaseUri}version");
+            return
+                responseHandler(
+                    $"*Base Uri*: {service.BaseUri}\n*Healthcheck*: {service.BaseUri}healthcheck\n*Version*: {service.BaseUri}version");
         }
     }
 }

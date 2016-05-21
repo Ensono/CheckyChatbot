@@ -13,13 +13,15 @@ namespace Chatbot {
         public string HelpText => "@checky usage";
         public string Example => "@checky usage";
         public string Verb => "usage";
+
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             _usageCount++;
             var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([u|U][0-9A-Za-z]*)", RegexOptions.Compiled);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "usage");
         }
 
-        public Task Process(string command, string user, Func<string, Task> responseHandler, IEnumerable<IChatbotCommand> otherCommands) {
+        public Task Process(string command, string user, Func<string, Task> responseHandler,
+                            IEnumerable<IChatbotCommand> otherCommands) {
             var delta = DateTime.UtcNow - _startupTime;
             return
                 responseHandler(

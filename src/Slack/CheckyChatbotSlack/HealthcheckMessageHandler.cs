@@ -43,15 +43,17 @@ namespace CheckyChatbotSlack {
             try {
                 return winningCommand.Process(receivedText, user, response, _commands);
             } catch (AggregateException agex) {
-                var builder = new StringBuilder("One or more exceptions occured while processing command: `{receivedText}`.");
+                var builder =
+                    new StringBuilder("One or more exceptions occured while processing command: `{receivedText}`.");
                 foreach (var ex in agex.InnerExceptions) {
                     builder.Append($"*#1*:\n```{ex.Message}\n{ex.StackTrace}```");
                 }
                 return response(builder.ToString());
             } catch (Exception ex) {
-                return response($"Exception thrown when processing command: `{receivedText}`: ```{ex.Message}\n{ex.StackTrace}```");
+                return
+                    response(
+                        $"Exception thrown when processing command: `{receivedText}`: ```{ex.Message}\n{ex.StackTrace}```");
             }
-            
         }
     }
 }
