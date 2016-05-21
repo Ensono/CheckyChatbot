@@ -27,9 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Healthbot", "Common\Healthb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentModel", "Common\ComponentModel\ComponentModel.csproj", "{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeBot", "SmokeBot\SmokeBot.csproj", "{A424692F-25D7-47BD-87C8-5B95BDF314A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smokebot", "Common\Smokebot\Smokebot.csproj", "{A424692F-25D7-47BD-87C8-5B95BDF314A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datastore", "Datastore\Datastore.csproj", "{5941D708-1A3E-4F50-9CDE-11F81F117BDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datastore", "Common\Datastore\Datastore.csproj", "{5941D708-1A3E-4F50-9CDE-11F81F117BDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
