@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Microsoft.Azure.Documents.Client;
 
 namespace Datastore {
-    public class EnvironmentRepository : IEnvironmentRepository
+    public class DocumentDbEnvironmentRepository : IEnvironmentRepository
     {
         private readonly DocumentClient _client;
-        private readonly Dictionary<string, string> _context;
         private readonly Uri _environmentsCollection;
         private readonly FeedOptions _feedOptions;
 
-        public EnvironmentRepository() {
+        public DocumentDbEnvironmentRepository() {
             var configuration = ConfigurationManager.ConnectionStrings;
             var datasource = configuration["Datasource"];
 
@@ -24,17 +22,16 @@ namespace Datastore {
                 throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
             }
 
-            _context =
-                connectionString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
-                    .ToDictionary(key => key.Split('=')[0], value => value.Split(new[] {'='}, 2)[1]);
-            _client = new DocumentClient(new Uri(_context["AccountEndpoint"]), _context["AccountKey"]);
+            var context = connectionString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
+                .ToDictionary(key => key.Split('=')[0], value => value.Split(new[] {'='}, 2)[1]);
+            _client = new DocumentClient(new Uri(context["AccountEndpoint"]), context["AccountKey"]);
 
             _feedOptions = new FeedOptions {
                 MaxItemCount = 1
             };
 
-            _environmentsCollection = UriFactory.CreateDocumentCollectionUri(_context["Database"],
-                _context["Collection"]);
+            _environmentsCollection = UriFactory.CreateDocumentCollectionUri(context["Database"],
+                context["Collection"]);
         }
 
         public Environment Get(string environment) {

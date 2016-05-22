@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Chatbot;
 using ComponentModel;
-using Healthbot;
 using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
     public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands;
 
-        public SlackMessageHandler(IChatbotCommand[] commands) {
+        public SlackMessageHandler(IEnumerable<IChatbotCommand> commands) {
             _commands = commands;
         }
 

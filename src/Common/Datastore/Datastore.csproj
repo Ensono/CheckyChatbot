@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="DatastoreModule.cs" />
     <Compile Include="Environment.cs" />
-    <Compile Include="EnvironmentRepository.cs" />
+    <Compile Include="DocumentDBEnvironmentRepository.cs" />
     <Compile Include="IEnvironmentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">

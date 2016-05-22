@@ -25,7 +25,7 @@ namespace Chatbot {
             var delta = DateTime.UtcNow - _startupTime;
             return
                 responseHandler(
-                    $"I have been operational for {delta.TotalDays:N0} days, {delta.Hours} hours and {delta.Minutes} and in that time I have responded to {_usageCount} requests");
+                    $"I have been operational for {delta.TotalDays:N0} days, {delta.Hours} hours and {delta.Minutes} minutes. In that time I have responded to {_usageCount} requests");
         }
     }
 }
