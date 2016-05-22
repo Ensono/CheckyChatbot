@@ -10,11 +10,11 @@ using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
     public class SlackMessageHandler : ISlackEventHandler {
-        private readonly IEnumerable<IChatbotCommand> _commands = new List<IChatbotCommand> {
-            new HealthBotCommand(),
-            new UrlBotCommand(),
-            new FallbackCommand()
-        };
+        private readonly IEnumerable<IChatbotCommand> _commands;
+
+        public SlackMessageHandler(IChatbotCommand[] commands) {
+            _commands = commands;
+        }
 
         public Task Handle(ISlackEventContext context) {
             dynamic eventData = context.Event;

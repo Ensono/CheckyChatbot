@@ -59,6 +59,7 @@
     <Compile Include="DeployedHealthcheck.cs" />
     <Compile Include="DeployedVersion.cs" />
     <Compile Include="HealthBotCommand.cs" />
+    <Compile Include="HealthbotModule.cs" />
     <Compile Include="Healthcheck.cs" />
     <Compile Include="HealthcheckClient.cs" />
     <Compile Include="HealthcheckFormatter.cs" />

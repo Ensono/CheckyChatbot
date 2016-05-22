@@ -6,8 +6,8 @@ using Ninject;
 namespace CheckyChatbotSlack {
     internal class Program {
         private static void Main(string[] args) {
-            IKernel kernel = new StandardKernel();
-            kernel.Load(AppDomain.CurrentDomain.GetAssemblies());
+            IKernel kernel = new StandardKernel(new CheckyChatbotModule());
+            kernel.Load("*.dll");
 
             var configuration = ConfigurationManager.AppSettings;
             var authToken = configuration["SlackBotToken"];
