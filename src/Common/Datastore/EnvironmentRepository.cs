@@ -5,7 +5,8 @@ using System.Linq;
 using Microsoft.Azure.Documents.Client;
 
 namespace Datastore {
-    public class EnvironmentRepository {
+    public class EnvironmentRepository : IEnvironmentRepository
+    {
         private readonly DocumentClient _client;
         private readonly Dictionary<string, string> _context;
         private readonly Uri _environmentsCollection;

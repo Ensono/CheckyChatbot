@@ -9,7 +9,7 @@ using Healthbot;
 using Hunabku.Skive;
 
 namespace CheckyChatbotSlack {
-    public class HealthcheckMessageHandler : ISlackEventHandler {
+    public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands = new List<IChatbotCommand> {
             new HealthBotCommand(),
             new UrlBotCommand(),
