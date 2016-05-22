@@ -8,7 +8,11 @@ using Datastore;
 
 namespace Healthbot {
     public class UrlBotCommand : IChatbotCommand {
-        private readonly DocumentDbEnvironmentRepository _environments = new DocumentDbEnvironmentRepository();
+        private readonly IEnvironmentRepository _environments;
+
+        public UrlBotCommand(IEnvironmentRepository environments) {
+            _environments = environments;
+        }
 
         public int Priority => 50;
         public string HelpText => "@checky: url _environment_ _service_";

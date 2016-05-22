@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Linq;
+using Configuration;
 using Microsoft.Azure.Documents.Client;
 
 namespace Datastore {
@@ -10,17 +11,8 @@ namespace Datastore {
         private readonly Uri _environmentsCollection;
         private readonly FeedOptions _feedOptions;
 
-        public DocumentDbEnvironmentRepository() {
-            var configuration = ConfigurationManager.ConnectionStrings;
-            var datasource = configuration["Datasource"];
-
-            var connectionString = datasource == null
-                ? System.Environment.GetEnvironmentVariable("CONNECTIONSTRING_Datasource")
-                : datasource.ConnectionString;
-
-            if (connectionString == null) {
-                throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
-            }
+        public DocumentDbEnvironmentRepository(IConfigurationRepository configuration) {
+            var connectionString = configuration.GetConnectionString("Datasource");
 
             var context = connectionString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                 .ToDictionary(key => key.Split('=')[0], value => value.Split(new[] {'='}, 2)[1]);

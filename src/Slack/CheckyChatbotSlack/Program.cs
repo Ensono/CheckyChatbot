@@ -2,6 +2,7 @@
 using System.Configuration;
 using Hunabku.Skive;
 using Ninject;
+using Configuration;
 
 namespace CheckyChatbotSlack {
     internal class Program {
@@ -9,12 +10,8 @@ namespace CheckyChatbotSlack {
             IKernel kernel = new StandardKernel(new CheckyChatbotModule());
             kernel.Load("*.dll");
 
-            var configuration = ConfigurationManager.AppSettings;
-            var authToken = configuration["SlackBotToken"];
-
-            if (string.IsNullOrWhiteSpace(authToken)) {
-                authToken = Environment.GetEnvironmentVariable("APPSETTING_SlackBotToken");
-            }
+            var configuration = kernel.Get<IConfigurationRepository>();
+            var authToken = configuration.GetAppSetting("SlackBotToken");
 
             var store = new EventHandlersStore()
                 .Register("message", () => kernel.Get<ISlackEventHandler>());

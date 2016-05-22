@@ -8,7 +8,11 @@ using Datastore;
 
 namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
-        private readonly DocumentDbEnvironmentRepository _environments = new DocumentDbEnvironmentRepository();
+        private readonly IEnvironmentRepository _environments;
+
+        public HealthBotCommand(IEnvironmentRepository environments) {
+            _environments = environments;
+        }
 
         public string Verb => "status";
 

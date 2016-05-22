@@ -77,6 +77,10 @@
       <Project>{79e8b43c-1f65-4a4d-a640-ab02c438f5a5}</Project>
       <Name>ComponentModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Configuration\Configuration.csproj">
+      <Project>{1618FB43-9EA0-45C4-BD80-C859777CBC2D}</Project>
+      <Name>Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Healthbot\Healthbot.csproj">
       <Project>{076D43F9-9C67-423C-83AD-0A5E777408E0}</Project>
       <Name>Healthbot</Name>
