@@ -1,12 +1,10 @@
 using System;
-using System.Configuration;
 using System.Linq;
 using Configuration;
 using Microsoft.Azure.Documents.Client;
 
 namespace Datastore {
-    public class DocumentDbEnvironmentRepository : IEnvironmentRepository
-    {
+    public class DocumentDbEnvironmentRepository : IEnvironmentRepository {
         private readonly DocumentClient _client;
         private readonly Uri _environmentsCollection;
         private readonly FeedOptions _feedOptions;

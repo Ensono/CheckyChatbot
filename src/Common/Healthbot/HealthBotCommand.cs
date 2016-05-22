@@ -8,10 +8,19 @@ using Datastore;
 
 namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
+        private readonly IHealthcheckClient _client;
         private readonly IEnvironmentRepository _environments;
+        private readonly IHealthcheckFormatter _formatter;
 
-        public HealthBotCommand(IEnvironmentRepository environments) {
+        public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
+                                IHealthcheckFormatter formatter) {
+            if (environments == null) throw new ArgumentNullException(nameof(environments));
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (formatter == null) throw new ArgumentNullException(nameof(formatter));
+
             _environments = environments;
+            _client = client;
+            _formatter = formatter;
         }
 
         public string Verb => "status";
@@ -61,13 +70,10 @@ namespace Healthbot {
                         $"Matched {matchedServices.Count} services: `{string.Join("`, `", matchedServices)}` be more specific!");
             }
 
-            var service =
-                environment.Services.Single(servicePredicate);
-            var client = new HealthcheckClient();
-            var state = client.GetHealth(service.BaseUri);
-            var formatter = new HealthcheckFormatter();
+            var service = environment.Services.Single(servicePredicate);
+            var state = _client.GetHealth(service.BaseUri);
 
-            return responseHandler(formatter.Render(environment.Id, service.Name, state));
+            return responseHandler(_formatter.Render(environment.Id, service.Name, state));
         }
 
         public string HelpText => "@checky: status _environment_ _service_";

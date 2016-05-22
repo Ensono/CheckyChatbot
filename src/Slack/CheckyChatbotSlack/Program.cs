@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Configuration;
+using Configuration;
 using Hunabku.Skive;
 using Ninject;
-using Configuration;
 
 namespace CheckyChatbotSlack {
     internal class Program {

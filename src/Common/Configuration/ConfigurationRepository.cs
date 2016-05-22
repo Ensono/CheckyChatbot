@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Configuration
-{
-    public class ConfigurationRepository : IConfigurationRepository
-    {
+namespace Configuration {
+    public class ConfigurationRepository : IConfigurationRepository {
         public string GetAppSetting(string key) {
             var configuration = ConfigurationManager.AppSettings;
             var authToken = configuration[key];
 
-            if (string.IsNullOrWhiteSpace(authToken))
-            {
+            if (string.IsNullOrWhiteSpace(authToken)) {
                 authToken = Environment.GetEnvironmentVariable($"APPSETTING_{key}");
             }
             return authToken;
@@ -28,8 +21,7 @@ namespace Configuration
                 ? Environment.GetEnvironmentVariable($"CONNECTIONSTRING_{key}")
                 : datasource.ConnectionString;
 
-            if (connectionString == null)
-            {
+            if (connectionString == null) {
                 throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
             }
             return connectionString;

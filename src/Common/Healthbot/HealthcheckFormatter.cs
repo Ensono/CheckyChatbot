@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 
 namespace Healthbot {
-    public class HealthcheckFormatter {
+    public class HealthcheckFormatter : IHealthcheckFormatter {
         private readonly Dictionary<Status, string> emojiLookup = new Dictionary<Status, string> {
             {Status.Up, ":green_heart: Up"},
             {Status.Degraded, ":yellow_heart: Degraded"},
