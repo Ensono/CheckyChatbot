@@ -3,10 +3,10 @@ using Loader.Model;
 using Newtonsoft.Json.Linq;
 
 namespace Loader.Validator {
-    public class DocumentValidator {
-        public ErrorModel Validate(string collectionName, CheckyDocument checkyDocument) {
+    public class DocumentValidator : IValidator<CheckyDocument> {
+        public ErrorModel Validate(string context, CheckyDocument checkyDocument) {
             if (checkyDocument == null) {
-                return ErrorModel.FromErrorMessage($"{collectionName} contains an invalid file");
+                return ErrorModel.FromErrorMessage($"{context} contains an invalid file");
             }
 
             JObject json;
@@ -16,7 +16,7 @@ namespace Loader.Validator {
             } catch (Exception ex) {
                 return
                     ErrorModel.FromErrorMessage(
-                        $"Unable to parse {checkyDocument.File.Name} in {collectionName}: {ex.Message}");
+                        $"Unable to parse {checkyDocument.File.Name} in {context}: {ex.Message}");
             }
 
             var idToken = json.SelectToken("$.id");
@@ -24,7 +24,7 @@ namespace Loader.Validator {
             if (idToken == null) {
                 return
                     ErrorModel.FromErrorMessage(
-                        $"Invalid document {checkyDocument.File.Name} in {collectionName}, document does not contain an id property");
+                        $"Invalid document {checkyDocument.File.Name} in {context}, document does not contain an id property");
             }
 
             var baseName = checkyDocument.File.Extension.Length > 0
@@ -35,7 +35,7 @@ namespace Loader.Validator {
             if (baseName != id) {
                 return
                     ErrorModel.FromErrorMessage(
-                        $"Invalid document {checkyDocument.File.Name} or Id in {collectionName}, filename ('{baseName}') does not match id ('{id}') in content");
+                        $"Invalid document {checkyDocument.File.Name} or Id in {context}, filename ('{baseName}') does not match id ('{id}') in content");
             }
 
             return ErrorModel.Valid();

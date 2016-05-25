@@ -1,11 +1,11 @@
 using Loader.Model;
 
 namespace Loader.Validator {
-    public class ConfigValidator {
+    public class ConfigValidator : IValidator<CheckyConfiguration> {
         public ErrorModel Environments { get; private set; }
         public ErrorModel Tests { get; private set; }
 
-        public ErrorModel Validate(CheckyConfiguration configuration) {
+        public ErrorModel Validate(string context, CheckyConfiguration configuration) {
             if (configuration == null) {
                 return ErrorModel.FromErrorMessage("The specified configuration directory does not exist.");
             }
