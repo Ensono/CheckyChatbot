@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using ConfigurationLoader.Validator;
+using Loader.Validator;
 
-namespace ConfigurationLoader.Model {
+namespace Loader.Model {
     public class CheckyConfiguration {
         public DirectoryInfo Directory { get; set; }
         public CheckyDocumentCollection Environments { get; set; }

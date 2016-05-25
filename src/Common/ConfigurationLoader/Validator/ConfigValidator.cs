@@ -1,6 +1,6 @@
-using ConfigurationLoader.Model;
+using Loader.Model;
 
-namespace ConfigurationLoader.Validator {
+namespace Loader.Validator {
     public class ConfigValidator {
         public ErrorModel Environments { get; private set; }
         public ErrorModel Tests { get; private set; }

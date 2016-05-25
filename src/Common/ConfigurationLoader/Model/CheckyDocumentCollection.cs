@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using ConfigurationLoader.Validator;
+using Loader.Validator;
 
-namespace ConfigurationLoader.Model {
+namespace Loader.Model {
     public class CheckyDocumentCollection {
         public DirectoryInfo Directory { get; set; }
         public IEnumerable<CheckyDocument> Documents { get; set; }

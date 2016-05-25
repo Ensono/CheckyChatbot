@@ -7,7 +7,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace ConfigurationLoader {
+namespace Loader {
     public class UploadCommand : ConsoleCommand {
         public string AccessKey;
         public string ConfigPath;

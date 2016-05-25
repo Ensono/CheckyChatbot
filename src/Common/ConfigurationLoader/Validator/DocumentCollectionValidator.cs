@@ -1,7 +1,7 @@
 using System.Linq;
-using ConfigurationLoader.Model;
+using Loader.Model;
 
-namespace ConfigurationLoader.Validator {
+namespace Loader.Validator {
     public class DocumentCollectionValidator {
         public DocumentValidator DocumentValidator = new DocumentValidator();
 

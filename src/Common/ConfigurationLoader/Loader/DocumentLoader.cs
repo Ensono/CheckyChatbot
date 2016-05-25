@@ -1,8 +1,8 @@
 using System.IO;
 using System.Linq;
-using ConfigurationLoader.Model;
+using Loader.Model;
 
-namespace ConfigurationLoader.Loader {
+namespace Loader.Loader {
     public class DocumentLoader {
         public CheckyDocumentCollection Load(string documentPath) {
             var resolvedPath = Path.GetFullPath(documentPath);

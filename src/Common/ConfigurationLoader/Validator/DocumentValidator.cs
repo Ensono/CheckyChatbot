@@ -1,8 +1,8 @@
 ﻿using System;
-using ConfigurationLoader.Model;
+using Loader.Model;
 using Newtonsoft.Json.Linq;
 
-namespace ConfigurationLoader.Validator {
+namespace Loader.Validator {
     public class DocumentValidator {
         public ErrorModel Validate(string collectionName, CheckyDocument checkyDocument) {
             if (checkyDocument == null) {

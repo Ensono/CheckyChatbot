@@ -1,7 +1,7 @@
 ﻿using Colorful;
 using ManyConsole;
 
-namespace ConfigurationLoader {
+namespace Loader {
     public class Program {
         public static int Main(string[] args) {
             var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof(Program));

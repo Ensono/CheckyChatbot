@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ConfigurationLoader.Validator {
+namespace Loader.Validator {
     public class ErrorModel {
         public bool IsValid { get; set; }
         public IEnumerable<string> Errors { get; set; }

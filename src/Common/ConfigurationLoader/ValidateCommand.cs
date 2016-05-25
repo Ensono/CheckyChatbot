@@ -2,10 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using ConfigurationLoader.Validator;
+using Loader.Loader;
+using Loader.Validator;
 using ManyConsole;
 
-namespace ConfigurationLoader {
+namespace Loader {
     public class ValidateCommand : ConsoleCommand {
         private const ConsoleColor Success = ConsoleColor.DarkGreen;
         private const ConsoleColor Failure = ConsoleColor.DarkRed;
@@ -51,7 +52,7 @@ namespace ConfigurationLoader {
 
             WriteAscii("VALIDATE", Notice);
 
-            var loader = new Loader.ConfigurationLoader();
+            var loader = new ConfigurationLoader();
             var configuration = loader.Load(ConfigPath);
             var result = configuration.Validate();
 

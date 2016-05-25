@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using ConfigurationLoader.Model;
+using Loader.Model;
 
-namespace ConfigurationLoader.Loader {
+namespace Loader.Loader {
     public class ConfigurationLoader {
         public CheckyConfiguration Load(string configurationPath) {
             var resolvedPath = Path.GetFullPath(configurationPath);
