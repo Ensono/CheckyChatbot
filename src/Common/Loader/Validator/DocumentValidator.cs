@@ -1,6 +1,7 @@
 ﻿using System;
 using Datastore;
 using Loader.Model;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Loader.Validator {
@@ -39,7 +40,16 @@ namespace Loader.Validator {
                         $"Invalid document {checkyDocument.File.Name} or Id in {context}, filename ('{baseName}') does not match id ('{id}') in content");
             }
 
-            return ErrorModel.Valid();
+            T actualObject;
+
+            try {
+                actualObject = JsonConvert.DeserializeObject<T>(checkyDocument.Content);
+            } catch (Exception ex) {
+                return ErrorModel.FromErrorMessage(
+                    $"Document does not match the {nameof(T)} model {checkyDocument.File.Name} or Id in {context}: {ex.Message}");
+            }
+
+            return actualObject.Validate();
         }
     }
 }

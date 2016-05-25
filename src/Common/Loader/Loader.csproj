@@ -99,8 +99,11 @@
     <Compile Include="Validator\ConfigValidator.cs" />
     <Compile Include="Validator\DocumentCollectionValidator.cs" />
     <Compile Include="Validator\DocumentValidator.cs" />
+    <Compile Include="Validator\EnvironmentValidator.cs" />
     <Compile Include="Validator\ErrorModel.cs" />
     <Compile Include="Validator\IValidator.cs" />
+    <Compile Include="Validator\ModelValidator.cs" />
+    <Compile Include="Validator\TestValidator.cs" />
     <Compile Include="Validator\ValidationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
