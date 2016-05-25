@@ -50,6 +50,7 @@ namespace Loader {
         public override int Run(string[] remainingArguments) {
             Console.OutputEncoding = Encoding.UTF8;
 
+            WriteAscii("@CHECKY", ConsoleColor.DarkBlue);
             WriteAscii("VALIDATE", Notice);
 
             var loader = new ConfigurationLoader();
