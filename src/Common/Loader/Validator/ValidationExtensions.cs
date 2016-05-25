@@ -1,4 +1,5 @@
-﻿using Loader.Model;
+﻿using Datastore;
+using Loader.Model;
 
 namespace Loader.Validator {
     public static class ValidationExtensions {
@@ -7,13 +8,13 @@ namespace Loader.Validator {
             return validator.Validate("Configuration", configuration);
         }
 
-        public static ErrorModel Validate(this CheckyDocument document, string context) {
-            var validator = new DocumentValidator();
+        public static ErrorModel Validate<T>(this CheckyDocument<T> document, string context) where T : PersistentDocument {
+            var validator = new DocumentValidator<T>();
             return validator.Validate(context, document);
         }
 
-        public static ErrorModel Validate(this CheckyDocumentCollection documentCollection, string context) {
-            var validator = new DocumentCollectionValidator();
+        public static ErrorModel Validate<T>(this CheckyDocumentCollection<T> documentCollection, string context) where T : PersistentDocument {
+            var validator = new DocumentCollectionValidator<T>();
             return validator.Validate(context, documentCollection);
         }
     }

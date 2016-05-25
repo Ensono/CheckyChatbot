@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Healthbot {
+namespace Datastore {
     public class Service {
         public string Name { get; set; }
         public Uri BaseUri { get; set; }

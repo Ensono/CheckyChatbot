@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Datastore;
 using Loader.Model;
 
 namespace Loader.Loader {
@@ -9,12 +10,13 @@ namespace Loader.Loader {
                 return null;
             }
 
-            var documentLoader = new DocumentLoader();
+            var environmentDocumentLoader = new DocumentLoader<Environment>();
+            var testDocumentLoader = new DocumentLoader<Test>();
 
             return new CheckyConfiguration {
                 Directory = new DirectoryInfo(resolvedPath),
-                Environments = documentLoader.Load(Path.Combine(resolvedPath, "environments")),
-                Tests = documentLoader.Load(Path.Combine(resolvedPath, "tests"))
+                Environments = environmentDocumentLoader.Load(Path.Combine(resolvedPath, "environments")),
+                Tests = testDocumentLoader.Load(Path.Combine(resolvedPath, "tests"))
             };
         }
     }

@@ -1,3 +1,4 @@
+using Datastore;
 using Loader.Model;
 
 namespace Loader.Validator {
@@ -10,9 +11,11 @@ namespace Loader.Validator {
                 return ErrorModel.FromErrorMessage("The specified configuration directory does not exist.");
             }
 
-            var documentCollectionValidator = new DocumentCollectionValidator();
-            Environments = documentCollectionValidator.Validate("Environments", configuration.Environments);
-            Tests = documentCollectionValidator.Validate("Tests", configuration.Tests);
+            var environmentDocumentCollectionValidator = new DocumentCollectionValidator<Environment>();
+            var testDocumentCollectionValidator = new DocumentCollectionValidator<Test>();
+
+            Environments = environmentDocumentCollectionValidator.Validate("Environments", configuration.Environments);
+            Tests = testDocumentCollectionValidator.Validate("Tests", configuration.Tests);
 
             return ErrorModel.FromErrorModels(Environments, Tests);
         }

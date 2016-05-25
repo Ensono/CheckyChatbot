@@ -1,10 +1,11 @@
 ﻿using System;
+using Datastore;
 using Loader.Model;
 using Newtonsoft.Json.Linq;
 
 namespace Loader.Validator {
-    public class DocumentValidator : IValidator<CheckyDocument> {
-        public ErrorModel Validate(string context, CheckyDocument checkyDocument) {
+    public class DocumentValidator<T> : IValidator<CheckyDocument<T>> where T : PersistentDocument {
+        public ErrorModel Validate(string context, CheckyDocument<T> checkyDocument) {
             if (checkyDocument == null) {
                 return ErrorModel.FromErrorMessage($"{context} contains an invalid file");
             }

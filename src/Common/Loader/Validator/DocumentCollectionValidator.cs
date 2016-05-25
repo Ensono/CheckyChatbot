@@ -1,11 +1,13 @@
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using Datastore;
 using Loader.Model;
 
 namespace Loader.Validator {
-    public class DocumentCollectionValidator : IValidator<CheckyDocumentCollection> {
-        public DocumentValidator DocumentValidator = new DocumentValidator();
+    public class DocumentCollectionValidator<T> : IValidator<CheckyDocumentCollection<T>> where T : PersistentDocument {
+        public DocumentValidator<T> DocumentValidator = new DocumentValidator<T>();
 
-        public ErrorModel Validate(string context, CheckyDocumentCollection collection) {
+        public ErrorModel Validate(string context, CheckyDocumentCollection<T> collection) {
             if (collection == null) {
                 return
                     ErrorModel.FromErrorMessage(
