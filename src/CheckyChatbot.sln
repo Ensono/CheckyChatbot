@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datastore", "Common\Datasto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Common\Configuration\Configuration.csproj", "{1618FB43-9EA0-45C4-BD80-C859777CBC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loader", "Common\ConfigurationLoader\Loader.csproj", "{15C55584-E2C0-4451-86FD-69B028323C38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loader", "Common\Loader\Loader.csproj", "{15C55584-E2C0-4451-86FD-69B028323C38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
