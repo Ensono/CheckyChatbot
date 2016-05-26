@@ -1,11 +1,14 @@
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Colorful;
+using Loader.Loader;
+using Loader.Validator;
 using ManyConsole;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Console = Colorful.Console;
 
 namespace Loader {
     public class UploadCommand : ConsoleCommand {
@@ -21,10 +24,12 @@ namespace Loader {
         }
 
         public override int Run(string[] remainingArguments) {
-            if (!Directory.Exists(ConfigPath)) {
-                Console.WriteLine($"FATAL: Unable to find path: {ConfigPath}", Color.Red);
-                return 1;
-            }
+            ConsoleUtilities.WriteAscii("@CHECKY", ConsoleColor.DarkBlue);
+            ConsoleUtilities.WriteAscii("VALIDATE", ConsoleUtilities.Notice);
+
+            var loader = new ConfigurationLoader();
+            var configuration = loader.Load(ConfigPath);
+            var result = configuration.Validate();
 
             var credentials = new StorageCredentials(StorageAccount, AccessKey);
             var account = new CloudStorageAccount(credentials, true);

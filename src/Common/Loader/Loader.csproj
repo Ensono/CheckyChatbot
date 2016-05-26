@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleUtilities.cs" />
     <Compile Include="Loader\ConfigurationLoader.cs" />
     <Compile Include="Loader\DocumentLoader.cs" />
     <Compile Include="Model\CheckyConfiguration.cs" />
