@@ -47,8 +47,9 @@ namespace Loader {
             var client = account.CreateCloudBlobClient();
 
             ConsoleUtilities.WriteLine("Containers:", ConsoleUtilities.Normal);
-            var environmentsContainer = EnsureBlobContainerExists(client, "environments").NotNull(" ├─ Environments");
-            var testsContainer = EnsureBlobContainerExists(client, "tests").NotNull(" └─ Tests");
+            var environmentsContainer =
+                Utilities.EnsureBlobContainerExists(client, "environments").NotNull(" ├─ Environments");
+            var testsContainer = Utilities.EnsureBlobContainerExists(client, "tests").NotNull(" └─ Tests");
 
             if (environmentsContainer == null || testsContainer == null) {
                 ConsoleUtilities.WriteAscii("FAILED", ConsoleUtilities.Failure);
@@ -71,8 +72,7 @@ namespace Loader {
                 ConsoleUtilities.WriteAscii("FAILED", ConsoleUtilities.Failure);
                 ConsoleUtilities.WriteLine($"The following {result.Errors.Count()} errors were encountered:",
                     ConsoleUtilities.Normal);
-                foreach (var error in finalResult.Errors)
-                {
+                foreach (var error in finalResult.Errors) {
                     ConsoleUtilities.Write(" ✘ ", ConsoleUtilities.Failure);
                     ConsoleUtilities.WriteLine(error, ConsoleUtilities.Normal);
                 }
@@ -80,40 +80,6 @@ namespace Loader {
             }
             ConsoleUtilities.WriteAscii("SUCCEEDED", ConsoleUtilities.Success);
             return 0;
-        }
-
-        private static CloudBlobContainer EnsureBlobContainerExists(CloudBlobClient client, string containerName) {
-            var containers = client.ListContainers();
-            CloudBlobContainer container;
-
-            try {
-                container = client.GetContainerReference(containerName);
-            } catch (StorageException stex) {
-                ConsoleUtilities.WriteLine(
-                    $"Encountered error when retreving the '{containerName}' container {stex.Message}",
-                    ConsoleUtilities.Normal);
-                return null;
-            }
-
-            try {
-                container.CreateIfNotExists();
-            } catch (StorageException stex) {
-                ConsoleUtilities.WriteLine(
-                    $"Encountered error when creating the '{containerName}' container {stex.Message}",
-                    ConsoleUtilities.Normal);
-                return null;
-            }
-
-            try {
-                container.SetPermissions(new BlobContainerPermissions {PublicAccess = BlobContainerPublicAccessType.Off});
-            } catch (StorageException stex) {
-                ConsoleUtilities.WriteLine(
-                    $"Encountered error when setting permissions on the '{containerName}' container {stex.Message}",
-                    ConsoleUtilities.Normal);
-                return null;
-            }
-
-            return container;
         }
     }
 

@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigureCommand.cs" />
     <Compile Include="ConsoleUtilities.cs" />
     <Compile Include="Loader\ConfigurationLoader.cs" />
     <Compile Include="Loader\DocumentLoader.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Specifications\IsLeasable.cs" />
     <Compile Include="Specifications\RequiresUpdate.cs" />
     <Compile Include="UploadCommand.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="ValidateCommand.cs" />
     <Compile Include="Validator\ConfigValidator.cs" />
     <Compile Include="Validator\DocumentCollectionValidator.cs" />
