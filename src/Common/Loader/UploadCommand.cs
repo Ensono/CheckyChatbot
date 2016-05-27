@@ -59,11 +59,26 @@ namespace Loader {
             var testsUploader = new Uploader<TestDocument>();
 
             Console.WriteLine("\nEnvironments:");
-            environmentUploader.Upload(configuration.Environments.Documents, environmentsContainer);
+            var environmentResult = environmentUploader.Upload(configuration.Environments.Documents,
+                environmentsContainer);
 
             Console.WriteLine("\nTests:");
-            testsUploader.Upload(configuration.Tests.Documents, testsContainer);
+            var testResult = testsUploader.Upload(configuration.Tests.Documents, testsContainer);
 
+            var finalResult = ErrorModel.FromErrorModels(environmentResult, testResult);
+
+            if (!finalResult.IsValid) {
+                ConsoleUtilities.WriteAscii("FAILED", ConsoleUtilities.Failure);
+                ConsoleUtilities.WriteLine($"The following {result.Errors.Count()} errors were encountered:",
+                    ConsoleUtilities.Normal);
+                foreach (var error in finalResult.Errors)
+                {
+                    ConsoleUtilities.Write(" ✘ ", ConsoleUtilities.Failure);
+                    ConsoleUtilities.WriteLine(error, ConsoleUtilities.Normal);
+                }
+                return 1;
+            }
+            ConsoleUtilities.WriteAscii("SUCCEEDED", ConsoleUtilities.Success);
             return 0;
         }
 
@@ -109,10 +124,14 @@ namespace Loader {
             UseTransactionalMD5 = true
         };
 
-        private static Action<string, bool> Assert => ConsoleUtilities.WriteResult;
+        public static bool Assert(string message, bool result) {
+            ConsoleUtilities.WriteResult(message, result);
+            return result;
+        }
 
-        public void Upload(IEnumerable<CheckyDocument<T>> doucments, CloudBlobContainer container) {
+        public ErrorModel Upload(IEnumerable<CheckyDocument<T>> doucments, CloudBlobContainer container) {
             var checkyDocuments = doucments.ToArray();
+            var errors = new List<string>();
             foreach (var document in checkyDocuments) {
                 var access = new AccessCondition();
                 var blob = container.GetBlobReference(document.File.Name);
@@ -122,9 +141,14 @@ namespace Loader {
                     ConsoleUtilities.WriteLine($" {divide}─ {document.File.Name}");
                     if (blob.Satisfies<Exists>()) {
                         Assert($" {spacer}  ├─ is block blob", blob.Satisfies<IsBlockBlob>());
-                        Assert($" {spacer}  ├─ is leasable", blob.Satisfies<IsLeasable>());
 
-                        if (!blob.Satisfies<ExistingBlobIsWritable>()) {
+                        if (!blob.Satisfies<IsBlockBlob>()) {
+                            errors.Add($"{document.File.Name} is not a block blob");
+                            continue;
+                        }
+
+                        if (!Assert($" {spacer}  ├─ is leasable", blob.Satisfies<IsLeasable>())) {
+                            errors.Add($"{document.File.Name} is not leasable");
                             continue;
                         }
 
@@ -148,6 +172,10 @@ namespace Loader {
                     }
                 }
             }
+            return new ErrorModel {
+                IsValid = !errors.Any(),
+                Errors = errors
+            };
         }
     }
 }
