@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatastoreModule.cs" />
-    <Compile Include="Environment.cs" />
+    <Compile Include="EnvironmentDocument.cs" />
     <Compile Include="DocumentDBEnvironmentRepository.cs" />
     <Compile Include="IEnvironmentRepository.cs" />
     <Compile Include="PersistentDocument.cs" />
@@ -65,7 +65,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Service.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="TestDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

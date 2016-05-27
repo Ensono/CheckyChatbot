@@ -24,8 +24,8 @@ namespace Datastore {
                 context["Collection"]);
         }
 
-        public Environment Get(string environment) {
-            var collection = _client.CreateDocumentQuery<Environment>(_environmentsCollection, _feedOptions);
+        public EnvironmentDocument Get(string environment) {
+            var collection = _client.CreateDocumentQuery<EnvironmentDocument>(_environmentsCollection, _feedOptions);
             return collection
                 .AsEnumerable()
                 .FirstOrDefault(x => x.Id.StartsWith(environment, StringComparison.InvariantCultureIgnoreCase));

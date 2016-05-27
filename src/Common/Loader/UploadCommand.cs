@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using Datastore;
 using Loader.Loader;
+using Loader.Model;
 using Loader.Specifications;
 using Loader.Validator;
 using ManyConsole;
@@ -15,12 +16,6 @@ using Specifications.Extensions;
 
 namespace Loader {
     public class UploadCommand : ConsoleCommand {
-        private readonly BlobRequestOptions requestOptions = new BlobRequestOptions {
-            RetryPolicy = new ExponentialRetry(),
-            StoreBlobContentMD5 = true,
-            UseTransactionalMD5 = true
-        };
-
         public string AccessKey;
         public string ConfigPath;
         public string StorageAccount;
@@ -30,16 +25,6 @@ namespace Loader {
             HasOption("p|path:", "Configuration Path", p => ConfigPath = Path.GetFullPath(p));
             HasOption("s|account:", "Storage Account Name", s => StorageAccount = s);
             HasOption("k|key:", "Storage Account Key", k => AccessKey = k);
-        }
-
-        private static Action<string, bool> Assert => ConsoleUtilities.WriteResult;
-
-        private string CalculateHash(FileInfo file) {
-            using (var md5 = MD5.Create()) {
-                using (var stream = File.OpenRead(file.FullName)) {
-                    return Encoding.UTF8.GetString(md5.ComputeHash(stream));
-                }
-            }
         }
 
         public override int Run(string[] remainingArguments) {
@@ -70,38 +55,14 @@ namespace Loader {
                 return 1;
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Environments:");
-            var environments = configuration.Environments.Documents.ToArray();
-            foreach (var environment in environments) {
-                var blob = environmentsContainer.GetBlobReference(environment.File.Name);
-                var divide = environment != environments.Last() ? "├" : "└";
-                var spacer = environment != environments.Last() ? "│" : " ";
-                var access = new AccessCondition();
-                ConsoleUtilities.WriteLine($" {divide}─ {environment.File.Name}");
-                if (blob.Satisfies<Exists>()) {
-                    Assert($" {spacer}  ├─ is block blob", blob.Satisfies<IsBlockBlob>());
-                    Assert($" {spacer}  ├─ is leasable", blob.Satisfies<IsLeasable>());
-                    if (!blob.Satisfies<ExistingBlobIsWritable>()) {
-                        continue;
-                    }
+            var environmentUploader = new Uploader<EnvironmentDocument>();
+            var testsUploader = new Uploader<TestDocument>();
 
-                    var requiresUpdate = new RequiresUpdate(CalculateHash(environment.File));
+            Console.WriteLine("\nEnvironments:");
+            environmentUploader.Upload(configuration.Environments.Documents, environmentsContainer);
 
-                    if (blob.Satisfies(requiresUpdate.Not())) {
-                        Assert($" {spacer}  └─ already up to date", true);
-                    }
-
-                    access.LeaseId = blob.AcquireLease(TimeSpan.FromSeconds(15), null);
-                }
-
-                var blockBlob = environmentsContainer.GetBlockBlobReference(environment.File.Name);
-                blockBlob.UploadFromFile(environment.File.FullName, access, requestOptions);
-
-                if (access.LeaseId != null) {
-                    blob.ReleaseLease(access);
-                }
-            }
+            Console.WriteLine("\nTests:");
+            testsUploader.Upload(configuration.Tests.Documents, testsContainer);
 
             return 0;
         }
@@ -138,6 +99,55 @@ namespace Loader {
             }
 
             return container;
+        }
+    }
+
+    public class Uploader<T> where T : PersistentDocument {
+        private readonly BlobRequestOptions requestOptions = new BlobRequestOptions {
+            RetryPolicy = new ExponentialRetry(),
+            StoreBlobContentMD5 = true,
+            UseTransactionalMD5 = true
+        };
+
+        private static Action<string, bool> Assert => ConsoleUtilities.WriteResult;
+
+        public void Upload(IEnumerable<CheckyDocument<T>> doucments, CloudBlobContainer container) {
+            var checkyDocuments = doucments.ToArray();
+            foreach (var document in checkyDocuments) {
+                var access = new AccessCondition();
+                var blob = container.GetBlobReference(document.File.Name);
+                try {
+                    var divide = document != checkyDocuments.Last() ? "├" : "└";
+                    var spacer = document != checkyDocuments.Last() ? "│" : " ";
+                    ConsoleUtilities.WriteLine($" {divide}─ {document.File.Name}");
+                    if (blob.Satisfies<Exists>()) {
+                        Assert($" {spacer}  ├─ is block blob", blob.Satisfies<IsBlockBlob>());
+                        Assert($" {spacer}  ├─ is leasable", blob.Satisfies<IsLeasable>());
+
+                        if (!blob.Satisfies<ExistingBlobIsWritable>()) {
+                            continue;
+                        }
+
+                        access.LeaseId = blob.AcquireLease(TimeSpan.FromSeconds(15), null);
+
+                        var requiresUpdate = new RequiresUpdate(document.MD5);
+
+                        if (blob.Satisfies(requiresUpdate.Not())) {
+                            Assert($" {spacer}  └─ already up to date", true);
+                            continue;
+                        }
+
+                        Assert($" {spacer}  └─ needs refresh", true);
+                    }
+
+                    var blockBlob = container.GetBlockBlobReference(document.File.Name);
+                    blockBlob.UploadFromFile(document.File.FullName, access, requestOptions);
+                } finally {
+                    if (access.LeaseId != null) {
+                        blob.ReleaseLease(access);
+                    }
+                }
+            }
         }
     }
 }

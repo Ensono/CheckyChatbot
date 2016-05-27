@@ -43,7 +43,8 @@ namespace Loader {
 
             if (!result.IsValid) {
                 ConsoleUtilities.WriteAscii("FAILED", ConsoleUtilities.Failure);
-                ConsoleUtilities.WriteLine($"The following {result.Errors.Count()} errors were encountered:", ConsoleUtilities.Normal);
+                ConsoleUtilities.WriteLine($"The following {result.Errors.Count()} errors were encountered:",
+                    ConsoleUtilities.Normal);
                 foreach (var error in result.Errors) {
                     ConsoleUtilities.Write(" ✘ ", ConsoleUtilities.Failure);
                     ConsoleUtilities.WriteLine(error, ConsoleUtilities.Normal);

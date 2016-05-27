@@ -10,8 +10,8 @@ namespace Loader.Loader {
                 return null;
             }
 
-            var environmentDocumentLoader = new DocumentLoader<Environment>();
-            var testDocumentLoader = new DocumentLoader<Test>();
+            var environmentDocumentLoader = new DocumentLoader<EnvironmentDocument>();
+            var testDocumentLoader = new DocumentLoader<TestDocument>();
 
             return new CheckyConfiguration {
                 Directory = new DirectoryInfo(resolvedPath),

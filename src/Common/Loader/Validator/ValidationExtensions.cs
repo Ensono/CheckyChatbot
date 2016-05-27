@@ -21,14 +21,14 @@ namespace Loader.Validator {
         }
 
         public static ErrorModel Validate<T>(this T target) where T : PersistentDocument {
-            if (target is Environment) {
+            if (target is EnvironmentDocument) {
                 var validator = new EnvironmentValidator();
-                return validator.Validate("Environments", target as Environment);
+                return validator.Validate("Environments", target as EnvironmentDocument);
             }
 
-            if (target is Test) {
+            if (target is TestDocument) {
                 var validator = new TestValidator();
-                return validator.Validate("Tests", target as Test);
+                return validator.Validate("Tests", target as TestDocument);
             }
 
             return ErrorModel.FromErrorMessage($"Unable to find validator to match {nameof(T)}");

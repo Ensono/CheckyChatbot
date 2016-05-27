@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Datastore;
-using Environment = Datastore.Environment;
 
 namespace Loader.Validator {
-    public class EnvironmentValidator : ModelValidator<Environment> {
-        public override ErrorModel Validate(string context, Environment model) {
+    public class EnvironmentValidator : ModelValidator<EnvironmentDocument> {
+        public override ErrorModel Validate(string context, EnvironmentDocument model) {
             if (model.Services == null || !model.Services.Any()) {
                 return ErrorModel.FromErrorMessage($"{model.Id} contains no services, this environment would be unused.");
             }

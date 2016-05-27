@@ -7,5 +7,6 @@ namespace Loader.Model {
         public string Content { get; set; }
 
         public T Document { get; set; }
+        public string MD5 { get; set; }
     }
 }

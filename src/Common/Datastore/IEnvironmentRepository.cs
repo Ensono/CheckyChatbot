@@ -1,5 +1,5 @@
 ﻿namespace Datastore {
     public interface IEnvironmentRepository {
-        Environment Get(string environment);
+        EnvironmentDocument Get(string environment);
     }
 }

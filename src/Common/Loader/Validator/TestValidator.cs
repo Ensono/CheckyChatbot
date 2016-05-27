@@ -1,9 +1,8 @@
-﻿using System;
-using Datastore;
+﻿using Datastore;
 
 namespace Loader.Validator {
-    public class TestValidator : ModelValidator<Test> {
-        public override ErrorModel Validate(string context, Test model) {
+    public class TestValidator : ModelValidator<TestDocument> {
+        public override ErrorModel Validate(string context, TestDocument model) {
             return ErrorModel.Valid();
         }
     }

@@ -11,8 +11,8 @@ namespace Loader.Validator {
                 return ErrorModel.FromErrorMessage("The specified configuration directory does not exist.");
             }
 
-            var environmentDocumentCollectionValidator = new DocumentCollectionValidator<Environment>();
-            var testDocumentCollectionValidator = new DocumentCollectionValidator<Test>();
+            var environmentDocumentCollectionValidator = new DocumentCollectionValidator<EnvironmentDocument>();
+            var testDocumentCollectionValidator = new DocumentCollectionValidator<TestDocument>();
 
             Environments = environmentDocumentCollectionValidator.Validate("Environments", configuration.Environments);
             Tests = testDocumentCollectionValidator.Validate("Tests", configuration.Tests);

@@ -1,5 +1,5 @@
 ﻿namespace Datastore {
-    public class Test : PersistentDocument {
+    public class TestDocument : PersistentDocument {
         public string[] ServiceFilter { get; set; }
     }
 }
