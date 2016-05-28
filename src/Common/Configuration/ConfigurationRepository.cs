@@ -23,7 +23,7 @@ namespace Configuration {
                 : datasource.ConnectionString;
 
             if (connectionString == null) {
-                throw new ConfigurationErrorsException("Unable to get connection string for DocumentDB.");
+                throw new ConfigurationErrorsException($"Unable to get connection string identified by '{key}'.");
             }
             return connectionString;
         }

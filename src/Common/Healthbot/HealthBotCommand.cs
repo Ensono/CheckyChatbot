@@ -47,7 +47,19 @@ namespace Healthbot {
 
             var environmentText = match.Groups[1].Value;
             var serviceText = match.Groups[2].Value;
-            var environment = _environments.Get(environmentText);
+            var matchingEnvironments = _environments.Find(environmentText).ToArray();
+
+            if (!matchingEnvironments.Any()) {
+                return responseHandler($"Unable to find {environmentText}");
+            }
+
+            if (matchingEnvironments.Count() > 1) {
+                return
+                    responseHandler(
+                        $"`{environmentText}` matched too many environments, be more speicific.  I matched {string.Join(", ", matchingEnvironments)}");
+            }
+
+            var environment = _environments.Get(matchingEnvironments.Single());
 
             if (environment == null)
                 return responseHandler($"Unable to find {environmentText}");

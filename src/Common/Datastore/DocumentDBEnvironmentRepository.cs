@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Configuration;
 using Microsoft.Azure.Documents.Client;
@@ -22,6 +23,13 @@ namespace Datastore {
 
             _environmentsCollection = UriFactory.CreateDocumentCollectionUri(context["Database"],
                 context["Collection"]);
+        }
+
+        public IEnumerable<string> Find(string environmentStartsWith) {
+            var collection = _client.CreateDocumentQuery<EnvironmentDocument>(_environmentsCollection, _feedOptions);
+            return collection
+                .Select(x => x.Id)
+                .Where(x => x.StartsWith(environmentStartsWith, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public EnvironmentDocument Get(string environment) {
