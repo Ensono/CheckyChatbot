@@ -37,7 +37,7 @@ namespace Loader {
             };
 
             var policy = new SharedAccessBlobPolicy {
-                Permissions = SharedAccessBlobPermissions.List & SharedAccessBlobPermissions.Read,
+                Permissions = SharedAccessBlobPermissions.List | SharedAccessBlobPermissions.Read,
                 SharedAccessStartTime = DateTimeOffset.UtcNow,
                 SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddYears(1)
             };
@@ -53,6 +53,13 @@ namespace Loader {
                 var sasToken = containers[key].GetSharedAccessSignature(null, sharedAccessPolicyName);
                 ConsoleUtilities.WriteLine($"\n{key}:", ConsoleColor.White);
                 ConsoleUtilities.WriteLine($" ├─ Expires: {permission.SharedAccessExpiryTime}");
+                ConsoleUtilities.WriteLine( " ├─ Permissions:");
+                ConsoleUtilities.WriteResult(" │  ├─ Add", permission.Permissions.HasFlag(SharedAccessBlobPermissions.Add));
+                ConsoleUtilities.WriteResult(" │  ├─ Read", permission.Permissions.HasFlag(SharedAccessBlobPermissions.Read));
+                ConsoleUtilities.WriteResult(" │  ├─ Create", permission.Permissions.HasFlag(SharedAccessBlobPermissions.Create));
+                ConsoleUtilities.WriteResult(" │  ├─ Delete", permission.Permissions.HasFlag(SharedAccessBlobPermissions.Delete));
+                ConsoleUtilities.WriteResult(" │  ├─ List", permission.Permissions.HasFlag(SharedAccessBlobPermissions.List));
+                ConsoleUtilities.WriteResult(" │  └─ Write", permission.Permissions.HasFlag(SharedAccessBlobPermissions.Write));
                 ConsoleUtilities.WriteLine($" └─ Key: {containers[key].Uri}{sasToken}");
             }
 
