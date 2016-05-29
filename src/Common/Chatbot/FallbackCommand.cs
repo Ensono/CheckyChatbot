@@ -20,7 +20,8 @@ namespace Chatbot {
             var possibleVerbs = otherCommands
                 .Select(x => x.Verb)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Aggregate((current, next) => $"`{current}`, `{next}`");
+                .Select(x => $"`{x}`")
+                .Aggregate((current, next) => $"{current}, {next}");
             return
                 responseHandler(
                     $"Sorry, I didn't understand `{command}`, try: `@checky: <verb> [<arguments>]` where _<verb>_ is one of these: {possibleVerbs}");
