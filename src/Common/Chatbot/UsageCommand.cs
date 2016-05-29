@@ -16,7 +16,10 @@ namespace Chatbot {
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             _usageCount++;
-            var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([u|U][0-9A-Za-z]*)", RegexOptions.Compiled);
+            if (!wasMentioned && !isDirectMessage) {
+                return false;
+            }
+            var matcher = new Regex("([usage]+)$", RegexOptions.Compiled);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "usage");
         }
 
@@ -25,7 +28,7 @@ namespace Chatbot {
             var delta = DateTime.UtcNow - _startupTime;
             return
                 responseHandler(
-                    $"I have been operational for {delta.TotalDays:N0} days, {delta.Hours} hours and {delta.Minutes} minutes. In that time I have responded to {_usageCount} requests");
+                    $"I have been operational for {delta.TotalDays:N0} days, {delta.Hours} hours and {delta.Minutes} minutes. In that time I have seen to {_usageCount} message");
         }
     }
 }
