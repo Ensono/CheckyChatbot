@@ -26,7 +26,10 @@ namespace Healthbot {
         public string Verb => "status";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
-            var matcher = new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s([s|S][0-9A-Za-z]*)", RegexOptions.Compiled);
+            if (!wasMentioned && !isDirectMessage) {
+                return false;
+            }
+            var matcher = new Regex("([stau]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "status");
         }
 
@@ -35,8 +38,8 @@ namespace Healthbot {
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
-                new Regex("^(?:@?checky|<@[0-9A-Za-z]+>):?\\s[s|S][0-9A-Za-z]*\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
-                    RegexOptions.Compiled);
+                new Regex("[stau]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var match = matcher.Match(receivedText);
 
             Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");

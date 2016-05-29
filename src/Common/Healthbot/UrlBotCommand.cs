@@ -22,18 +22,18 @@ namespace Healthbot {
         public string Verb => "url";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
-            if (!wasMentioned) {
+            if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([u|U][r|R]?[l|L]?)\\s", RegexOptions.Compiled);
+            var matcher = new Regex("([url]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "url");
         }
 
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
-                new Regex("[u|U][0-9A-Za-z]*\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
-                    RegexOptions.Compiled);
+                new Regex("[url]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
+                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var match = matcher.Match(receivedText);
 
             Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
