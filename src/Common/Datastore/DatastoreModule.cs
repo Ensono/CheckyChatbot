@@ -9,7 +9,11 @@ namespace Datastore {
             Bind<IEnvironmentRepository>().To<BlobStorageEnvironmentRepository>();
             Bind<ObjectCache>().To<MemoryCache>()
                 .Named("EnvironmentCache")
-                .WithConstructorArgument("name", "EnvironmentCache")
+                .WithConstructorArgument("name", ParameterNames.EnvironmentCache)
+                .WithConstructorArgument("config", (NameValueCollection) null);
+            Bind<ObjectCache>().To<MemoryCache>()
+                .Named("HttpTestCache")
+                .WithConstructorArgument("name", ParameterNames.HttpTestCache)
                 .WithConstructorArgument("config", (NameValueCollection) null);
         }
     }

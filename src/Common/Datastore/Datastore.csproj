@@ -62,15 +62,18 @@
   <ItemGroup>
     <Compile Include="Environment\BlobStorageEnvironmentRepository.cs" />
     <Compile Include="DatastoreModule.cs" />
+    <Compile Include="CachePolicy.cs" />
     <Compile Include="Environment\EnvironmentDocument.cs" />
     <Compile Include="Environment\DocumentDBEnvironmentRepository.cs" />
     <Compile Include="Environment\IEnvironmentRepository.cs" />
+    <Compile Include="ParameterNames.cs" />
     <Compile Include="PersistentDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Environment\Service.cs" />
+    <Compile Include="Test\BlobStorageHttpTestRepository.cs" />
     <Compile Include="Test\ExpectToken.cs" />
     <Compile Include="Test\HttpTestDocument.cs" />
   </ItemGroup>

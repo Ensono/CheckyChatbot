@@ -12,13 +12,9 @@ namespace Datastore.Environment {
         private readonly ObjectCache _cache;
         private readonly Uri _containerUri;
 
-        private readonly CacheItemPolicy _policy = new CacheItemPolicy {
-            SlidingExpiration = TimeSpan.FromMinutes(5)
-        };
-
         public BlobStorageEnvironmentRepository(
             IConfigurationRepository config,
-            [Named("EnvironmentCache")] ObjectCache cache) {
+            [Named(ParameterNames.EnvironmentCache)] ObjectCache cache) {
             _cache = cache;
 
             _containerUri = new Uri(config.GetConnectionString("EnvironmentsStore"));
@@ -42,13 +38,13 @@ namespace Datastore.Environment {
             var blob = container.GetBlockBlobReference(blobPattern);
             var content = blob.DownloadText();
             var document = JsonConvert.DeserializeObject<EnvironmentDocument>(content);
-            _cache.Add(environment, document, _policy);
+            _cache.Add(environment, document, CachePolicy.Environments);
 
             return document;
         }
 
         private IEnumerable<string> GetBlobs() {
-            const string cacheKey = "AllBlobsInContainer";
+            const string cacheKey = "AllEnvironmentBlobsInContainer";
             IEnumerable<string> blobs;
             if (_cache.Contains(cacheKey)) {
                 blobs = _cache.Get(cacheKey) as IEnumerable<string>;
@@ -59,7 +55,7 @@ namespace Datastore.Environment {
                     .Select(x => x.Name)
                     .Select(GetBaseName);
 
-                _cache.Add(cacheKey, blobs, _policy);
+                _cache.Add(cacheKey, blobs, CachePolicy.Environments);
             }
 
             return blobs ?? new string[0];

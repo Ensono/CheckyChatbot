@@ -1,5 +1,4 @@
-﻿using Datastore;
-using Datastore.Test;
+﻿using Datastore.Test;
 
 namespace Loader.Validator {
     public class TestValidator : ModelValidator<HttpTestDocument> {
