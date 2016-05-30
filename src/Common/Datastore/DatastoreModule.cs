@@ -9,7 +9,7 @@ namespace Datastore {
             Bind<ObjectCache>().To<MemoryCache>()
                 .Named("EnvironmentCache")
                 .WithConstructorArgument("name", "EnvironmentCache")
-                .WithConstructorArgument("config", (NameValueCollection)null);
+                .WithConstructorArgument("config", (NameValueCollection) null);
         }
     }
 }

@@ -25,7 +25,8 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([url]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var matcher = new Regex("([url]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "url");
         }
 
@@ -46,13 +47,11 @@ namespace Healthbot {
             var serviceText = match.Groups[2].Value;
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
-            if (!matchingEnvironments.Any())
-            {
+            if (!matchingEnvironments.Any()) {
                 return responseHandler($"Unable to find {environmentText}");
             }
 
-            if (matchingEnvironments.Count() > 1)
-            {
+            if (matchingEnvironments.Count() > 1) {
                 return
                     responseHandler(
                         $"`{environmentText}` matched too many environments, be more speicific.  I matched {string.Join(", ", matchingEnvironments)}");

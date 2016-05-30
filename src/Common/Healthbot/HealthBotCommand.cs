@@ -29,7 +29,8 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([stau]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var matcher = new Regex("([stau]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "status");
         }
 

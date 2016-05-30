@@ -9,7 +9,7 @@ using Hunabku.Skive;
 namespace CheckyChatbotSlack {
     public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands;
-        
+
         public SlackMessageHandler(IEnumerable<IChatbotCommand> commands) {
             _commands = commands;
         }
