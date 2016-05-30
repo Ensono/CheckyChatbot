@@ -1,10 +1,11 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using Datastore.Test;
 
 namespace Smokebot {
     public class HttpTestRequestMessageFactory : IHttpTestRequestMessageFactory {
-        public HttpRequestMessage CreateMessage(Uri baseUrl, HttpTest test) {
+        public HttpRequestMessage CreateMessage(Uri baseUrl, HttpTestDocument test) {
             var message = new HttpRequestMessage {
                 Method = new HttpMethod(test.HttpRequestMethod)
             };

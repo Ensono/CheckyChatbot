@@ -7,7 +7,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using Ninject;
 
-namespace Datastore {
+namespace Datastore.Environment {
     public class BlobStorageEnvironmentRepository : IEnvironmentRepository {
         private readonly ObjectCache _cache;
         private readonly Uri _containerUri;

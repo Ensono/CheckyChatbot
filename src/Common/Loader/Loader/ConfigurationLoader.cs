@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Datastore;
+using Datastore.Environment;
+using Datastore.Test;
 using Loader.Model;
 
 namespace Loader.Loader {
@@ -11,7 +13,7 @@ namespace Loader.Loader {
             }
 
             var environmentDocumentLoader = new DocumentLoader<EnvironmentDocument>();
-            var testDocumentLoader = new DocumentLoader<TestDocument>();
+            var testDocumentLoader = new DocumentLoader<HttpTestDocument>();
 
             return new CheckyConfiguration {
                 Directory = new DirectoryInfo(resolvedPath),

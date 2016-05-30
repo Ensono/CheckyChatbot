@@ -1,4 +1,6 @@
 ﻿using Datastore;
+using Datastore.Environment;
+using Datastore.Test;
 using Loader.Model;
 
 namespace Loader.Validator {
@@ -26,9 +28,9 @@ namespace Loader.Validator {
                 return validator.Validate("Environments", target as EnvironmentDocument);
             }
 
-            if (target is TestDocument) {
+            if (target is HttpTestDocument) {
                 var validator = new TestValidator();
-                return validator.Validate("Tests", target as TestDocument);
+                return validator.Validate("Tests", target as HttpTestDocument);
             }
 
             return ErrorModel.FromErrorMessage($"Unable to find validator to match {nameof(T)}");

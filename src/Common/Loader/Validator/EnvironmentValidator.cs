@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Datastore;
+using Datastore.Environment;
 
 namespace Loader.Validator {
     public class EnvironmentValidator : ModelValidator<EnvironmentDocument> {

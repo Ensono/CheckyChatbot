@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Smokebot {
-    public class HttpTest {
-        public string Id { get; set; }
+namespace Datastore.Test {
+    public class HttpTestDocument : PersistentDocument {
         public string[] ServiceFilter { get; set; }
         public string[] EnvironmentFilter { get; set; }
         public string HttpRequestMethod { get; set; }

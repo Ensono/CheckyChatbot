@@ -48,8 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpectToken.cs" />
-    <Compile Include="HttpTest.cs" />
     <Compile Include="HttpTestRequestMessageFactory.cs" />
     <Compile Include="HttpTestResponseValidator.cs" />
     <Compile Include="IHttpTestRequestMessageFactory.cs" />
@@ -61,6 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datastore\Datastore.csproj">
+      <Project>{5941D708-1A3E-4F50-9CDE-11F81F117BDC}</Project>
+      <Name>Datastore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

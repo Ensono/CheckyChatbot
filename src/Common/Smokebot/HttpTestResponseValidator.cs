@@ -3,11 +3,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using Datastore.Test;
 using Newtonsoft.Json.Linq;
 
 namespace Smokebot {
     public class HttpTestResponseValidator : IHttpTestResponseValidator {
-        public bool Validate(HttpTest test, HttpResponseMessage response, Action<string> callback) {
+        public bool Validate(HttpTestDocument test, HttpResponseMessage response, Action<string> callback) {
             var result = true;
 
             if (response.StatusCode != (HttpStatusCode) test.ExpectHttpResponseCode) {

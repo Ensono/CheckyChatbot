@@ -60,18 +60,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlobStorageEnvironmentRepository.cs" />
+    <Compile Include="Environment\BlobStorageEnvironmentRepository.cs" />
     <Compile Include="DatastoreModule.cs" />
-    <Compile Include="EnvironmentDocument.cs" />
-    <Compile Include="DocumentDBEnvironmentRepository.cs" />
-    <Compile Include="IEnvironmentRepository.cs" />
+    <Compile Include="Environment\EnvironmentDocument.cs" />
+    <Compile Include="Environment\DocumentDBEnvironmentRepository.cs" />
+    <Compile Include="Environment\IEnvironmentRepository.cs" />
     <Compile Include="PersistentDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Service.cs" />
-    <Compile Include="TestDocument.cs" />
+    <Compile Include="Environment\Service.cs" />
+    <Compile Include="Test\ExpectToken.cs" />
+    <Compile Include="Test\HttpTestDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

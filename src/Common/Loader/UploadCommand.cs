@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Datastore;
+using Datastore.Environment;
+using Datastore.Test;
 using Loader.Loader;
 using Loader.Model;
 using Loader.Specifications;
@@ -57,7 +59,7 @@ namespace Loader {
             }
 
             var environmentUploader = new Uploader<EnvironmentDocument>();
-            var testsUploader = new Uploader<TestDocument>();
+            var testsUploader = new Uploader<HttpTestDocument>();
 
             Console.WriteLine("\nEnvironments:");
             var environmentResult = environmentUploader.Upload(configuration.Environments.Documents,

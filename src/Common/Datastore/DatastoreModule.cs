@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Runtime.Caching;
+using Datastore.Environment;
 using Ninject.Modules;
 
 namespace Datastore {

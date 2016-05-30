@@ -1,4 +1,6 @@
 using Datastore;
+using Datastore.Environment;
+using Datastore.Test;
 using Loader.Model;
 
 namespace Loader.Validator {
@@ -12,7 +14,7 @@ namespace Loader.Validator {
             }
 
             var environmentDocumentCollectionValidator = new DocumentCollectionValidator<EnvironmentDocument>();
-            var testDocumentCollectionValidator = new DocumentCollectionValidator<TestDocument>();
+            var testDocumentCollectionValidator = new DocumentCollectionValidator<HttpTestDocument>();
 
             Environments = environmentDocumentCollectionValidator.Validate("Environments", configuration.Environments);
             Tests = testDocumentCollectionValidator.Validate("Tests", configuration.Tests);
