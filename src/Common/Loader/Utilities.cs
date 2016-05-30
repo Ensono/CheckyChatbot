@@ -4,7 +4,6 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace Loader {
     public static class Utilities {
         public static CloudBlobContainer EnsureBlobContainerExists(CloudBlobClient client, string containerName) {
-            var containers = client.ListContainers();
             CloudBlobContainer container;
 
             try {

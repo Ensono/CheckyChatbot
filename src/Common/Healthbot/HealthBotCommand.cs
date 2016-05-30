@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ComponentModel;
-using Datastore;
 using Datastore.Environment;
 
 namespace Healthbot {
@@ -58,7 +57,7 @@ namespace Healthbot {
                 return responseHandler($"Unable to find {environmentText}");
             }
 
-            if (matchingEnvironments.Count() > 1) {
+            if (matchingEnvironments.Length > 1) {
                 return
                     responseHandler(
                         $"`{environmentText}` matched too many environments, be more speicific.  I matched {string.Join(", ", matchingEnvironments)}");

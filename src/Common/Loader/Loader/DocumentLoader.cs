@@ -26,7 +26,7 @@ namespace Loader.Loader {
             return new CheckyDocument<T> {
                 File = new FileInfo(x),
                 Content = content,
-                MD5 = CalculateHash(content)
+                Md5 = CalculateHash(content)
             };
         }
 

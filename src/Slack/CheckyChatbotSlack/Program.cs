@@ -5,7 +5,7 @@ using Ninject;
 
 namespace CheckyChatbotSlack {
     internal class Program {
-        private static void Main(string[] args) {
+        private static void Main() {
             IKernel kernel = new StandardKernel(new CheckyChatbotModule());
             kernel.Load("*.dll");
 

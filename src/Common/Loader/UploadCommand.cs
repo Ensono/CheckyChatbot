@@ -122,7 +122,7 @@ namespace Loader {
 
                         access.LeaseId = blob.AcquireLease(TimeSpan.FromSeconds(15), null);
 
-                        var requiresUpdate = new RequiresUpdate(document.MD5);
+                        var requiresUpdate = new RequiresUpdate(document.Md5);
 
                         if (blob.Satisfies(requiresUpdate.Not())) {
                             Assert($" {spacer}  └─ already up to date", true);
