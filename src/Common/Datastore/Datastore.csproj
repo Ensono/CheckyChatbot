@@ -76,6 +76,7 @@
     <Compile Include="Test\BlobStorageHttpTestRepository.cs" />
     <Compile Include="Test\ExpectToken.cs" />
     <Compile Include="Test\HttpTestDocument.cs" />
+    <Compile Include="Test\IHttpTestRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 using Ninject;
 
 namespace Datastore.Test {
-    public class BlobStorageHttpTestRepository {
+    public class BlobStorageHttpTestRepository : IHttpTestRepository
+    {
         private const string Any = "*";
 
         private readonly ObjectCache _cache;
@@ -51,6 +52,10 @@ namespace Datastore.Test {
                 .Where(environmentPredicate)
                 .Where(servicePredicate)
                 .Select(x => x.Id);
+        }
+
+        public IEnumerable<HttpTestDocument> GetAll(IEnumerable<string> ids) {
+            return GetBlobs().Where(x => ids.Contains(x.Id));
         }
 
         private IEnumerable<HttpTestDocument> GetBlobs() {
