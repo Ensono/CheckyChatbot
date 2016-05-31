@@ -49,8 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpTestRequestMessageFactory.cs" />
+    <Compile Include="HttpTestResponseBodyValidator.cs" />
+    <Compile Include="HttpTestResponseHeadersValidator.cs" />
     <Compile Include="HttpTestResponseValidator.cs" />
     <Compile Include="IHttpTestRequestMessageFactory.cs" />
+    <Compile Include="IHttpTestResponseBodyValidator.cs" />
+    <Compile Include="IHttpTestResponseHeadersValidator.cs" />
     <Compile Include="IHttpTestResponseValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
