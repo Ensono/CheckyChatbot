@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpTestModule.cs" />
     <Compile Include="HttpTestRequestMessageFactory.cs" />
     <Compile Include="HttpTestResponseBodyValidator.cs" />
     <Compile Include="HttpTestResponseHeadersValidator.cs" />
@@ -60,14 +61,27 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="SmokebotCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Chatbot\Chatbot.csproj">
+      <Project>{F52D1B30-7BC5-4AFF-9510-14B50F2E32E8}</Project>
+      <Name>Chatbot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
+      <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
+      <Name>ComponentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Datastore\Datastore.csproj">
       <Project>{5941D708-1A3E-4F50-9CDE-11F81F117BDC}</Project>
       <Name>Datastore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Network\Network.csproj">
+      <Project>{A740432B-6769-4893-A102-794EB4A1C8AE}</Project>
+      <Name>Network</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
