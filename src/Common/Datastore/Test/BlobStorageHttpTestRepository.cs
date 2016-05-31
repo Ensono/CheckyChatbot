@@ -9,8 +9,7 @@ using Newtonsoft.Json;
 using Ninject;
 
 namespace Datastore.Test {
-    public class BlobStorageHttpTestRepository : IHttpTestRepository
-    {
+    public class BlobStorageHttpTestRepository : IHttpTestRepository {
         private const string Any = "*";
 
         private readonly ObjectCache _cache;
