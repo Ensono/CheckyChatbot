@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1618FB43-9EA0-45C4-BD80-C859777CBC2D}</ProjectGuid>
+    <ProjectGuid>{F52D1B30-7BC5-4AFF-9510-14B50F2E32E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Configuration</RootNamespace>
-    <AssemblyName>Configuration</AssemblyName>
+    <RootNamespace>Checky.Common.Chatbot</RootNamespace>
+    <AssemblyName>Checky.Common.Chatbot</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject">
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.3.2.0.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging.Log4Net, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.Log4net.3.2.3.0\lib\net45-full\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,14 +57,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationModule.cs" />
-    <Compile Include="ConfigurationRepository.cs" />
-    <Compile Include="ConnectionStringType.cs" />
-    <Compile Include="IConfigurationRepository.cs" />
+    <Compile Include="CacheCommand.cs" />
+    <Compile Include="ChatbotModule.cs" />
+    <Compile Include="FallbackCommand.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="UsageCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComponentModel\Checky.Common.ComponentModel.csproj">
+      <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
+      <Name>Checky.Common.ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Datastore\Checky.Common.Datastore.csproj">
+      <Project>{5941D708-1A3E-4F50-9CDE-11F81F117BDC}</Project>
+      <Name>Checky.Common.Datastore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

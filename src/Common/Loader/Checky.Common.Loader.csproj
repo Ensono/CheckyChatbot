@@ -7,7 +7,7 @@
     <ProjectGuid>{15C55584-E2C0-4451-86FD-69B028323C38}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Loader</RootNamespace>
+    <RootNamespace>Checky.Common.Loader</RootNamespace>
     <AssemblyName>checky-loader</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -133,9 +133,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Datastore\Datastore.csproj">
+    <ProjectReference Include="..\Datastore\Checky.Common.Datastore.csproj">
       <Project>{5941D708-1A3E-4F50-9CDE-11F81F117BDC}</Project>
-      <Name>Datastore</Name>
+      <Name>Checky.Common.Datastore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

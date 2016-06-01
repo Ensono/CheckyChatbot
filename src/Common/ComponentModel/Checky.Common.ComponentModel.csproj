@@ -7,8 +7,8 @@
     <ProjectGuid>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComponentModel</RootNamespace>
-    <AssemblyName>ComponentModel</AssemblyName>
+    <RootNamespace>Checky.Common.ComponentModel</RootNamespace>
+    <AssemblyName>Checky.Common.ComponentModel</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

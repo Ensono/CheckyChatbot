@@ -5,18 +5,21 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ComponentModel;
 using Datastore.Environment;
+using Ninject.Extensions.Logging;
 
 namespace Healthbot {
     public class UrlBotCommand : IChatbotCommand {
         private readonly IEnvironmentRepository _environments;
         private readonly IHelpers _helpers;
+        private readonly ILogger _logger;
 
         private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public UrlBotCommand(IEnvironmentRepository environments, IHelpers helpers) {
+        public UrlBotCommand(IEnvironmentRepository environments, IHelpers helpers, ILogger logger) {
             _environments = environments;
             _helpers = helpers;
+            _logger = logger;
         }
 
         public int Priority => 50;
@@ -37,7 +40,7 @@ namespace Healthbot {
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(receivedText);
 
-            _helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
+            _logger.Debug("Recieved: '{0}' from {1} (Matched: {2})", receivedText, user, match.Success);
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");

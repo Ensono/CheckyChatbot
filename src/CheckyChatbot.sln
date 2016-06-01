@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Common", "1. Common", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Slack", "2. Slack", "{706A14EF-8386-45EC-9259-6F2637746AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckyChatbotSlack", "Slack\CheckyChatbotSlack\CheckyChatbotSlack.csproj", "{B26AFD64-095B-4FC2-9EDB-50C34E6CDD34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Chatbot.Slack", "Slack\CheckyChatbotSlack\Checky.Common.Chatbot.Slack.csproj", "{B26AFD64-095B-4FC2-9EDB-50C34E6CDD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot", "Common\Chatbot\Chatbot.csproj", "{F52D1B30-7BC5-4AFF-9510-14B50F2E32E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Chatbot", "Common\Chatbot\Checky.Common.Chatbot.csproj", "{F52D1B30-7BC5-4AFF-9510-14B50F2E32E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9. Tests", "9. Tests", "{F3CEF568-104D-42F0-9E69-F5A261721B56}"
 EndProject
@@ -19,21 +19,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Shared", "0. Shared", "{
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Healthbot", "Common\Healthbot\Healthbot.csproj", "{076D43F9-9C67-423C-83AD-0A5E777408E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Healthbot", "Common\Healthbot\Checky.Common.Healthbot.csproj", "{076D43F9-9C67-423C-83AD-0A5E777408E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentModel", "Common\ComponentModel\ComponentModel.csproj", "{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.ComponentModel", "Common\ComponentModel\Checky.Common.ComponentModel.csproj", "{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smokebot", "Common\Smokebot\Smokebot.csproj", "{A424692F-25D7-47BD-87C8-5B95BDF314A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Smokebot", "Common\Smokebot\Checky.Common.Smokebot.csproj", "{A424692F-25D7-47BD-87C8-5B95BDF314A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datastore", "Common\Datastore\Datastore.csproj", "{5941D708-1A3E-4F50-9CDE-11F81F117BDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Datastore", "Common\Datastore\Checky.Common.Datastore.csproj", "{5941D708-1A3E-4F50-9CDE-11F81F117BDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Common\Configuration\Configuration.csproj", "{1618FB43-9EA0-45C4-BD80-C859777CBC2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Configuration", "Common\Configuration\Checky.Common.Configuration.csproj", "{1618FB43-9EA0-45C4-BD80-C859777CBC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loader", "Common\Loader\Loader.csproj", "{15C55584-E2C0-4451-86FD-69B028323C38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Loader", "Common\Loader\Checky.Common.Loader.csproj", "{15C55584-E2C0-4451-86FD-69B028323C38}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CheckyChatbot", "Common\CheckyChatbot\CheckyChatbot.deployproj", "{D60AD55B-AFFC-44B2-951E-2DBC1B45B8A5}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Checky.Common.Deployment.Azure", "Common\CheckyChatbot\Checky.Common.Deployment.Azure.deployproj", "{D60AD55B-AFFC-44B2-951E-2DBC1B45B8A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Common\Network\Network.csproj", "{A740432B-6769-4893-A102-794EB4A1C8AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Network", "Common\Network\Checky.Common.Network.csproj", "{A740432B-6769-4893-A102-794EB4A1C8AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

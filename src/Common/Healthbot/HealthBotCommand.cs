@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ComponentModel;
 using Datastore.Environment;
+using Ninject.Extensions.Logging;
 
 namespace Healthbot {
     public class HealthBotCommand : IChatbotCommand {
@@ -12,12 +13,13 @@ namespace Healthbot {
         private readonly IEnvironmentRepository _environments;
         private readonly IHealthcheckFormatter _formatter;
         private readonly IHelpers _helpers;
+        private readonly ILogger _logger;
 
         private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
-                                IHealthcheckFormatter formatter, IHelpers helpers) {
+                                IHealthcheckFormatter formatter, IHelpers helpers, ILogger logger) {
             if (environments == null) throw new ArgumentNullException(nameof(environments));
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
@@ -26,6 +28,7 @@ namespace Healthbot {
             _client = client;
             _formatter = formatter;
             _helpers = helpers;
+            _logger = logger;
         }
 
         public string Verb => "status";
@@ -43,7 +46,7 @@ namespace Healthbot {
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(receivedText);
 
-            _helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
+            _logger.Debug("Recieved: '{0}' from {1} (Matched: {2})", receivedText, user, match.Success);
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");

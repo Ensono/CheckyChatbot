@@ -9,12 +9,14 @@ using ComponentModel;
 using Datastore.Environment;
 using Datastore.Test;
 using Network;
+using Ninject.Extensions.Logging;
 
 namespace Smokebot {
     public class SmokebotCommand : IChatbotCommand {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IEnvironmentRepository _environments;
         private readonly IHelpers _helpers;
+        private readonly ILogger _logger;
 
         private readonly Regex _matcher = new Regex("\\b([tes]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -25,13 +27,14 @@ namespace Smokebot {
 
         public SmokebotCommand(IEnvironmentRepository environments, IHttpTestRepository tests,
                                IHttpTestRequestMessageFactory messageFactory, IHttpClientFactory clientFactory,
-                               IHttpTestResponseValidator responseValidator, IHelpers helpers) {
+                               IHttpTestResponseValidator responseValidator, IHelpers helpers, ILogger logger) {
             _environments = environments;
             _tests = tests;
             _messageFactory = messageFactory;
             _clientFactory = clientFactory;
             _responseValidator = responseValidator;
             _helpers = helpers;
+            _logger = logger;
         }
 
         public int Priority => 50;
@@ -50,7 +53,7 @@ namespace Smokebot {
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(command);
 
-            _helpers.Log($"Smoke Recieved: '{command}' from {user} (Matched: {match.Success})");
+            _logger.Debug("Recieved: '{0}' from {1} (Matched: {2})", command, user, match.Success);
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");

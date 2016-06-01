@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using ComponentModel;
 using Hunabku.Skive;
+using Ninject.Extensions.Logging;
 
 namespace CheckyChatbotSlack {
     public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands;
+        private readonly ILogger _logger;
 
-        public SlackMessageHandler(IEnumerable<IChatbotCommand> commands) {
+        public SlackMessageHandler(IEnumerable<IChatbotCommand> commands, ILogger logger) {
             _commands = commands;
+            _logger = logger;
         }
 
         public Task Handle(ISlackEventContext context) {
@@ -38,11 +41,11 @@ namespace CheckyChatbotSlack {
                 .OrderBy(x => x.Priority);
             var winningCommand = acceptedCommands.First();
 
-            Console.WriteLine($"Winning command: {winningCommand.Verb}");
+            _logger.Info($"Winning command: {winningCommand.Verb}");
             acceptedCommands
                 .Where(x => x.Priority < int.MaxValue)
                 .ToList()
-                .ForEach(x => Console.WriteLine($" - {x.Verb} (Priority {x.Priority})"));
+                .ForEach(x => _logger.Info($" - {x.Verb} (Priority {x.Priority})"));
 
             try {
                 return winningCommand.Process(receivedText, user, response, _commands);

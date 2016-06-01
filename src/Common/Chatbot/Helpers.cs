@@ -10,10 +10,5 @@ namespace Chatbot {
             var command = match.Groups[1].Value;
             return expectedCommand.StartsWith(command, StringComparison.InvariantCultureIgnoreCase);
         }
-
-        public void Log(string message) {
-            var date = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            Console.WriteLine($"{date} - {message}");
-        }
     }
 }
