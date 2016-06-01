@@ -10,6 +10,9 @@ namespace Healthbot {
     public class UrlBotCommand : IChatbotCommand {
         private readonly IEnvironmentRepository _environments;
 
+        private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         public UrlBotCommand(IEnvironmentRepository environments) {
             _environments = environments;
         }
@@ -25,17 +28,12 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([url]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$",
-                RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            return Helpers.CanAcceptWithRegex(receivedText, matcher, "url");
+            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "url");
         }
 
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
-            var matcher =
-                new Regex("[url]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)",
-                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var match = matcher.Match(receivedText);
+            var match = _matcher.Match(receivedText);
 
             Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
 
@@ -43,8 +41,8 @@ namespace Healthbot {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");
             }
 
-            var environmentText = match.Groups[1].Value;
-            var serviceText = match.Groups[2].Value;
+            var environmentText = match.Groups[2].Value;
+            var serviceText = match.Groups[3].Value;
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
             if (!matchingEnvironments.Any()) {

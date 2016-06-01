@@ -19,7 +19,7 @@ namespace Chatbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([usage]+)$", RegexOptions.Compiled);
+            var matcher = new Regex("\\b([usage]+)$", RegexOptions.Compiled);
             return Helpers.CanAcceptWithRegex(receivedText, matcher, "usage");
         }
 

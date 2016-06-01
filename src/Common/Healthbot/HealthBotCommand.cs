@@ -12,7 +12,7 @@ namespace Healthbot {
         private readonly IEnvironmentRepository _environments;
         private readonly IHealthcheckFormatter _formatter;
 
-        private readonly Regex _matcher = new Regex("([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+        private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
@@ -47,8 +47,8 @@ namespace Healthbot {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");
             }
 
-            var environmentText = match.Groups[1].Value;
-            var serviceText = match.Groups[2].Value;
+            var environmentText = match.Groups[2].Value;
+            var serviceText = match.Groups[3].Value;
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
             if (!matchingEnvironments.Any()) {

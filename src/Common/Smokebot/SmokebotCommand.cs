@@ -15,6 +15,10 @@ namespace Smokebot {
     public class SmokebotCommand : IChatbotCommand {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IEnvironmentRepository _environments;
+
+        private readonly Regex _matcher = new Regex("\\b([tes]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private readonly IHttpTestRequestMessageFactory _messageFactory;
         private readonly IHttpTestResponseValidator _responseValidator;
         private readonly IHttpTestRepository _tests;
@@ -38,17 +42,12 @@ namespace Smokebot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([tes]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$",
-                RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            return Helpers.CanAcceptWithRegex(receivedText, matcher, "test");
+            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "test");
         }
 
         public Task Process(string command, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
-            var matcher =
-                new Regex("[tes]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
-                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var match = matcher.Match(command);
+            var match = _matcher.Match(command);
 
             Helpers.Log($"Smoke Recieved: '{command}' from {user} (Matched: {match.Success})");
 
@@ -56,8 +55,8 @@ namespace Smokebot {
                 return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");
             }
 
-            var environmentText = match.Groups[1].Value;
-            var serviceText = match.Groups[2].Value;
+            var environmentText = match.Groups[2].Value;
+            var serviceText = match.Groups[3].Value;
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
             if (!matchingEnvironments.Any()) {
