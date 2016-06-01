@@ -105,6 +105,7 @@ namespace Smokebot {
             }
 
             var output = new StringBuilder();
+            output.AppendLine($"{service.Name} in {environment.Id} has {tests.Length} tests:");
             foreach (var test in tests) {
                 var response = responses[test].Result;
                 var testOutput = new StringBuilder();
