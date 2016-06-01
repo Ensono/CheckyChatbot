@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheCommand.cs" />
     <Compile Include="ChatbotModule.cs" />
     <Compile Include="FallbackCommand.cs" />
     <Compile Include="Helpers.cs" />
@@ -57,6 +59,10 @@
     <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
       <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
       <Name>ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Datastore\Datastore.csproj">
+      <Project>{5941D708-1A3E-4F50-9CDE-11F81F117BDC}</Project>
+      <Name>Datastore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -63,7 +63,6 @@
     <Compile Include="Healthcheck.cs" />
     <Compile Include="HealthcheckClient.cs" />
     <Compile Include="HealthcheckFormatter.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="IHealthcheckClient.cs" />
     <Compile Include="IHealthcheckFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

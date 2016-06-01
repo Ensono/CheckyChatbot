@@ -11,12 +11,13 @@ namespace Healthbot {
         private readonly IHealthcheckClient _client;
         private readonly IEnvironmentRepository _environments;
         private readonly IHealthcheckFormatter _formatter;
+        private readonly IHelpers _helpers;
 
         private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
-                                IHealthcheckFormatter formatter) {
+                                IHealthcheckFormatter formatter, IHelpers helpers) {
             if (environments == null) throw new ArgumentNullException(nameof(environments));
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
@@ -24,6 +25,7 @@ namespace Healthbot {
             _environments = environments;
             _client = client;
             _formatter = formatter;
+            _helpers = helpers;
         }
 
         public string Verb => "status";
@@ -32,7 +34,7 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "status");
+            return _helpers.CanAcceptWithRegex(receivedText, _matcher, "status");
         }
 
         public int Priority => 50;
@@ -41,7 +43,7 @@ namespace Healthbot {
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(receivedText);
 
-            Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
+            _helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");

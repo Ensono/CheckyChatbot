@@ -9,12 +9,14 @@ using Datastore.Environment;
 namespace Healthbot {
     public class UrlBotCommand : IChatbotCommand {
         private readonly IEnvironmentRepository _environments;
+        private readonly IHelpers _helpers;
 
         private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public UrlBotCommand(IEnvironmentRepository environments) {
+        public UrlBotCommand(IEnvironmentRepository environments, IHelpers helpers) {
             _environments = environments;
+            _helpers = helpers;
         }
 
         public int Priority => 50;
@@ -28,14 +30,14 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "url");
+            return _helpers.CanAcceptWithRegex(receivedText, _matcher, "url");
         }
 
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(receivedText);
 
-            Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
+            _helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{receivedText}` try `{Example}`.");

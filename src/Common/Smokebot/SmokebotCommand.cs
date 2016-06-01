@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Chatbot;
 using ComponentModel;
 using Datastore.Environment;
 using Datastore.Test;
@@ -15,6 +14,7 @@ namespace Smokebot {
     public class SmokebotCommand : IChatbotCommand {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IEnvironmentRepository _environments;
+        private readonly IHelpers _helpers;
 
         private readonly Regex _matcher = new Regex("\\b([tes]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -25,12 +25,13 @@ namespace Smokebot {
 
         public SmokebotCommand(IEnvironmentRepository environments, IHttpTestRepository tests,
                                IHttpTestRequestMessageFactory messageFactory, IHttpClientFactory clientFactory,
-                               IHttpTestResponseValidator responseValidator) {
+                               IHttpTestResponseValidator responseValidator, IHelpers helpers) {
             _environments = environments;
             _tests = tests;
             _messageFactory = messageFactory;
             _clientFactory = clientFactory;
             _responseValidator = responseValidator;
+            _helpers = helpers;
         }
 
         public int Priority => 50;
@@ -42,14 +43,14 @@ namespace Smokebot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "test");
+            return _helpers.CanAcceptWithRegex(receivedText, _matcher, "test");
         }
 
         public Task Process(string command, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(command);
 
-            Helpers.Log($"Smoke Recieved: '{command}' from {user} (Matched: {match.Success})");
+            _helpers.Log($"Smoke Recieved: '{command}' from {user} (Matched: {match.Success})");
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");

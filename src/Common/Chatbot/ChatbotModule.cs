@@ -6,6 +6,7 @@ namespace Chatbot {
         public override void Load() {
             Bind<IChatbotCommand>().To<FallbackCommand>().InSingletonScope();
             Bind<IChatbotCommand>().To<UsageCommand>().InSingletonScope();
+            Bind<IHelpers>().To<Helpers>().InThreadScope();
         }
     }
 }

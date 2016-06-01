@@ -38,13 +38,19 @@ namespace Datastore.Test {
             if (environment == Any) {
                 environmentPredicate = x => x.EnvironmentFilter.Any();
             } else {
-                environmentPredicate = x => x.EnvironmentFilter.Contains(Any) || x.EnvironmentFilter.Contains(environment, StringComparer.InvariantCultureIgnoreCase);
+                environmentPredicate =
+                    x =>
+                        x.EnvironmentFilter.Contains(Any) ||
+                        x.EnvironmentFilter.Contains(environment, StringComparer.InvariantCultureIgnoreCase);
             }
 
             if (service == Any) {
                 servicePredicate = x => x.ServiceFilter.Any();
             } else {
-                servicePredicate = x => x.ServiceFilter.Contains(Any) || x.ServiceFilter.Contains(service, StringComparer.InvariantCultureIgnoreCase);
+                servicePredicate =
+                    x =>
+                        x.ServiceFilter.Contains(Any) ||
+                        x.ServiceFilter.Contains(service, StringComparer.InvariantCultureIgnoreCase);
             }
 
             return blobs

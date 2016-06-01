@@ -6,8 +6,13 @@ using ComponentModel;
 
 namespace Chatbot {
     public class UsageCommand : IChatbotCommand {
+        private readonly IHelpers _helpers;
         private readonly DateTime _startupTime = DateTime.UtcNow;
         private int _usageCount;
+
+        public UsageCommand(IHelpers helpers) {
+            _helpers = helpers;
+        }
 
         public int Priority => 100;
         public string HelpText => "@checky usage";
@@ -20,7 +25,7 @@ namespace Chatbot {
                 return false;
             }
             var matcher = new Regex("\\b([usage]+)$", RegexOptions.Compiled);
-            return Helpers.CanAcceptWithRegex(receivedText, matcher, "usage");
+            return _helpers.CanAcceptWithRegex(receivedText, matcher, "usage");
         }
 
         public Task Process(string command, string user, Func<string, Task> responseHandler,

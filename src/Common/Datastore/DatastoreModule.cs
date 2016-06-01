@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Runtime.Caching;
+using ComponentModel;
 using Datastore.Environment;
 using Datastore.Test;
 using Ninject.Modules;
@@ -17,6 +18,7 @@ namespace Datastore {
                 .Named(ParameterNames.HttpTestCache)
                 .WithConstructorArgument("name", ParameterNames.HttpTestCache)
                 .WithConstructorArgument("config", (NameValueCollection) null);
+            Bind<IChatbotCommand>().To<CacheCommand>().InSingletonScope();
         }
     }
 }

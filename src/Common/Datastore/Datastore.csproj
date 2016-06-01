@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheCommand.cs" />
     <Compile Include="Environment\BlobStorageEnvironmentRepository.cs" />
     <Compile Include="DatastoreModule.cs" />
     <Compile Include="CachePolicy.cs" />
@@ -73,6 +74,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Environment\Service.cs" />
+    <Compile Include="SignaledChangeEventArgs.cs" />
     <Compile Include="Test\BlobStorageHttpTestRepository.cs" />
     <Compile Include="Test\ExpectToken.cs" />
     <Compile Include="Test\HttpTestDocument.cs" />
@@ -83,6 +85,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComponentModel\ComponentModel.csproj">
+      <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
+      <Name>ComponentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Configuration\Configuration.csproj">
       <Project>{1618FB43-9EA0-45C4-BD80-C859777CBC2D}</Project>
       <Name>Configuration</Name>
