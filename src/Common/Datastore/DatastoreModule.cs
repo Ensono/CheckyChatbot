@@ -14,7 +14,7 @@ namespace Datastore {
                 .WithConstructorArgument("config", (NameValueCollection) null);
             Bind<IHttpTestRepository>().To<BlobStorageHttpTestRepository>().InSingletonScope();
             Bind<ObjectCache>().To<MemoryCache>().InSingletonScope()
-                .Named(ParameterNames.EnvironmentCache)
+                .Named(ParameterNames.HttpTestCache)
                 .WithConstructorArgument("name", ParameterNames.HttpTestCache)
                 .WithConstructorArgument("config", (NameValueCollection) null);
         }

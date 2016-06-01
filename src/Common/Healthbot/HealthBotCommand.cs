@@ -12,6 +12,9 @@ namespace Healthbot {
         private readonly IEnvironmentRepository _environments;
         private readonly IHealthcheckFormatter _formatter;
 
+        private readonly Regex _matcher = new Regex("([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
                                 IHealthcheckFormatter formatter) {
             if (environments == null) throw new ArgumentNullException(nameof(environments));
@@ -29,19 +32,14 @@ namespace Healthbot {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
             }
-            var matcher = new Regex("([stau]+)\\s[0-9A-Za-z]+\\s[0-9A-Za-z]+$",
-                RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            return Helpers.CanAcceptWithRegex(receivedText, matcher, "status");
+            return Helpers.CanAcceptWithRegex(receivedText, _matcher, "status");
         }
 
         public int Priority => 50;
 
         public Task Process(string receivedText, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
-            var matcher =
-                new Regex("[stau]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
-                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var match = matcher.Match(receivedText);
+            var match = _matcher.Match(receivedText);
 
             Helpers.Log($"Recieved: '{receivedText}' from {user} (Matched: {match.Success})");
 

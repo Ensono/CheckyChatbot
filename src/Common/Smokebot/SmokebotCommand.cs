@@ -46,11 +46,11 @@ namespace Smokebot {
         public Task Process(string command, string user, Func<string, Task> responseHandler,
                             IEnumerable<IChatbotCommand> otherCommands) {
             var matcher =
-                new Regex("[stau]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+                new Regex("[tes]+\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
                     RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var match = matcher.Match(command);
 
-            Helpers.Log($"Recieved: '{command}' from {user} (Matched: {match.Success})");
+            Helpers.Log($"Smoke Recieved: '{command}' from {user} (Matched: {match.Success})");
 
             if (!match.Success) {
                 return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");

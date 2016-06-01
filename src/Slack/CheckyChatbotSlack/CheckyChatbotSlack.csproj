@@ -85,6 +85,10 @@
       <Project>{076D43F9-9C67-423C-83AD-0A5E777408E0}</Project>
       <Name>Healthbot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Smokebot\Smokebot.csproj">
+      <Project>{a424692f-25d7-47bd-87c8-5b95bdf314a7}</Project>
+      <Name>Smokebot</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

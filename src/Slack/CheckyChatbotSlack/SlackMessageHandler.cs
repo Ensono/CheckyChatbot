@@ -33,10 +33,16 @@ namespace CheckyChatbotSlack {
 
             var wasMentioned = context.BotProfile.WasMentionedIn(receivedText);
             var isDirectMessage = channelType == ChannelType.DirectMessage;
-            var winningCommand = _commands
+            var acceptedCommands = _commands
                 .Where(x => x.CanAccept(receivedText, wasMentioned, isDirectMessage))
-                .OrderBy(x => x.Priority)
-                .First();
+                .OrderBy(x => x.Priority);
+            var winningCommand = acceptedCommands.First();
+
+            Console.WriteLine($"Winning command: {winningCommand.Verb}");
+            acceptedCommands
+                .Where(x => x.Priority < int.MaxValue)
+                .ToList()
+                .ForEach(x => Console.WriteLine($" - {x.Verb} (Priority {x.Priority})"));
 
             try {
                 return winningCommand.Process(receivedText, user, response, _commands);
