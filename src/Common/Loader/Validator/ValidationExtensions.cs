@@ -29,7 +29,7 @@ namespace Checky.Common.Loader.Validator {
             }
 
             if (target is HttpTestDocument) {
-                var validator = new TestValidator();
+                var validator = new HttpTestDocumentValidator();
                 return validator.Validate("Tests", target as HttpTestDocument);
             }
 
