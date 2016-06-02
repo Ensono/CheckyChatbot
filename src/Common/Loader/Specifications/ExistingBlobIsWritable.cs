@@ -3,8 +3,8 @@ using Specifications;
 using Specifications.Extensions;
 
 namespace Checky.Common.Loader.Specifications {
-    internal class ExistingBlobIsWritable : SpecificationBase<CloudBlob> {
-        public override bool IsSatisfiedBy(CloudBlob instance) {
+    internal class ExistingBlobIsWritable : SpecificationBase<ICloudBlob> {
+        public override bool IsSatisfiedBy(ICloudBlob instance) {
             var exists = new Exists();
             var blockBlob = new IsBlockBlob();
             var leasable = new IsLeasable();

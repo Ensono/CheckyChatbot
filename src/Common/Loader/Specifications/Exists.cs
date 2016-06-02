@@ -2,8 +2,8 @@
 using Specifications;
 
 namespace Checky.Common.Loader.Specifications {
-    internal class Exists : SpecificationBase<CloudBlob> {
-        public override bool IsSatisfiedBy(CloudBlob instance) {
+    public class Exists : SpecificationBase<ICloudBlob> {
+        public override bool IsSatisfiedBy(ICloudBlob instance) {
             return instance.Exists();
         }
     }
