@@ -5,6 +5,7 @@ namespace CheckyChatbotSlack {
     public class CheckyChatbotModule : NinjectModule {
         public override void Load() {
             Bind<ISlackEventHandler>().To<SlackMessageHandler>();
+            Bind<IRunner>().To<SlackRunner>();
         }
     }
 }

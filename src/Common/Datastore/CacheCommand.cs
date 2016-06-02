@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Caching;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Checky.Common.Datastore.Cache;
 using ComponentModel;
 
 namespace Datastore {
     public class CacheCommand : IChatbotCommand {
-        private readonly IEnumerable<ObjectCache> _caches;
+        private readonly IEnumerable<IObjectCache> _caches;
         private readonly IHelpers _helpers;
         private readonly Regex _matcher = new Regex("\\b([cahe]+)\\s([clear]+)$", RegexOptions.Compiled);
 
-        public CacheCommand(IEnumerable<ObjectCache> caches, IHelpers helpers) {
+        public CacheCommand(IEnumerable<IObjectCache> caches, IHelpers helpers) {
             _caches = caches;
             _helpers = helpers;
         }
@@ -40,7 +40,7 @@ namespace Datastore {
             var output = new StringBuilder();
             foreach (var cache in _caches) {
                 output.AppendLine($"Decache of `{cache.Name}` successful.");
-                SignaledChangeMonitor.Signal();
+                cache.Clear();
             }
             return responseHandler(output.ToString());
         }

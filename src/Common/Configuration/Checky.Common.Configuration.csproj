@@ -53,6 +53,12 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComponentModel\Checky.Common.ComponentModel.csproj">
+      <Project>{79E8B43C-1F65-4A4D-A640-AB02C438F5A5}</Project>
+      <Name>Checky.Common.ComponentModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

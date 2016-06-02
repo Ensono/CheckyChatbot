@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
 using System.Text;
+using Checky.Common.Datastore.Cache;
+using ComponentModel;
 using Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
-using Ninject;
 
 namespace Datastore.Test {
     public class BlobStorageHttpTestRepository : IHttpTestRepository {
         private const string Any = "*";
-
-        private readonly ObjectCache _cache;
+        private readonly IObjectCache<IEnumerable<HttpTestDocument>> _blobCache;
         private readonly Uri _containerUri;
+        private readonly IHelpers _helpers;
+        private readonly IObjectCache<HttpTestDocument> _testCache;
 
         public BlobStorageHttpTestRepository(IConfigurationRepository config,
-                                             [Named(ParameterNames.HttpTestCache)] ObjectCache cache) {
-            _cache = cache;
+                                             IObjectCache<HttpTestDocument> testCache,
+                                             IObjectCache<IEnumerable<HttpTestDocument>> blobCache, IHelpers helpers) {
+            _testCache = testCache;
+            _blobCache = blobCache;
+            _helpers = helpers;
             _containerUri = new Uri(config.GetConnectionString("HttpTestsStore"));
         }
 
@@ -66,17 +70,18 @@ namespace Datastore.Test {
         private IEnumerable<HttpTestDocument> GetBlobs() {
             const string cacheKey = "AllHttpTestBlobsInContainer";
             IEnumerable<HttpTestDocument> blobs;
-            if (_cache.Contains(cacheKey)) {
-                blobs = _cache.Get(cacheKey) as IEnumerable<HttpTestDocument>;
+            if (_blobCache.Contains(cacheKey)) {
+                blobs = _blobCache.Get(cacheKey);
             } else {
                 var container = new CloudBlobContainer(_containerUri);
                 blobs = container.ListBlobs()
                     .Cast<ICloudBlob>()
                     .Select(x => container.GetBlockBlobReference(x.Name))
+                    .Where(x => !_testCache.Contains(_helpers.GetBaseName(x.Name)))
                     .Select(x => x.DownloadText(Encoding.UTF8))
                     .Select(JsonConvert.DeserializeObject<HttpTestDocument>);
 
-                _cache.Add(cacheKey, blobs, CachePolicy.HttpTests);
+                _blobCache.Add(cacheKey, blobs);
             }
 
             return blobs ?? new HttpTestDocument[0];

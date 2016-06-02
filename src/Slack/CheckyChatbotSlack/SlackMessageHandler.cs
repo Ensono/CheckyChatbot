@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ComponentModel;
 using Hunabku.Skive;
+using log4net;
 using Ninject.Extensions.Logging;
 
 namespace CheckyChatbotSlack {
@@ -48,7 +49,9 @@ namespace CheckyChatbotSlack {
                 .ForEach(x => _logger.Info($" - {x.Verb} (Priority {x.Priority})"));
 
             try {
-                return winningCommand.Process(receivedText, user, response, _commands);
+                using (NDC.Push($"{eventData.Channel}:{eventData.user}")) {
+                    return winningCommand.Process(receivedText, user, response, _commands);
+                }
             } catch (AggregateException agex) {
                 var builder =
                     new StringBuilder("One or more exceptions occured while processing command: `{receivedText}`.");
@@ -57,6 +60,7 @@ namespace CheckyChatbotSlack {
                 }
                 return response(builder.ToString());
             } catch (Exception ex) {
+                _logger.ErrorException("Exception thrown when processing command", ex);
                 return
                     response(
                         $"Exception thrown when processing command: `{receivedText}`: ```{ex.Message}\n{ex.StackTrace}```");

@@ -57,10 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheCommand.cs" />
     <Compile Include="ChatbotModule.cs" />
     <Compile Include="FallbackCommand.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="IRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

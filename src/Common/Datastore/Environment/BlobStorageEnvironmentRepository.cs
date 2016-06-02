@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
+using Checky.Common.Datastore.Cache;
+using ComponentModel;
 using Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
-using Ninject;
 
 namespace Datastore.Environment {
     public class BlobStorageEnvironmentRepository : IEnvironmentRepository {
-        private readonly ObjectCache _cache;
+        private readonly IObjectCache<IEnumerable<ICloudBlob>> _blobCache;
         private readonly Uri _containerUri;
+        private readonly IObjectCache<EnvironmentDocument> _environmentCache;
+        private readonly IHelpers _helpers;
 
         public BlobStorageEnvironmentRepository(
             IConfigurationRepository config,
-            [Named(ParameterNames.EnvironmentCache)] ObjectCache cache) {
-            _cache = cache;
+            IObjectCache<EnvironmentDocument> environmentCache, IObjectCache<IEnumerable<ICloudBlob>> blobCache,
+            IHelpers helpers) {
+            _environmentCache = environmentCache;
+            _blobCache = blobCache;
+            _helpers = helpers;
 
             _containerUri = new Uri(config.GetConnectionString("EnvironmentsStore"));
         }
@@ -25,8 +30,8 @@ namespace Datastore.Environment {
         }
 
         public EnvironmentDocument Get(string environment) {
-            if (_cache.Contains(environment)) {
-                return _cache.Get(environment) as EnvironmentDocument;
+            if (_environmentCache.Contains(environment)) {
+                return _environmentCache.Get(environment);
             }
             var blobs = GetBlobs();
             if (!blobs.Contains(environment)) {
@@ -38,40 +43,28 @@ namespace Datastore.Environment {
             var blob = container.GetBlockBlobReference(blobPattern);
             var content = blob.DownloadText();
             var document = JsonConvert.DeserializeObject<EnvironmentDocument>(content);
-            _cache.Add(environment, document, CachePolicy.Environments);
+            _environmentCache.Add(environment, document);
 
             return document;
         }
 
         private IEnumerable<string> GetBlobs() {
             const string cacheKey = "AllEnvironmentBlobsInContainer";
-            IEnumerable<string> blobs;
-            if (_cache.Contains(cacheKey)) {
-                blobs = _cache.Get(cacheKey) as IEnumerable<string>;
+            IEnumerable<ICloudBlob> blobs;
+            if (_blobCache.Contains(cacheKey)) {
+                blobs = _blobCache.Get(cacheKey).ToArray();
             } else {
                 blobs = new CloudBlobContainer(_containerUri)
                     .ListBlobs()
                     .Cast<ICloudBlob>()
-                    .Select(x => x.Name)
-                    .Select(GetBaseName);
+                    .ToArray();
 
-                _cache.Add(cacheKey, blobs, CachePolicy.Environments);
+                _blobCache.Add(cacheKey, blobs);
             }
 
-            return blobs ?? new string[0];
-        }
-
-        private string GetBaseName(string filename) {
-            if (!filename.Contains(".")) {
-                return filename;
-            }
-
-            var dotLocation = filename.LastIndexOf(".", StringComparison.Ordinal);
-            var extension = filename.Substring(dotLocation);
-
-            return extension.Length > 0
-                ? filename.Remove(filename.Length - extension.Length)
-                : filename;
+            return blobs
+                .Select(x => x.Name)
+                .Select(_helpers.GetBaseName);
         }
     }
 }
