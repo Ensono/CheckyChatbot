@@ -15,9 +15,10 @@ namespace Checky.Common.Smokebot {
                 }
 
                 var tokenMatch = new Regex(token.ExpectedValue, RegexOptions.Compiled);
-                if (actualValue == null || !tokenMatch.IsMatch(actualValue.ToString())) {
+                if (actualValue != null && tokenMatch.IsMatch(actualValue.ToString())) {
                     continue;
                 }
+
                 result = false;
                 callback(
                     $"Looked for value matching `{token.ExpectedValue}` at `{token.Path}`, however encoutered `{actualValue}`");

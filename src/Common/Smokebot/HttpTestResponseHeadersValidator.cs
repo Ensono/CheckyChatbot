@@ -19,7 +19,7 @@ namespace Checky.Common.Smokebot {
                 var responseHeader = response.Headers.Single(x => x.Key == header.Key);
                 var headerMatch = new Regex(header.Value, RegexOptions.Compiled);
 
-                if (!responseHeader.Value.Any(x => headerMatch.IsMatch(x))) {
+                if (responseHeader.Value.Any(x => headerMatch.IsMatch(x))) {
                     continue;
                 }
 
