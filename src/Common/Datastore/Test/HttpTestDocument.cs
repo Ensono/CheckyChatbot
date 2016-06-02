@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Datastore.Test {
+namespace Checky.Common.Datastore.Test {
     public class HttpTestDocument : PersistentDocument {
         public string[] ServiceFilter { get; set; }
         public string[] EnvironmentFilter { get; set; }

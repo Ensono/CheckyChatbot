@@ -1,7 +1,7 @@
 ﻿using System;
-using Loader.Validator;
+using Checky.Common.Loader.Validator;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     internal static class ConsoleUtilities {
         public const ConsoleColor Success = ConsoleColor.DarkGreen;
         public const ConsoleColor Failure = ConsoleColor.DarkRed;

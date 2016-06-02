@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Network {
+namespace Checky.Common.Network {
     public interface IHttpClientFactory {
         HttpClient GetClient();
     }

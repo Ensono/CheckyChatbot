@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Text;
-using Datastore.Test;
+using Checky.Common.Datastore.Test;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class HttpTestRequestMessageFactory : IHttpTestRequestMessageFactory {
         public HttpRequestMessage CreateMessage(Uri baseUrl, HttpTestDocument test) {
             var message = new HttpRequestMessage {

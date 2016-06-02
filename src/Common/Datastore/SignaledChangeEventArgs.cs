@@ -1,6 +1,6 @@
 using System;
 
-namespace Datastore {
+namespace Checky.Common.Datastore {
     public class SignaledChangeEventArgs : EventArgs {
         public SignaledChangeEventArgs(string name = null) {
             Name = name;

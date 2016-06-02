@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using ComponentModel;
+using Checky.Common.ComponentModel;
 
-namespace Chatbot {
+namespace Checky.Common.Chatbot {
     public class Helpers : IHelpers {
         public bool CanAcceptWithRegex(string receivedText, Regex matcher, string expectedCommand) {
             var match = matcher.Match(receivedText);

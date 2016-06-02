@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Datastore;
-using Datastore.Environment;
-using Datastore.Test;
-using Loader.Loader;
-using Loader.Model;
-using Loader.Specifications;
-using Loader.Validator;
+using Checky.Common.Datastore;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
+using Checky.Common.Loader.Loader;
+using Checky.Common.Loader.Model;
+using Checky.Common.Loader.Specifications;
+using Checky.Common.Loader.Validator;
 using ManyConsole;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -16,7 +16,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Specifications.Extensions;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     public class UploadCommand : ConsoleCommand {
         public string AccessKey;
         public string ConfigPath;

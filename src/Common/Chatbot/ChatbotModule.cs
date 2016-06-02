@@ -1,7 +1,7 @@
-﻿using ComponentModel;
+﻿using Checky.Common.ComponentModel;
 using Ninject.Modules;
 
-namespace Chatbot {
+namespace Checky.Common.Chatbot {
     public class ChatbotModule : NinjectModule {
         public override void Load() {
             Bind<IChatbotCommand>().To<FallbackCommand>().InSingletonScope();

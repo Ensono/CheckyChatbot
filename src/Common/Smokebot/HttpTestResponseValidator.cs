@@ -1,10 +1,10 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using Datastore.Test;
+using Checky.Common.Datastore.Test;
 using Newtonsoft.Json.Linq;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class HttpTestResponseValidator : IHttpTestResponseValidator {
         private readonly HttpTestResponseBodyValidator _responseBodyValidator;
         private readonly HttpTestResponseHeadersValidator _responseHeadersValidator;

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Checky.Common.ComponentModel;
+using Checky.Common.Configuration;
 using Checky.Common.Datastore.Cache;
-using ComponentModel;
-using Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 
-namespace Datastore.Environment {
+namespace Checky.Common.Datastore.Environment {
     public class BlobStorageEnvironmentRepository : IEnvironmentRepository {
         private readonly IObjectCache<IEnumerable<ICloudBlob>> _blobCache;
         private readonly Uri _containerUri;

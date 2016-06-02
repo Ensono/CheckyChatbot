@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ComponentModel {
+namespace Checky.Common.ComponentModel {
     public interface IChatbotCommand {
         int Priority { get; }
 

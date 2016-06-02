@@ -2,7 +2,7 @@
 using Colorful;
 using ManyConsole;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     public class Program {
         public static int Main(string[] args) {
             Console.OutputEncoding = Encoding.UTF8;

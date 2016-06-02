@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     public class ConfigureCommand : ConsoleCommand {
         public string AccessKey;
         public string ConfigPath;

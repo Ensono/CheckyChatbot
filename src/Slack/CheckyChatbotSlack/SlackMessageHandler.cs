@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ComponentModel;
+using Checky.Common.ComponentModel;
 using Hunabku.Skive;
 using log4net;
 using Ninject.Extensions.Logging;
 
-namespace CheckyChatbotSlack {
+namespace Checky.Common.Chatbot.Slack {
     public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands;
         private readonly ILogger _logger;

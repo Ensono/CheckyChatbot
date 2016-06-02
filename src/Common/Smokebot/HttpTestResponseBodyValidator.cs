@@ -1,9 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
-using Datastore.Test;
+using Checky.Common.Datastore.Test;
 using Newtonsoft.Json.Linq;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class HttpTestResponseBodyValidator : IHttpTestResponseBodyValidator {
         public bool ValidateHttpResponseBody(HttpTestDocument test, JObject body, Action<string> callback) {
             var result = true;

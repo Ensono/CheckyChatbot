@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public class ErrorModel {
         public bool IsValid { get; set; }
         public IEnumerable<string> Errors { get; set; }

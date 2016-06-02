@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Datastore;
-using Loader.Model;
+using Checky.Common.Datastore;
+using Checky.Common.Loader.Model;
 
-namespace Loader.Loader {
+namespace Checky.Common.Loader.Loader {
     public class DocumentLoader<T> where T : PersistentDocument {
         public CheckyDocumentCollection<T> Load(string documentPath) {
             var resolvedPath = Path.GetFullPath(documentPath);

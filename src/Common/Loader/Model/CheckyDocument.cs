@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using Datastore;
+using Checky.Common.Datastore;
 
-namespace Loader.Model {
+namespace Checky.Common.Loader.Model {
     public class CheckyDocument<T> where T : PersistentDocument {
         public FileInfo File { get; set; }
         public string Content { get; set; }

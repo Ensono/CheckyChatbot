@@ -2,7 +2,7 @@
 using Specifications;
 using Specifications.Extensions;
 
-namespace Loader.Specifications {
+namespace Checky.Common.Loader.Specifications {
     internal class ExistingBlobIsWritable : SpecificationBase<CloudBlob> {
         public override bool IsSatisfiedBy(CloudBlob instance) {
             var exists = new Exists();

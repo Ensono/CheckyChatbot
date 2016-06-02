@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using Datastore.Test;
+using Checky.Common.Datastore.Test;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class HttpTestResponseHeadersValidator : IHttpTestResponseHeadersValidator {
         public bool ValidateHttpResponseHeaders(HttpTestDocument test, HttpResponseMessage response,
                                                 Action<string> callback) {

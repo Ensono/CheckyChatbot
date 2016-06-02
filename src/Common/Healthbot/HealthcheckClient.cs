@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class HealthcheckClient : IHealthcheckClient {
         private readonly HttpClient _client = new HttpClient();
 

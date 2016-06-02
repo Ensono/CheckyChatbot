@@ -1,10 +1,10 @@
 using System;
-using ComponentModel;
-using Configuration;
+using Checky.Common.ComponentModel;
+using Checky.Common.Configuration;
 using Hunabku.Skive;
 using Ninject.Extensions.Logging;
 
-namespace CheckyChatbotSlack {
+namespace Checky.Common.Chatbot.Slack {
     public class SlackRunner : IRunner {
         private readonly IConfigurationRepository _config;
         private readonly ISlackEventHandler _eventHandler;

@@ -1,7 +1,7 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Specifications;
 
-namespace Loader.Specifications {
+namespace Checky.Common.Loader.Specifications {
     internal class RequiresUpdate : SpecificationBase<CloudBlob> {
         private readonly string _hash;
 

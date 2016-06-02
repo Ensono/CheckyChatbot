@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ComponentModel;
-using Datastore.Environment;
+using Checky.Common.ComponentModel;
+using Checky.Common.Datastore.Environment;
 using Ninject.Extensions.Logging;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class HealthBotCommand : IChatbotCommand {
         private readonly IHealthcheckClient _client;
         private readonly IEnvironmentRepository _environments;

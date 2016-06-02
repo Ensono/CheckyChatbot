@@ -1,7 +1,7 @@
-﻿using ComponentModel;
+﻿using Checky.Common.ComponentModel;
 using Ninject.Modules;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class HealthbotModule : NinjectModule {
         public override void Load() {
             Bind<IChatbotCommand>().To<HealthBotCommand>().InTransientScope();

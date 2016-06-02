@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class Healthcheck {
         public Version Version { get; set; }
         public TimeSpan ResponseTime { get; set; }

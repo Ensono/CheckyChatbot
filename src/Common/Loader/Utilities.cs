@@ -1,7 +1,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     public static class Utilities {
         public static CloudBlobContainer EnsureBlobContainerExists(CloudBlobClient client, string containerName) {
             CloudBlobContainer container;

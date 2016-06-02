@@ -1,9 +1,9 @@
-﻿using Datastore;
-using Datastore.Environment;
-using Datastore.Test;
-using Loader.Model;
+﻿using Checky.Common.Datastore;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
+using Checky.Common.Loader.Model;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public static class ValidationExtensions {
         public static ErrorModel Validate(this CheckyConfiguration configuration) {
             var validator = new ConfigValidator();

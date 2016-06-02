@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class HealthcheckFormatter : IHealthcheckFormatter {
         private readonly Dictionary<Status, string> _emojiLookup = new Dictionary<Status, string> {
             {Status.Up, ":green_heart: Up"},

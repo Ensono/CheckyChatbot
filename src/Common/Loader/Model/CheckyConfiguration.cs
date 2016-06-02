@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Datastore.Environment;
-using Datastore.Test;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
 
-namespace Loader.Model {
+namespace Checky.Common.Loader.Model {
     public class CheckyConfiguration {
         public DirectoryInfo Directory { get; set; }
         public CheckyDocumentCollection<EnvironmentDocument> Environments { get; set; }

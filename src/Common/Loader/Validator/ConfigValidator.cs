@@ -1,8 +1,8 @@
-using Datastore.Environment;
-using Datastore.Test;
-using Loader.Model;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
+using Checky.Common.Loader.Model;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public class ConfigValidator : IValidator<CheckyConfiguration> {
         public ErrorModel Environments { get; private set; }
         public ErrorModel Tests { get; private set; }

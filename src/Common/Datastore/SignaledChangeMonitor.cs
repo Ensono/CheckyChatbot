@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Runtime.Caching;
 
-namespace Datastore {
+namespace Checky.Common.Datastore {
     public class SignaledChangeMonitor : ChangeMonitor {
         private readonly string _name;
 

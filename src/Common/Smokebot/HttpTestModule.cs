@@ -1,7 +1,7 @@
-﻿using ComponentModel;
+﻿using Checky.Common.ComponentModel;
 using Ninject.Modules;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class HttpTestModule : NinjectModule {
         public override void Load() {
             Bind<IHttpTestRequestMessageFactory>().To<HttpTestRequestMessageFactory>().InSingletonScope();

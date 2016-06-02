@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Caching;
 
-namespace Datastore {
+namespace Checky.Common.Datastore {
     public static class CachePolicy {
         public static readonly CacheItemPolicy CommonPolicy = new CacheItemPolicy {
             AbsoluteExpiration = DateTimeOffset.UtcNow.AddHours(24)

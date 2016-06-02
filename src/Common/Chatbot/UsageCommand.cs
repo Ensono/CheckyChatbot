@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ComponentModel;
+using Checky.Common.ComponentModel;
 
-namespace Chatbot {
+namespace Checky.Common.Chatbot {
     public class UsageCommand : IChatbotCommand {
         private readonly IHelpers _helpers;
         private readonly DateTime _startupTime = DateTime.UtcNow;

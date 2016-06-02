@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using Loader.Loader;
-using Loader.Validator;
+using Checky.Common.Loader.Loader;
+using Checky.Common.Loader.Validator;
 using ManyConsole;
 
-namespace Loader {
+namespace Checky.Common.Loader {
     public class ValidateCommand : ConsoleCommand {
         public string ConfigPath;
 

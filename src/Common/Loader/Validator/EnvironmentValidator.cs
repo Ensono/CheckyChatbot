@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Datastore.Environment;
+using Checky.Common.Datastore.Environment;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public class EnvironmentValidator : ModelValidator<EnvironmentDocument> {
         public override ErrorModel Validate(string context, EnvironmentDocument model) {
             if (model.Services == null || !model.Services.Any()) {

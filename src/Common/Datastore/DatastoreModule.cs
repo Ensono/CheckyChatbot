@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using Checky.Common.ComponentModel;
 using Checky.Common.Datastore.Cache;
-using ComponentModel;
-using Datastore.Environment;
-using Datastore.Test;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Ninject.Modules;
 
-namespace Datastore {
+namespace Checky.Common.Datastore {
     public class DatastoreModule : NinjectModule {
         public override void Load() {
             Bind<IEnvironmentRepository>().To<BlobStorageEnvironmentRepository>().InSingletonScope();

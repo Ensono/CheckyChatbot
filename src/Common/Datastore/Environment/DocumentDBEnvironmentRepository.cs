@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Configuration;
+using Checky.Common.Configuration;
 using Microsoft.Azure.Documents.Client;
 
-namespace Datastore.Environment {
+namespace Checky.Common.Datastore.Environment {
     public class DocumentDbEnvironmentRepository : IEnvironmentRepository {
         private readonly DocumentClient _client;
         private readonly Uri _environmentsCollection;

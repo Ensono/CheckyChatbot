@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ComponentModel;
-using Datastore.Environment;
-using Datastore.Test;
-using Network;
+using Checky.Common.ComponentModel;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
+using Checky.Common.Network;
 using Ninject.Extensions.Logging;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public class SmokebotCommand : IChatbotCommand {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IEnvironmentRepository _environments;

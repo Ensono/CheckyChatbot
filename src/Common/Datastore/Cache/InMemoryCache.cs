@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
-using Configuration;
+using Checky.Common.Configuration;
 
 namespace Checky.Common.Datastore.Cache {
     public class InMemoryCache<T> : IObjectCache<T>, IObjectCache where T : class {

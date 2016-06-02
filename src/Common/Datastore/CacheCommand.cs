@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Checky.Common.ComponentModel;
 using Checky.Common.Datastore.Cache;
-using ComponentModel;
 
-namespace Datastore {
+namespace Checky.Common.Datastore {
     public class CacheCommand : IChatbotCommand {
         private readonly IEnumerable<IObjectCache> _caches;
         private readonly IHelpers _helpers;

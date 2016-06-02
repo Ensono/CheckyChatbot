@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Healthbot {
+namespace Checky.Common.Healthbot {
     public class TimeSpanConverter : JsonConverter {
         public override bool CanWrite {
             get { return false; }

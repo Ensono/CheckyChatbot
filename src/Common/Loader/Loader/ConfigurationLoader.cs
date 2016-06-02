@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using Datastore.Environment;
-using Datastore.Test;
-using Loader.Model;
+using Checky.Common.Datastore.Environment;
+using Checky.Common.Datastore.Test;
+using Checky.Common.Loader.Model;
 
-namespace Loader.Loader {
+namespace Checky.Common.Loader.Loader {
     public class ConfigurationLoader {
         public CheckyConfiguration Load(string configurationPath) {
             var resolvedPath = Path.GetFullPath(configurationPath);

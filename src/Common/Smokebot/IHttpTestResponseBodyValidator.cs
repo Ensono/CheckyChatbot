@@ -1,8 +1,8 @@
 ﻿using System;
-using Datastore.Test;
+using Checky.Common.Datastore.Test;
 using Newtonsoft.Json.Linq;
 
-namespace Smokebot {
+namespace Checky.Common.Smokebot {
     public interface IHttpTestResponseBodyValidator {
         bool ValidateHttpResponseBody(HttpTestDocument test, JObject body, Action<string> callback);
     }

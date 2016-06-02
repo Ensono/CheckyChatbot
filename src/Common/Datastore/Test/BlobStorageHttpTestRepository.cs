@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Checky.Common.ComponentModel;
+using Checky.Common.Configuration;
 using Checky.Common.Datastore.Cache;
-using ComponentModel;
-using Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 
-namespace Datastore.Test {
+namespace Checky.Common.Datastore.Test {
     public class BlobStorageHttpTestRepository : IHttpTestRepository {
         private const string Any = "*";
         private readonly IObjectCache<IEnumerable<HttpTestDocument>> _blobCache;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComponentModel;
+using Checky.Common.ComponentModel;
 
-namespace Chatbot {
+namespace Checky.Common.Chatbot {
     public class FallbackCommand : IChatbotCommand {
         public int Priority => int.MaxValue;
         public string HelpText => string.Empty;

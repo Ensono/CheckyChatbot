@@ -1,8 +1,8 @@
 using System.Linq;
-using Datastore;
-using Loader.Model;
+using Checky.Common.Datastore;
+using Checky.Common.Loader.Model;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public class DocumentCollectionValidator<T> : IValidator<CheckyDocumentCollection<T>> where T : PersistentDocument {
         public DocumentValidator<T> DocumentValidator = new DocumentValidator<T>();
 

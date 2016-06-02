@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using ComponentModel;
+using Checky.Common.ComponentModel;
 
-namespace Configuration {
+namespace Checky.Common.Configuration {
     public class ConfigurationRepository : IConfigurationRepository {
         private readonly IHelpers _helpers;
 

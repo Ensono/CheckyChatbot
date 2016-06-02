@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Datastore;
+using Checky.Common.Datastore;
 
-namespace Loader.Model {
+namespace Checky.Common.Loader.Model {
     public class CheckyDocumentCollection<T> where T : PersistentDocument {
         public DirectoryInfo Directory { get; set; }
         public IEnumerable<CheckyDocument<T>> Documents { get; set; }

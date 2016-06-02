@@ -1,10 +1,10 @@
 ﻿using System;
-using Datastore;
-using Loader.Model;
+using Checky.Common.Datastore;
+using Checky.Common.Loader.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Loader.Validator {
+namespace Checky.Common.Loader.Validator {
     public class DocumentValidator<T> : IValidator<CheckyDocument<T>> where T : PersistentDocument {
         public ErrorModel Validate(string context, CheckyDocument<T> checkyDocument) {
             if (checkyDocument == null) {
