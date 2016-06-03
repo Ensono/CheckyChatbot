@@ -4,11 +4,11 @@ using Moq;
 using NUnit.Framework;
 using Should;
 
-namespace Checky.Chatbot.UnitTests.Common.Loader {
+namespace Checky.Chatbot.UnitTests.Common.Loader.Specifications {
     [TestFixture]
-    public class SpecificationsTests {
+    public class BlobExistsTests {
         [Test]
-        public void BlockBlobDoesNotExist() {
+        public void BlobDoesNotExist() {
             var mock = new Mock<ICloudBlob>();
             mock.Setup(x => x.Exists(null, null)).Returns(false);
             var spec = new Exists();
@@ -16,7 +16,7 @@ namespace Checky.Chatbot.UnitTests.Common.Loader {
         }
 
         [Test]
-        public void BlockBlobExists() {
+        public void BlobExists() {
             var mock = new Mock<ICloudBlob>();
             mock.Setup(x => x.Exists(null, null)).Returns(true);
             var spec = new Exists();
