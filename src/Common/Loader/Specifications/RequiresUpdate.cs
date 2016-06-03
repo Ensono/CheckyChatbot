@@ -2,7 +2,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Specifications;
 
 namespace Checky.Common.Loader.Specifications {
-    internal class RequiresUpdate : SpecificationBase<ICloudBlob> {
+    public class RequiresUpdate : SpecificationBase<ICloudBlob> {
         private readonly string _hash;
 
         public RequiresUpdate(string hash) {

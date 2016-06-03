@@ -67,6 +67,7 @@
     <Compile Include="Common\Loader\Specifications\BlobExistsTests.cs" />
     <Compile Include="Common\Loader\Specifications\IsBlockBlobTests.cs" />
     <Compile Include="Common\Loader\Specifications\IsLeasableTests.cs" />
+    <Compile Include="Common\Loader\Specifications\RequiresUpdateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

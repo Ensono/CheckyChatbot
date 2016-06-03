@@ -1,6 +1,5 @@
 using Checky.Common.Loader.Specifications;
 using Microsoft.WindowsAzure.Storage.Blob;
-using Moq;
 using NUnit.Framework;
 using Should;
 
