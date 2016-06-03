@@ -3,13 +3,19 @@ using Specifications;
 using Specifications.Extensions;
 
 namespace Checky.Common.Loader.Specifications {
-    internal class ExistingBlobIsWritable : SpecificationBase<ICloudBlob> {
-        public override bool IsSatisfiedBy(ICloudBlob instance) {
-            var exists = new Exists();
-            var blockBlob = new IsBlockBlob();
-            var leasable = new IsLeasable();
+    public class ExistingBlobIsWritable : SpecificationBase<ICloudBlob> {
+        private readonly ISpecification<ICloudBlob> _blockBlob;
+        private readonly ISpecification<ICloudBlob> _exists;
+        private readonly ISpecification<ICloudBlob> _leasable;
 
-            return instance.Satisfies(exists.And(blockBlob).And(leasable));
+        public ExistingBlobIsWritable(ISpecification<ICloudBlob> exists = null, ISpecification<ICloudBlob> blockBlob = null, ISpecification<ICloudBlob> leasable = null) {
+            _exists = exists ?? new Exists();
+            _blockBlob = blockBlob ?? new IsBlockBlob();
+            _leasable = leasable ?? new IsLeasable();
+        }
+
+        public override bool IsSatisfiedBy(ICloudBlob instance) {
+            return _exists.And(_blockBlob).And(_leasable).IsSatisfiedBy(instance);
         }
     }
 }
