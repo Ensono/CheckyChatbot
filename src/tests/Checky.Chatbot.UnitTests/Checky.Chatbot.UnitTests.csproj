@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Loader\Specifications\BlobExistsTests.cs" />
+    <Compile Include="Common\Loader\Specifications\ExistingBlobIsWritableTests.cs" />
     <Compile Include="Common\Loader\Specifications\IsBlockBlobTests.cs" />
     <Compile Include="Common\Loader\Specifications\IsLeasableTests.cs" />
     <Compile Include="Common\Loader\Specifications\RequiresUpdateTests.cs" />

@@ -1,6 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Blob;
 using Specifications;
-using Specifications.Extensions;
 
 namespace Checky.Common.Loader.Specifications {
     public class ExistingBlobIsWritable : SpecificationBase<ICloudBlob> {
@@ -8,7 +7,9 @@ namespace Checky.Common.Loader.Specifications {
         private readonly ISpecification<ICloudBlob> _exists;
         private readonly ISpecification<ICloudBlob> _leasable;
 
-        public ExistingBlobIsWritable(ISpecification<ICloudBlob> exists = null, ISpecification<ICloudBlob> blockBlob = null, ISpecification<ICloudBlob> leasable = null) {
+        public ExistingBlobIsWritable(ISpecification<ICloudBlob> exists = null,
+                                      ISpecification<ICloudBlob> blockBlob = null,
+                                      ISpecification<ICloudBlob> leasable = null) {
             _exists = exists ?? new Exists();
             _blockBlob = blockBlob ?? new IsBlockBlob();
             _leasable = leasable ?? new IsLeasable();
