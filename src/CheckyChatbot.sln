@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Shared", "0. Shared", "{242DC480-3F0C-42B7-B395-9D09002E3869}"
 	ProjectSection(SolutionItems) = preProject
 		..\scripts\Initialize-SharedAssemblyInfo.ps1 = ..\scripts\Initialize-SharedAssemblyInfo.ps1
+		..\LICENSE.md = ..\LICENSE.md
+		..\LICENSE.txt = ..\LICENSE.txt
+		..\README.md = ..\README.md
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
