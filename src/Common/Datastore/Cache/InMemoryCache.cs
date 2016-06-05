@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Checky.Common.Datastore.Cache {
         public InMemoryCache(IConfigurationRepository config) {
             Name = GetTypeKey(typeof(T));
             var cacheConfig = config.GetAppSetting($"CacheAbsoluteExpirationTimeSpan_{Name}");
-            _cacheDuration = TimeSpan.Parse(cacheConfig);
+            _cacheDuration = TimeSpan.Parse(cacheConfig, CultureInfo.InvariantCulture);
             _objectCache = new MemoryCache(Name);
         }
 
