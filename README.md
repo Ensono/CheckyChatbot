@@ -13,6 +13,14 @@ entertaining way.
 -   `url`: Returns the set of known URLs for a service, currently will only
   return the Base URI, `/version` and `/healthcheck` endpoints.
 
+-   `usage`: Returns some basic usage information about the chatbot.
+
+-   `cache`: Provides commands to manipulate the cache, very useful if you need
+    to invalidate the cache post-haste.
+
+-   `test`: **Experimental** - performs basic HTTP based testing, against an
+    environment and service.
+
 ## Configuration
 
 ### Environment Configuration
@@ -43,6 +51,82 @@ the file must be named `environment-identifier.json`.
 > **TIP**: use the built in `checky-loader` console application to validate
 > environment configuration before it is uploaded to Blob Storage.
 
+### Test Configuration
+
+Unlike environments, it is not essential to define tests, however if you wish
+to test endpoints you will need to specify at least one *HTTP Test* and the
+environments and services it is valid to execute against:
+
+```json
+{
+  "id": "test-awesome",
+  "serviceFilter": [
+    "Service1"
+  ],
+  "environmentFilter": [
+    "*"
+  ],
+  "httpRequestMethod": "POST",
+  "httpRequestResource": "/path/to/v1/endpoint",
+  "httpRequestBody": "ew0KCSJjb29yZGluYXRlcyI6IHsNCgkJImxhdGl0dWRlIjogNTEuNTM0LA0KICAgICJsb25naXR1ZGUiOiAtMC4xMzgNCiAgICB9LA0KICAiY291bnRyeSI6ICJHQiIsDQp9",
+  "httpRequestEncoding": "UTF-8",
+  "httpRequestContentType": "application/json",
+  "httpRequestHeaders": { },
+  "expectHttpResponseCode": "200",
+  "expectHttpResponseHeaders":
+    {
+      "cid": "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}"
+    },
+  "expectHttpResponseBodyTokens": [
+    {
+      "path": "$.county",
+      "expectedValue": "London"
+    }
+  ]
+}
+```
+
+As this is a fairly sizable document and requires some explanation.  The
+document as a whole can be split into two parts **`httpRequest`** and
+**`expectHttpResponse`** the two compose the HTTP Request constructed and sent
+to the service endpoint and the expectation of the response.
+
+#### HTTP Request - `httpRequest*`
+
+These are constructed as a single HTTP Request, created using the .NET
+[`HttpRequestMessage`][msdn-httprequestmessage] and sent asynchronously,
+meaning multiple requests may be issued in parallel; additionally they may
+start and complete in any order.
+
+-   `httRequestMethod`: the HTTP Method of the outbound request, can be any
+    HTTP Method supported by the [`HttpMethod`][msdn-httpmethod] enumeration.
+
+-   `httpRequestResource`: the relative path to the HTTP resource, must be
+    relative to the service base URI.
+
+-   `httpResponseBody`: the body of the requests, can be of any format and must
+    be Base64 encoded to allow practically any data to be included in the
+    request.  Take specical note to align the content of this property with
+    the `httpRequestContentType` and `httpRequestEncoding` fields.
+
+-   `httpRequestEncoding`: the encoding of the above `httpResponseBody`, can be
+    any Encoding in the [`System.Text` Namespace][msdn-system-text-encoding].
+
+-   `httpRequestContentType`: the content type or content disposition of the
+    `httpResponseBody`, can be any content-type supported for the type of
+    request being constructed.
+
+-   `httpRequestHeaders`: zero or more headers to include with the request,
+    these are simple key-value pairs that together form the headers
+    dictionary:
+
+    ```json
+    "httpRequestHeaders": {
+      "key1": "value1",
+      "key2": "value2"
+    }
+    ```
+
 ### Application Configuration
 
 Checky lazy loads configuration information from `App.config` at runtime when a
@@ -50,7 +134,7 @@ connection string is required, if a configuration key is missing from
 `App.config`; Checky will attempt to load it from an environment variable.
 
 > **IMPORTANT**: This is an open source project, environmental configuration
-> must never be checked in _under any circumstance_.
+> must never be checked in *under any circumstance*.
 
 | `App.config` Setting                                            | DataType |
 | --------------------------------------------------------------- | -------- |
@@ -66,3 +150,6 @@ tests stored in Blob Storage. Formatted as a .NET TimeSpan and parsed using
 `hh:mm:ss`.
 
 [msdn-timespan-parse]: https://msdn.microsoft.com/en-us/library/se73z7b9(v=vs.110).aspx
+[msdn-httprequestmessage]: https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.118).aspx
+[msdn-httpmethod]: https://msdn.microsoft.com/en-us/library/system.net.http.httpmethod(v=vs.118).aspx
+[msdn-system-text-encoding]: https://msdn.microsoft.com/en-us/library/system.text.encoding.aspx
