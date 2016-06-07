@@ -127,6 +127,29 @@ start and complete in any order.
     }
     ```
 
+#### HTTP Resposne `expectHttpResponse*`
+
+The HTTP Response is captured and assertions are made using the content of the
+`expectHttpResponse*` elements.  For headers and the message body either
+literal strings can be matched, or .NET Regular expressions can be used to
+match patterns within the response.
+
+-   `expectHttpResponseCode`: the expected response code as a integer value,
+    for example `200` for `OK` or `404` for `File Not Found`.  At the present
+    time only literal integers can be used, partial matches are note supported.
+
+-   `expectHttpResponseHeaders`: a dictionary of Key/Value pairs, the key will
+    be matched literally, however the value can be a regular expression.  This
+    means that if the value contains reserved characters they must be escaped.
+
+-   `expectHttpResponseBodyTokens`: a collection of rules that must be matched
+    within the body of the document:
+
+    -   `path`: a JSON path expression that matches exactly one token.
+
+    -   `expectedValue`: a literal string or RegEx that matches the value of
+        the token.
+
 ### Application Configuration
 
 Checky lazy loads configuration information from `App.config` at runtime when a
