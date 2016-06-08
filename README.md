@@ -159,6 +159,8 @@ connection string is required, if a configuration key is missing from
 > **IMPORTANT**: This is an open source project, environmental configuration
 > must never be checked in *under any circumstance*.
 
+#### Caching
+
 | `App.config` Setting                                            | DataType |
 | --------------------------------------------------------------- | -------- |
 | `CacheAbsoluteExpirationTimeSpan_EnvironmentDocument`           | TimeSpan |
@@ -168,9 +170,27 @@ connection string is required, if a configuration key is missing from
 
 Set's the length of time to cache Environment Documents, HTTP Test and the
 lists of blob's that contain them and thus the properties of environments and
-tests stored in Blob Storage. Formatted as a .NET TimeSpan and parsed using
+tests stored in Blob Storage.  Formatted as a .NET TimeSpan and parsed using
 [TimeSpan.Parse][msdn-timespan-parse] using an Invariant Culture, i.e.
-`hh:mm:ss`.
+`hh:mm:ss`.  If these settings are missing from `App.config` then the
+application will attempt to load them from Environment Variables with the same
+configuration name prefixed with `APPSETTING_`:
+
+-   `APPSETTING_CacheAbsoluteExpirationTimeSpan_EnvironmentDocument`
+-   `APPSETTING_CacheAbsoluteExpirationTimeSpan_HttpTestDocument`
+-   `APPSETTING_CacheAbsoluteExpirationTimeSpan_IEnumerableOfICloudBlob`
+-   `APPSETTING_CacheAbsoluteExpirationTimeSpan_IEnumerableOfHttpTestDocument`
+
+#### Connection Strings
+
+| `App.config` Setting | DataType |
+| -------------------- | -------- |
+| `EnvironmentsStore`  | Uri      |
+| `HttpTestsStore`     | Uri      |
+
+Set's the URI for the Environments and Http Tests Azure Blob Storage container
+respectively.  These should be SAS Token based URIs, the exact URIs can be
+generated with the `checky-loader` console application.
 
 [msdn-timespan-parse]: https://msdn.microsoft.com/en-us/library/se73z7b9(v=vs.110).aspx
 [msdn-httprequestmessage]: https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.118).aspx
