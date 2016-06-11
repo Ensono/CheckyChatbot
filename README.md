@@ -193,7 +193,8 @@ configuration name prefixed with `APPSETTING_`:
 Set's the URI for the Environments and Http Tests Azure Blob Storage container
 respectively.  These URIs must be SAS Token based URIs to the blob storage
 containers, for convenience.  Generate the appropriately formatted URIs with
-the `checky-loader` console application.
+the `checky-loader` console application, if using Environement Variables the
+above `App.config` settings are prefixed with `CUSTOMCONNSTR_`.
 
 [msdn-timespan-parse]: https://msdn.microsoft.com/en-us/library/se73z7b9(v=vs.110).aspx
 [msdn-httprequestmessage]: https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.118).aspx
