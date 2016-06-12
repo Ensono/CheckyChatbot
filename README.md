@@ -1,17 +1,17 @@
 # Checky Chatbot
 
 Checky is a Slack chatbot designed to make it easier for us to deliver software
-regularly, reliably and repeatable at scale in a natural and sometimes
+regularly, reliably and repeatably at scale in a natural and sometimes
 entertaining way.
 
 ## Commands
 
 -   `status`: Retrieve the status of a service, by calling the `/version` and
-  `/healthcheck` endpoints to interrogate a service's software version and
-  self-reported health.
+    `/healthcheck` endpoints to interrogate a service's software version and
+    self-reported health.
 
 -   `url`: Returns the set of known URLs for a service, currently will only
-  return the Base URI, `/version` and `/healthcheck` endpoints.
+    return the Base URI, `/version` and `/healthcheck` endpoints.
 
 -   `usage`: Returns some basic usage information about the chatbot.
 
@@ -26,7 +26,7 @@ entertaining way.
 ### Environment Configuration
 
 For the above commands to work, you must 'teach' Checky about each
-environment; declare a collection of environments through one or more
+environment; first declare a collection of environments through one or more
 environment definition files:
 
 ```json
@@ -87,8 +87,8 @@ environments and services it is valid to execute against:
 }
 ```
 
-As this is a relatively sizable document and requires some explanation.  The
-document as a whole is divided into two parts **`httpRequest`** and
+As this is a relatively sizable document divided into two parts it requires
+some explanation.  Split amongst **`httpRequest`** and
 **`expectHttpResponse`** the two compose the HTTP Request constructed and sent
 to the service endpoint and the expectation of the response.
 
@@ -108,7 +108,7 @@ start and complete in any order.
 
 -   `httpResponseBody`: the body of the requests can be of any format and must
     be Base64 encoded to allow practically any data in the request.  Take
-    especial note to align the content of this property with the
+    particular care to align the content of this property with the
     `httpRequestContentType` and `httpRequestEncoding` fields.
 
 -   `httpRequestEncoding`: the encoding of the above `httpResponseBody`, can be
@@ -131,7 +131,7 @@ start and complete in any order.
 
 #### HTTP Resposne `expectHttpResponse*`
 
-The HTTP Response is captured, and assertions are made using the content of the
+Checky will capture the HTTP Response, and follow the assertions defined by the
 `expectHttpResponse*` elements.  For headers and the message body either
 literal strings can be matched, or .NET Regular Expressions can be used to
 match patterns in the response.
@@ -193,8 +193,11 @@ configuration name prefixed with `APPSETTING_`:
 Set's the URI for the Environments and Http Tests Azure Blob Storage container
 respectively.  These URIs must be SAS Token based URIs to the blob storage
 containers, for convenience.  Generate the appropriately formatted URIs with
-the `checky-loader` console application, if using Environement Variables the
-above `App.config` settings are prefixed with `CUSTOMCONNSTR_`.
+the `checky-loader` console application, when using Environement Variables
+prefix the above `App.config` settings with `CUSTOMCONNSTR_`:
+
+-   `CUSTOMCONNSTR_EnvironmentsStore`
+-   `CUSTOMCONNSTR_HttpTestsStore`
 
 [msdn-timespan-parse]: https://msdn.microsoft.com/en-us/library/se73z7b9(v=vs.110).aspx
 [msdn-httprequestmessage]: https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.118).aspx
