@@ -46,7 +46,7 @@ environment definition files:
 ```
 
 It is essential that the environment identifier in the `$.Id` field matches
-the filename of the file; all be it with `.json` on the end. In the above
+the filename of the file; albeit with `.json` on the end. In the above
 example, the file must be named `environment-identifier.json`.
 
 > **TIP**: use the built in `checky-loader` console application to validate
