@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Checky.Common.Datastore.Environment {
-    public class Service {
-        public string Name { get; set; }
-        public Uri BaseUri { get; set; }
+    public class Service : ServiceBase {
+        public IEnumerable<Region> Regions { get; set; }
     }
 }

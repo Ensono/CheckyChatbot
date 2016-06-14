@@ -69,6 +69,8 @@
     <Compile Include="Environment\EnvironmentDocument.cs" />
     <Compile Include="Environment\DocumentDBEnvironmentRepository.cs" />
     <Compile Include="Environment\IEnvironmentRepository.cs" />
+    <Compile Include="Environment\Region.cs" />
+    <Compile Include="Environment\ServiceBase.cs" />
     <Compile Include="ParameterNames.cs" />
     <Compile Include="PersistentDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
