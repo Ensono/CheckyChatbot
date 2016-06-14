@@ -1,4 +1,5 @@
-﻿using Checky.Common.ComponentModel;
+﻿using System.Net.Http;
+using Checky.Common.ComponentModel;
 using Ninject.Modules;
 
 namespace Checky.Common.Healthbot {
@@ -6,7 +7,7 @@ namespace Checky.Common.Healthbot {
         public override void Load() {
             Bind<IChatbotCommand>().To<HealthBotCommand>().InTransientScope();
             Bind<IChatbotCommand>().To<UrlBotCommand>().InTransientScope();
-            Bind<IHealthcheckClient>().To<HealthcheckClient>().InTransientScope();
+            Bind<IHealthcheckClient>().To<HealthcheckClient>().WithConstructorArgument((HttpClient)null);
             Bind<IHealthcheckFormatter>().To<HealthcheckFormatter>().InSingletonScope();
         }
     }

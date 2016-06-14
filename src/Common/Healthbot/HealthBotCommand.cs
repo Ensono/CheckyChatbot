@@ -15,7 +15,7 @@ namespace Checky.Common.Healthbot {
         private readonly IHelpers _helpers;
         private readonly ILogger _logger;
 
-        private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+        private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))?$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
@@ -54,6 +54,10 @@ namespace Checky.Common.Healthbot {
 
             var environmentText = match.Groups[2].Value;
             var serviceText = match.Groups[3].Value;
+            string regionText = null;
+            if (match.Groups.Count > 5) {
+                regionText = match.Groups[5].Value;
+            }
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
             if (!matchingEnvironments.Any()) {
@@ -90,9 +94,22 @@ namespace Checky.Common.Healthbot {
             }
 
             var service = environment.Services.Single(servicePredicate);
-            var state = _client.GetHealth(service.BaseUri);
 
-            return responseHandler(_formatter.Render(environment.Id, service.Name, state));
+            if (!string.IsNullOrWhiteSpace(regionText)) {
+                var region = service.Regions.SingleOrDefault(x => x.Name == regionText);
+
+                if (region == null) {
+                    return
+                        responseHandler(
+                            $"Environment `{environment.Id}` exists and contains `{serviceText}` however the region `{regionText}` wasn't found, try one of these: {string.Join(", ", service.Regions.Select(x => x.Name))}");
+                }
+
+                var regionState = _client.GetHealth(region.BaseUri);
+                return responseHandler(_formatter.Render(environment.Id, $"{service.Name} ({region.Name})", regionState));
+            }
+
+            var environmentState = _client.GetHealth(service.BaseUri);
+            return responseHandler(_formatter.Render(environment.Id, service.Name, environmentState));
         }
 
         public string HelpText => "@checky: status _environment_ _service_";

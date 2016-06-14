@@ -13,7 +13,7 @@ namespace Checky.Common.Healthbot {
         private readonly IHelpers _helpers;
         private readonly ILogger _logger;
 
-        private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)$",
+        private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public UrlBotCommand(IEnvironmentRepository environments, IHelpers helpers, ILogger logger) {
@@ -48,6 +48,10 @@ namespace Checky.Common.Healthbot {
 
             var environmentText = match.Groups[2].Value;
             var serviceText = match.Groups[3].Value;
+            string regionText = null;
+            if (match.Groups.Count > 5) {
+                regionText = match.Groups[5].Value;
+            }
             var matchingEnvironments = _environments.Find(environmentText).ToArray();
 
             if (!matchingEnvironments.Any()) {
@@ -83,8 +87,21 @@ namespace Checky.Common.Healthbot {
                         $"Matched {matchedServices.Count} services: `{string.Join("`, `", matchedServices)}` be more specific!");
             }
 
-            var service =
-                environment.Services.Single(servicePredicate);
+            var service = environment.Services.Single(servicePredicate);
+
+            if (!string.IsNullOrWhiteSpace(regionText)) {
+                var region = service.Regions.SingleOrDefault(x => x.Name == regionText);
+
+                if (region == null) {
+                    return
+                        responseHandler(
+                            $"Environment `{environment.Id}` exists and contains `{serviceText}` however the region `{regionText}` wasn't found, try one of these: {string.Join(", ", service.Regions.Select(x => x.Name))}");
+                }
+
+                return
+                    responseHandler(
+                        $"*Base Uri*: {region.BaseUri}\n*Healthcheck*: {region.BaseUri}healthcheck\n*Version*: {region.BaseUri}version");
+            }
 
             return
                 responseHandler(

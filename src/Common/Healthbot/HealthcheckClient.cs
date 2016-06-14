@@ -1,10 +1,26 @@
 using System;
 using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Checky.Common.Healthbot {
     public class HealthcheckClient : IHealthcheckClient {
-        private readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client;
+
+        public HealthcheckClient(HttpClient client = null) {
+            if (client == null) {
+                var handler = new WebRequestHandler();
+                handler.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
+
+                _client = new HttpClient(handler);            
+            } else {
+                _client = client;
+            }
+        }
 
         public Healthcheck GetHealth(Uri baseUri) {
             var version = _client.GetStringAsync($"{baseUri}/version");
