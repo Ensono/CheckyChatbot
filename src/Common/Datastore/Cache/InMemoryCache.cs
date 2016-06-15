@@ -9,8 +9,8 @@ using Checky.Common.Configuration;
 namespace Checky.Common.Datastore.Cache {
     public class InMemoryCache<T> : IObjectCache<T>, IObjectCache where T : class {
         private readonly TimeSpan _cacheDuration;
-        private MemoryCache _objectCache;
         private readonly List<HitOrMiss> _performance = new List<HitOrMiss>();
+        private MemoryCache _objectCache;
 
         public InMemoryCache(IConfigurationRepository config, ICacheManager cacheManager) {
             Name = GetTypeKey(typeof(T));

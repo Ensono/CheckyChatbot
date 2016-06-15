@@ -62,7 +62,7 @@ namespace Checky.Common.Loader {
                     .Where(x => x != SharedAccessBlobPermissions.None)
                     .ToList();
 
-                foreach (SharedAccessBlobPermissions possiblePermission in possiblePermissions) {
+                foreach (var possiblePermission in possiblePermissions) {
                     var separator = possiblePermission == possiblePermissions.Last() ? "└" : "├";
                     ConsoleUtilities.WriteResult($" │  {separator}─ {possiblePermission}",
                         permission.Permissions.HasFlag(possiblePermission));
@@ -71,7 +71,10 @@ namespace Checky.Common.Loader {
                 ConsoleUtilities.WriteLine($" └─ Key: {containers[key].Uri}{sasToken}");
             }
 
-            ConsoleUtilities.WriteLine(Environment.NewLine + "NOTE: It is not nessecary to update the key after each upload, only when it is getting close to expiry.", ConsoleColor.Yellow);
+            ConsoleUtilities.WriteLine(
+                Environment.NewLine +
+                "NOTE: It is not nessecary to update the key after each upload, only when it is getting close to expiry.",
+                ConsoleColor.Yellow);
 
             ConsoleUtilities.WriteAscii("SUCCESS", ConsoleUtilities.Success);
 

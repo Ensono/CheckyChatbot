@@ -2,6 +2,6 @@
 
 namespace Checky.Common.Healthbot {
     public interface IHealthcheckClient {
-        Healthcheck GetHealth(Uri baseUri);
+        Healthcheck GetHealth(Uri baseUri, string expectedServerCertificateSubject = null);
     }
 }

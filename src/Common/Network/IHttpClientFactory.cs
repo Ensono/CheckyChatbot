@@ -2,6 +2,6 @@
 
 namespace Checky.Common.Network {
     public interface IHttpClientFactory {
-        HttpClient GetClient();
+        HttpClient GetClient(string trustInvalidCertificatesWithSubject = null);
     }
 }

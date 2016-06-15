@@ -1,25 +1,20 @@
 using System;
-using System.Net.Http;
+using Checky.Common.Network;
 using Newtonsoft.Json;
 
 namespace Checky.Common.Healthbot {
     public class HealthcheckClient : IHealthcheckClient {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HealthcheckClient(HttpClient client = null) {
-            if (client == null) {
-                var handler = new WebRequestHandler();
-                handler.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
-
-                _client = new HttpClient(handler);
-            } else {
-                _client = client;
-            }
+        public HealthcheckClient(IHttpClientFactory httpClientFactory) {
+            if (httpClientFactory == null) throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClientFactory = httpClientFactory;
         }
 
-        public Healthcheck GetHealth(Uri baseUri) {
-            var version = _client.GetStringAsync($"{baseUri}/version");
-            var healthcheck = _client.GetStringAsync($"{baseUri}/healthcheck");
+        public Healthcheck GetHealth(Uri baseUri, string expectedServerCertificateSubject = null) {
+            var client = _httpClientFactory.GetClient(expectedServerCertificateSubject);
+            var version = client.GetStringAsync($"{baseUri}/version");
+            var healthcheck = client.GetStringAsync($"{baseUri}/healthcheck");
 
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new TimeSpanConverter());

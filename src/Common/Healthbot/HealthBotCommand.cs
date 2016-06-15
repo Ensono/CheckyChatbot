@@ -24,6 +24,8 @@ namespace Checky.Common.Healthbot {
             if (environments == null) throw new ArgumentNullException(nameof(environments));
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
+            if (helpers == null) throw new ArgumentNullException(nameof(helpers));
+            if (logger == null) throw new ArgumentNullException(nameof(logger));
 
             _environments = environments;
             _client = client;
@@ -105,11 +107,11 @@ namespace Checky.Common.Healthbot {
                             $"Environment `{environment.Id}` exists and contains `{serviceText}` however the region `{regionText}` wasn't found, try one of these: {string.Join(", ", service.Regions.Select(x => x.Name))}");
                 }
 
-                var regionState = _client.GetHealth(region.BaseUri);
+                var regionState = _client.GetHealth(region.BaseUri, service.ServerCertificateSubject);
                 return responseHandler(_formatter.Render(environment.Id, $"{service.Name} ({region.Name})", regionState));
             }
 
-            var environmentState = _client.GetHealth(service.BaseUri);
+            var environmentState = _client.GetHealth(service.BaseUri, service.ServerCertificateSubject);
             return responseHandler(_formatter.Render(environment.Id, service.Name, environmentState));
         }
 
