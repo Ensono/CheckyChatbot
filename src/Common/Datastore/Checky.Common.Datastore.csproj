@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheCommand.cs" />
+    <Compile Include="Cache\CacheManager.cs" />
+    <Compile Include="Cache\ICacheManager.cs" />
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Cache\IObjectCache.cs" />
     <Compile Include="Environment\BlobStorageEnvironmentRepository.cs" />

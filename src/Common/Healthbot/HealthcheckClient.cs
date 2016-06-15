@@ -1,10 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Checky.Common.Healthbot {
@@ -16,7 +11,7 @@ namespace Checky.Common.Healthbot {
                 var handler = new WebRequestHandler();
                 handler.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
 
-                _client = new HttpClient(handler);            
+                _client = new HttpClient(handler);
             } else {
                 _client = client;
             }

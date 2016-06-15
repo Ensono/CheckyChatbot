@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
@@ -9,20 +10,26 @@ namespace Checky.Common.Datastore.Cache {
     public class InMemoryCache<T> : IObjectCache<T>, IObjectCache where T : class {
         private readonly TimeSpan _cacheDuration;
         private MemoryCache _objectCache;
+        private readonly List<HitOrMiss> _performance = new List<HitOrMiss>();
 
-        public InMemoryCache(IConfigurationRepository config) {
+        public InMemoryCache(IConfigurationRepository config, ICacheManager cacheManager) {
             Name = GetTypeKey(typeof(T));
             var cacheConfig = config.GetAppSetting($"CacheAbsoluteExpirationTimeSpan_{Name}");
             _cacheDuration = TimeSpan.Parse(cacheConfig, CultureInfo.InvariantCulture);
             _objectCache = new MemoryCache(Name);
+            cacheManager.Register(Name, this);
         }
+
+        public float HitRate => (float) _performance.Count(x => x == HitOrMiss.Hit)/_performance.Count();
 
         public T Get(string key) {
             return _objectCache.Get(key) as T;
         }
 
         public bool Contains(string key) {
-            return _objectCache.Contains(key);
+            var contains = _objectCache.Contains(key);
+            _performance.Add(contains ? HitOrMiss.Hit : HitOrMiss.Miss);
+            return contains;
         }
 
         public string Name { get; }
@@ -53,6 +60,11 @@ namespace Checky.Common.Datastore.Cache {
             builder.Append(string.Join("And", arguments));
 
             return builder.ToString();
+        }
+
+        private enum HitOrMiss {
+            Hit,
+            Miss
         }
     }
 }

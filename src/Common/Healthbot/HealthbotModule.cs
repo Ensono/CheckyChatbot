@@ -7,7 +7,7 @@ namespace Checky.Common.Healthbot {
         public override void Load() {
             Bind<IChatbotCommand>().To<HealthBotCommand>().InTransientScope();
             Bind<IChatbotCommand>().To<UrlBotCommand>().InTransientScope();
-            Bind<IHealthcheckClient>().To<HealthcheckClient>().WithConstructorArgument((HttpClient)null);
+            Bind<IHealthcheckClient>().To<HealthcheckClient>().WithConstructorArgument((HttpClient) null);
             Bind<IHealthcheckFormatter>().To<HealthcheckFormatter>().InSingletonScope();
         }
     }

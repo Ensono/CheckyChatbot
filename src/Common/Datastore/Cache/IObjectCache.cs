@@ -9,6 +9,7 @@
 
     public interface IObjectCache {
         string Name { get; }
+        float HitRate { get; }
         void Clear(string key = null);
         bool Contains(string key);
     }

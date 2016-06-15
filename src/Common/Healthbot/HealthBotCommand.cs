@@ -15,8 +15,9 @@ namespace Checky.Common.Healthbot {
         private readonly IHelpers _helpers;
         private readonly ILogger _logger;
 
-        private readonly Regex _matcher = new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))?$",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly Regex _matcher =
+            new Regex("\\b([stau]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))?$",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public HealthBotCommand(IEnvironmentRepository environments, IHealthcheckClient client,
                                 IHealthcheckFormatter formatter, IHelpers helpers, ILogger logger) {
@@ -96,7 +97,7 @@ namespace Checky.Common.Healthbot {
             var service = environment.Services.Single(servicePredicate);
 
             if (!string.IsNullOrWhiteSpace(regionText)) {
-                var region = service.Regions.SingleOrDefault(x => x.Name == regionText);
+                var region = service.Regions?.SingleOrDefault(x => x.Name == regionText);
 
                 if (region == null) {
                     return

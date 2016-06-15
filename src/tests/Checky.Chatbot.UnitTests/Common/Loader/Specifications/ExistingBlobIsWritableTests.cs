@@ -9,7 +9,7 @@ namespace Checky.Chatbot.UnitTests.Common.Loader.Specifications {
     public class ExistingBlobIsWritableTests {
         private class StubSpec : SpecificationBase<ICloudBlob> {
             private bool _result;
-            
+
             public StubSpec(bool result) {
                 _result = result;
             }

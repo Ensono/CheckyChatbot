@@ -13,7 +13,8 @@ namespace Checky.Common.Healthbot {
         private readonly IHelpers _helpers;
         private readonly ILogger _logger;
 
-        private readonly Regex _matcher = new Regex("\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))$",
+        private readonly Regex _matcher = new Regex(
+            "\\b([url]+)\\s([0-9A-Za-z]+)\\s([0-9A-Za-z]+)(\\s([0-9A-Za-z]+))?$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public UrlBotCommand(IEnvironmentRepository environments, IHelpers helpers, ILogger logger) {

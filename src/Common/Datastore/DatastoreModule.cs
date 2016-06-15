@@ -19,7 +19,8 @@ namespace Checky.Common.Datastore {
             Bind<IObjectCache<IEnumerable<HttpTestDocument>>>()
                 .To<InMemoryCache<IEnumerable<HttpTestDocument>>>()
                 .InSingletonScope();
-            Bind<IChatbotCommand>().To<CacheCommand>().InSingletonScope();
+            Bind<IChatbotCommand>().To<CacheCommand>().InTransientScope();
+            Bind<ICacheManager>().To<CacheManager>().InSingletonScope();
         }
     }
 }

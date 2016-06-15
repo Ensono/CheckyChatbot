@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Checky.Common.ComponentModel;
@@ -8,13 +7,13 @@ using Checky.Common.Datastore.Cache;
 
 namespace Checky.Common.Datastore {
     public class CacheCommand : IChatbotCommand {
-        private readonly IEnumerable<IObjectCache> _caches;
+        private readonly ICacheManager _cacheManager;
         private readonly IHelpers _helpers;
-        private readonly Regex _matcher = new Regex("\\b([cahe]+)\\s([clear]+)$", RegexOptions.Compiled);
+        private readonly Regex _matcher = new Regex("\\b([cahe]+)\\s([a-zA-Z]+)$", RegexOptions.Compiled);
 
-        public CacheCommand(IEnumerable<IObjectCache> caches, IHelpers helpers) {
-            _caches = caches;
+        public CacheCommand(IHelpers helpers, ICacheManager cacheManager) {
             _helpers = helpers;
+            _cacheManager = cacheManager;
         }
 
         public int Priority => 100;
@@ -33,16 +32,15 @@ namespace Checky.Common.Datastore {
                             IEnumerable<IChatbotCommand> otherCommands) {
             var match = _matcher.Match(command);
             var result = match.Groups[2].Value;
-            if (!"clear".StartsWith(result)) {
-                return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");
+            if ("clear".StartsWith(result)) {
+                return _cacheManager.ClearAll(responseHandler);
             }
 
-            var output = new StringBuilder();
-            foreach (var cache in _caches) {
-                output.AppendLine($"Decache of `{cache.Name}` successful.");
-                cache.Clear();
+            if ("performance".StartsWith(result)) {
+                return _cacheManager.Performance(responseHandler);
             }
-            return responseHandler(output.ToString());
+
+            return responseHandler($"Sorry, I didn't understand `{command}` try `{Example}`.");
         }
     }
 }
