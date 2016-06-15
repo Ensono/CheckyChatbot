@@ -80,8 +80,15 @@ namespace Checky.Common.Loader {
                 }
                 return 1;
             }
-            ConsoleUtilities.WriteAscii("SUCCEEDED", ConsoleUtilities.Success);
-            return 0;
+
+            var configureCommand = new ConfigureCommand {
+                AccessKey = AccessKey,
+                ConfigPath = ConfigPath,
+                StorageAccount = StorageAccount
+            };
+            var configResult = configureCommand.Run(remainingArguments);
+
+            return configResult;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ManyConsole;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -54,20 +55,25 @@ namespace Checky.Common.Loader {
                 ConsoleUtilities.WriteLine($"\n{key}:", ConsoleColor.White);
                 ConsoleUtilities.WriteLine($" ├─ Expires: {permission.SharedAccessExpiryTime}");
                 ConsoleUtilities.WriteLine(" ├─ Permissions:");
-                ConsoleUtilities.WriteResult(" │  ├─ Add",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.Add));
-                ConsoleUtilities.WriteResult(" │  ├─ Read",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.Read));
-                ConsoleUtilities.WriteResult(" │  ├─ Create",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.Create));
-                ConsoleUtilities.WriteResult(" │  ├─ Delete",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.Delete));
-                ConsoleUtilities.WriteResult(" │  ├─ List",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.List));
-                ConsoleUtilities.WriteResult(" │  └─ Write",
-                    permission.Permissions.HasFlag(SharedAccessBlobPermissions.Write));
+
+                var possiblePermissions = typeof(SharedAccessBlobPermissions)
+                    .GetEnumValues()
+                    .Cast<SharedAccessBlobPermissions>()
+                    .Where(x => x != SharedAccessBlobPermissions.None)
+                    .ToList();
+
+                foreach (SharedAccessBlobPermissions possiblePermission in possiblePermissions) {
+                    var separator = possiblePermission == possiblePermissions.Last() ? "└" : "├";
+                    ConsoleUtilities.WriteResult($" │  {separator}─ {possiblePermission}",
+                        permission.Permissions.HasFlag(possiblePermission));
+                }
+
                 ConsoleUtilities.WriteLine($" └─ Key: {containers[key].Uri}{sasToken}");
             }
+
+            ConsoleUtilities.WriteLine(Environment.NewLine + "NOTE: It is not nessecary to update the key after each upload, only when it is getting close to expiry.", ConsoleColor.Yellow);
+
+            ConsoleUtilities.WriteAscii("SUCCESS", ConsoleUtilities.Success);
 
             return 0;
         }
