@@ -6,60 +6,45 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
+using Checky.Slack.AlertProxy.Models;
+using Checky.Slack.AlertProxy.Providers;
+using Checky.Slack.AlertProxy.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using Checky.Slack.AlertProxy.Models;
-using Checky.Slack.AlertProxy.Providers;
-using Checky.Slack.AlertProxy.Results;
 
-namespace Checky.Slack.AlertProxy.Controllers
-{
+namespace Checky.Slack.AlertProxy.Controllers {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
-    {
+    public class AccountController : ApiController {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
+        public AccountController() {}
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
-        {
+                                 ISecureDataFormat<AuthenticationTicket> accessTokenFormat) {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+        public ApplicationUserManager UserManager {
+            get { return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
         }
 
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public UserInfoViewModel GetUserInfo()
-        {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+        public UserInfoViewModel GetUserInfo() {
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            return new UserInfoViewModel
-            {
+            return new UserInfoViewModel {
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
@@ -68,45 +53,37 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         // POST api/Account/Logout
         [Route("Logout")]
-        public IHttpActionResult Logout()
-        {
+        public IHttpActionResult Logout() {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
-        {
+        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false) {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            if (user == null)
-            {
+            if (user == null) {
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+            var logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
+            foreach (var linkedAccount in user.Logins) {
+                logins.Add(new UserLoginInfoViewModel {
                     LoginProvider = linkedAccount.LoginProvider,
                     ProviderKey = linkedAccount.ProviderKey
                 });
             }
 
-            if (user.PasswordHash != null)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
+            if (user.PasswordHash != null) {
+                logins.Add(new UserLoginInfoViewModel {
                     LoginProvider = LocalLoginProvider,
-                    ProviderKey = user.UserName,
+                    ProviderKey = user.UserName
                 });
             }
 
-            return new ManageInfoViewModel
-            {
+            return new ManageInfoViewModel {
                 LocalLoginProvider = LocalLoginProvider,
                 Email = user.UserName,
                 Logins = logins,
@@ -116,18 +93,15 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
-            if (!result.Succeeded)
-            {
+
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
@@ -136,17 +110,14 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
-        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
 
-            if (!result.Succeeded)
-            {
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
@@ -155,36 +126,32 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
-        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
             Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+            var ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
             if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
-            {
+                                                              && ticket.Properties.ExpiresUtc.HasValue
+                                                              &&
+                                                              ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow)) {
                 return BadRequest("External login failure.");
             }
 
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+            var externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
-            if (externalData == null)
-            {
+            if (externalData == null) {
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
-            if (!result.Succeeded)
-            {
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
@@ -193,27 +160,21 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
-        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
             IdentityResult result;
 
-            if (model.LoginProvider == LocalLoginProvider)
-            {
+            if (model.LoginProvider == LocalLoginProvider) {
                 result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
-            }
-            else
-            {
+            } else {
                 result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
                     new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
-            if (!result.Succeeded)
-            {
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
@@ -225,52 +186,44 @@ namespace Checky.Slack.AlertProxy.Controllers
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
-        {
-            if (error != null)
-            {
+        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null) {
+            if (error != null) {
                 return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
+            if (!User.Identity.IsAuthenticated) {
                 return new ChallengeResult(provider, this);
             }
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            if (externalLogin == null)
-            {
+            if (externalLogin == null) {
                 return InternalServerError();
             }
 
-            if (externalLogin.LoginProvider != provider)
-            {
+            if (externalLogin.LoginProvider != provider) {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            var user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
-            bool hasRegistered = user != null;
+            var hasRegistered = user != null;
 
-            if (hasRegistered)
-            {
+            if (hasRegistered) {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+
+                var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                var cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                var properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            }
-            else
-            {
+            } else {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
             }
 
@@ -280,35 +233,28 @@ namespace Checky.Slack.AlertProxy.Controllers
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
-        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
-        {
-            IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
+        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false) {
+            var descriptions = Authentication.GetExternalAuthenticationTypes();
+            var logins = new List<ExternalLoginViewModel>();
 
             string state;
 
-            if (generateState)
-            {
+            if (generateState) {
                 const int strengthInBits = 256;
                 state = RandomOAuthStateGenerator.Generate(strengthInBits);
-            }
-            else
-            {
+            } else {
                 state = null;
             }
 
-            foreach (AuthenticationDescription description in descriptions)
-            {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
-                {
+            foreach (var description in descriptions) {
+                var login = new ExternalLoginViewModel {
                     Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
-                    {
+                    Url = Url.Route("ExternalLogin", new {
                         provider = description.AuthenticationType,
                         response_type = "token",
                         client_id = Startup.PublicClientId,
                         redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
+                        state
                     }),
                     State = state
                 };
@@ -321,19 +267,16 @@ namespace Checky.Slack.AlertProxy.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
-            {
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
@@ -344,39 +287,32 @@ namespace Checky.Slack.AlertProxy.Controllers
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
-        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
             var info = await Authentication.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
+            if (info == null) {
                 return InternalServerError();
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
-            IdentityResult result = await UserManager.CreateAsync(user);
-            if (!result.Succeeded)
-            {
+            var result = await UserManager.CreateAsync(user);
+            if (!result.Succeeded) {
                 return GetErrorResult(result);
             }
 
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result); 
+            if (!result.Succeeded) {
+                return GetErrorResult(result);
             }
             return Ok();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _userManager != null)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && _userManager != null) {
                 _userManager.Dispose();
                 _userManager = null;
             }
@@ -386,30 +322,23 @@ namespace Checky.Slack.AlertProxy.Controllers
 
         #region Helpers
 
-        private IAuthenticationManager Authentication
-        {
+        private IAuthenticationManager Authentication {
             get { return Request.GetOwinContext().Authentication; }
         }
 
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
-            {
+        private IHttpActionResult GetErrorResult(IdentityResult result) {
+            if (result == null) {
                 return InternalServerError();
             }
 
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
+            if (!result.Succeeded) {
+                if (result.Errors != null) {
+                    foreach (var error in result.Errors) {
                         ModelState.AddModelError("", error);
                     }
                 }
 
-                if (ModelState.IsValid)
-                {
+                if (ModelState.IsValid) {
                     // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
                 }
@@ -420,47 +349,39 @@ namespace Checky.Slack.AlertProxy.Controllers
             return null;
         }
 
-        private class ExternalLoginData
-        {
+        private class ExternalLoginData {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
 
-            public IList<Claim> GetClaims()
-            {
+            public IList<Claim> GetClaims() {
                 IList<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
 
-                if (UserName != null)
-                {
+                if (UserName != null) {
                     claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
                 }
 
                 return claims;
             }
 
-            public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
-            {
-                if (identity == null)
-                {
+            public static ExternalLoginData FromIdentity(ClaimsIdentity identity) {
+                if (identity == null) {
                     return null;
                 }
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+                var providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
-                {
+                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer)
+                    || string.IsNullOrEmpty(providerKeyClaim.Value)) {
                     return null;
                 }
 
-                if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer)
-                {
+                if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer) {
                     return null;
                 }
 
-                return new ExternalLoginData
-                {
+                return new ExternalLoginData {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
                     UserName = identity.FindFirstValue(ClaimTypes.Name)
@@ -468,22 +389,19 @@ namespace Checky.Slack.AlertProxy.Controllers
             }
         }
 
-        private static class RandomOAuthStateGenerator
-        {
-            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+        private static class RandomOAuthStateGenerator {
+            private static readonly RandomNumberGenerator _random = new RNGCryptoServiceProvider();
 
-            public static string Generate(int strengthInBits)
-            {
+            public static string Generate(int strengthInBits) {
                 const int bitsPerByte = 8;
 
-                if (strengthInBits % bitsPerByte != 0)
-                {
+                if (strengthInBits%bitsPerByte != 0) {
                     throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
 
-                int strengthInBytes = strengthInBits / bitsPerByte;
+                var strengthInBytes = strengthInBits/bitsPerByte;
 
-                byte[] data = new byte[strengthInBytes];
+                var data = new byte[strengthInBytes];
                 _random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }

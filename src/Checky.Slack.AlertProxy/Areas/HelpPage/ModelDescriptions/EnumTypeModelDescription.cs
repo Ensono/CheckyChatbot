@@ -1,12 +1,8 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Checky.Slack.AlertProxy.Areas.HelpPage.ModelDescriptions
-{
-    public class EnumTypeModelDescription : ModelDescription
-    {
-        public EnumTypeModelDescription()
-        {
+namespace Checky.Slack.AlertProxy.Areas.HelpPage.ModelDescriptions {
+    public class EnumTypeModelDescription : ModelDescription {
+        public EnumTypeModelDescription() {
             Values = new Collection<EnumValueDescription>();
         }
 

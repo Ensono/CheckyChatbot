@@ -1,12 +1,8 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Checky.Slack.AlertProxy.Areas.HelpPage.ModelDescriptions
-{
-    public class ParameterDescription
-    {
-        public ParameterDescription()
-        {
+namespace Checky.Slack.AlertProxy.Areas.HelpPage.ModelDescriptions {
+    public class ParameterDescription {
+        public ParameterDescription() {
             Annotations = new Collection<ParameterAnnotation>();
         }
 

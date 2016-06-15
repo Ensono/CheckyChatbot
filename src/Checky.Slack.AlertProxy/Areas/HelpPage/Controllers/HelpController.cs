@@ -1,43 +1,32 @@
-using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using Checky.Slack.AlertProxy.Areas.HelpPage.ModelDescriptions;
-using Checky.Slack.AlertProxy.Areas.HelpPage.Models;
 
-namespace Checky.Slack.AlertProxy.Areas.HelpPage.Controllers
-{
+namespace Checky.Slack.AlertProxy.Areas.HelpPage.Controllers {
     /// <summary>
-    /// The controller that will handle requests for the help page.
+    ///     The controller that will handle requests for the help page.
     /// </summary>
-    public class HelpController : Controller
-    {
+    public class HelpController : Controller {
         private const string ErrorViewName = "Error";
 
         public HelpController()
-            : this(GlobalConfiguration.Configuration)
-        {
-        }
+            : this(GlobalConfiguration.Configuration) {}
 
-        public HelpController(HttpConfiguration config)
-        {
+        public HelpController(HttpConfiguration config) {
             Configuration = config;
         }
 
-        public HttpConfiguration Configuration { get; private set; }
+        public HttpConfiguration Configuration { get; }
 
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
             return View(Configuration.Services.GetApiExplorer().ApiDescriptions);
         }
 
-        public ActionResult Api(string apiId)
-        {
-            if (!String.IsNullOrEmpty(apiId))
-            {
-                HelpPageApiModel apiModel = Configuration.GetHelpPageApiModel(apiId);
-                if (apiModel != null)
-                {
+        public ActionResult Api(string apiId) {
+            if (!string.IsNullOrEmpty(apiId)) {
+                var apiModel = Configuration.GetHelpPageApiModel(apiId);
+                if (apiModel != null) {
                     return View(apiModel);
                 }
             }
@@ -45,14 +34,11 @@ namespace Checky.Slack.AlertProxy.Areas.HelpPage.Controllers
             return View(ErrorViewName);
         }
 
-        public ActionResult ResourceModel(string modelName)
-        {
-            if (!String.IsNullOrEmpty(modelName))
-            {
-                ModelDescriptionGenerator modelDescriptionGenerator = Configuration.GetModelDescriptionGenerator();
+        public ActionResult ResourceModel(string modelName) {
+            if (!string.IsNullOrEmpty(modelName)) {
+                var modelDescriptionGenerator = Configuration.GetModelDescriptionGenerator();
                 ModelDescription modelDescription;
-                if (modelDescriptionGenerator.GeneratedModels.TryGetValue(modelName, out modelDescription))
-                {
+                if (modelDescriptionGenerator.GeneratedModels.TryGetValue(modelName, out modelDescription)) {
                     return View(modelDescription);
                 }
             }

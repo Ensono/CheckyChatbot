@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
 
-namespace Checky.Slack.AlertProxy
-{
-    public static class WebApiConfig
-    {
-        public static void Register(HttpConfiguration config)
-        {
+namespace Checky.Slack.AlertProxy {
+    public static class WebApiConfig {
+        public static void Register(HttpConfiguration config) {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
@@ -22,16 +13,16 @@ namespace Checky.Slack.AlertProxy
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "HealthCheck",
-                routeTemplate: "healthcheck",
-                defaults: new { controller = "HealthCheck" }
-            );
+                "HealthCheck",
+                "healthcheck",
+                new {controller = "HealthCheck"}
+                );
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new {id = RouteParameter.Optional}
+                );
         }
     }
 }
