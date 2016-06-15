@@ -54,7 +54,7 @@ namespace Checky.Common.Chatbot.Slack {
                 }
             } catch (AggregateException agex) {
                 var builder =
-                    new StringBuilder("One or more exceptions occured while processing command: `{receivedText}`.");
+                    new StringBuilder($"One or more exceptions occured while processing command: `{receivedText}`.");
                 foreach (var ex in agex.InnerExceptions) {
                     builder.Append($"*#1*:\n```{ex.Message}\n{ex.StackTrace}```");
                 }

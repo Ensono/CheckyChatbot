@@ -1,6 +1,6 @@
 ﻿{
   "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
-  "webJobName": "CheckySlackbot-v5",
+  "webJobName": "CheckyChatbot",
   "startTime": null,
   "endTime": null,
   "jobRecurrenceFrequency": null,
