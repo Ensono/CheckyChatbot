@@ -8,7 +8,7 @@ using Hunabku.Skive;
 using log4net;
 using Ninject.Extensions.Logging;
 
-namespace Checky.Common.Chatbot.Slack {
+namespace Checky.Slack.Chatbot {
     public class SlackMessageHandler : ISlackEventHandler {
         private readonly IEnumerable<IChatbotCommand> _commands;
         private readonly ILogger _logger;

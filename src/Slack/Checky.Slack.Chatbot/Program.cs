@@ -1,7 +1,8 @@
-﻿using log4net.Config;
+﻿using Checky.Common.Chatbot;
+using log4net.Config;
 using Ninject;
 
-namespace Checky.Common.Chatbot.Slack {
+namespace Checky.Slack.Chatbot {
     internal class Program {
         private static void Main() {
             XmlConfigurator.Configure();

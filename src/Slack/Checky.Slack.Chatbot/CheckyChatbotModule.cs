@@ -1,7 +1,8 @@
-﻿using Hunabku.Skive;
+﻿using Checky.Common.Chatbot;
+using Hunabku.Skive;
 using Ninject.Modules;
 
-namespace Checky.Common.Chatbot.Slack {
+namespace Checky.Slack.Chatbot {
     public class CheckyChatbotModule : NinjectModule {
         public override void Load() {
             Bind<ISlackEventHandler>().To<SlackMessageHandler>();

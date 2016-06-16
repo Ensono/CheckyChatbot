@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Common", "1. Common", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Slack", "2. Slack", "{706A14EF-8386-45EC-9259-6F2637746AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Chatbot.Slack", "Slack\CheckyChatbotSlack\Checky.Common.Chatbot.Slack.csproj", "{B26AFD64-095B-4FC2-9EDB-50C34E6CDD34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Slack.Chatbot", "Slack\Checky.Slack.Chatbot\Checky.Slack.Chatbot.csproj", "{B26AFD64-095B-4FC2-9EDB-50C34E6CDD34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Chatbot", "Common\Chatbot\Checky.Common.Chatbot.csproj", "{F52D1B30-7BC5-4AFF-9510-14B50F2E32E8}"
 EndProject
@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Common.Network", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Chatbot.UnitTests", "tests\Checky.Chatbot.UnitTests\Checky.Chatbot.UnitTests.csproj", "{5065BB52-DFDE-45EB-9AFB-7443F1B23523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Slack.AlertProxy", "Checky.Slack.AlertProxy\Checky.Slack.AlertProxy.csproj", "{1BBC9F91-A3F9-4835-A084-AF086633E501}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checky.Slack.AlertProxy", "Slack\Checky.Slack.AlertProxy\Checky.Slack.AlertProxy.csproj", "{1BBC9F91-A3F9-4835-A084-AF086633E501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
