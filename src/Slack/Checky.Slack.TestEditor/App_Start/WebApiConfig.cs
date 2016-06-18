@@ -22,6 +22,12 @@ namespace Checky.Slack.TestEditor
                 );
 
             config.Routes.MapHttpRoute(
+                name: "Version",
+                routeTemplate: "version",
+                defaults: new { Controller = "Version" }
+                );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
