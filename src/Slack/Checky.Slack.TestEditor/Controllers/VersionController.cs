@@ -10,9 +10,10 @@ namespace Checky.Slack.TestEditor.Controllers {
             var executingAssembly = Assembly.GetExecutingAssembly();
             var fileVersionInfo = FileVersionInfo.GetVersionInfo(executingAssembly.Location);
             return request.CreateResponse(HttpStatusCode.OK, new {
+                executingAssembly.GetName().Name,
                 Version = executingAssembly.GetName().Version.ToString(),
-                FileVersion = fileVersionInfo.FileVersion,
-                ProductVersion = fileVersionInfo.ProductVersion
+                fileVersionInfo.FileVersion,
+                fileVersionInfo.ProductVersion
         });
         }
     }
