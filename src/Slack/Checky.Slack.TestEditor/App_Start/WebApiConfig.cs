@@ -12,13 +12,14 @@ namespace Checky.Slack.TestEditor
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            // Configure Web API to use only bearer token authentication.
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "HealthCheck",
+                routeTemplate: "healthcheck",
+                defaults: new {Controller = "HealthCheck"}
+                );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
