@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Checky.Slack.TestEditor;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(Checky.Slack.TestEditor.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 
-namespace Checky.Slack.TestEditor
-{
-    public partial class Startup
-    {
-        public void Configuration(IAppBuilder app)
-        {
-
-        }
+namespace Checky.Slack.TestEditor {
+    public class Startup {
+        public void Configuration(IAppBuilder app) {}
     }
 }

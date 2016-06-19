@@ -25,7 +25,7 @@ namespace Checky.Slack.TestEditor
             config.Routes.MapHttpRoute(
                 name: "HealthCheck",
                 routeTemplate: "healthcheck",
-                defaults: new {Controller = "HealthCheck"}
+                defaults: new { Controller = "HealthCheck" }
                 );
 
             config.Routes.MapHttpRoute(
