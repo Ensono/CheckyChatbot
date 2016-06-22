@@ -87,7 +87,7 @@ namespace Checky.Common.Healthbot {
             if (!services.Any(servicePredicate))
                 return
                     responseHandler(
-                        $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: {string.Join(", ", services)}");
+                        $"Environment `{environment.Id}` exists but {serviceText} wasn't found, try one of these: `{string.Join("`, `", services.Select(x => x.Name.ToLower()))}`");
 
             var matchedServices = services.Where(servicePredicate).Select(x => x.Name).ToList();
             if (matchedServices.Count > 1) {
