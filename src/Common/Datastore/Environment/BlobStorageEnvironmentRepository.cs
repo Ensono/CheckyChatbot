@@ -26,7 +26,7 @@ namespace Checky.Common.Datastore.Environment {
         }
 
         public IEnumerable<string> Find(string environmentStartsWith) {
-            return GetBlobs().Where(x => x.StartsWith(environmentStartsWith));
+            return GetBlobs().Where(x => x.StartsWith(environmentStartsWith, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public EnvironmentDocument Get(string environment) {
