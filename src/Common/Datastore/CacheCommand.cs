@@ -17,9 +17,10 @@ namespace Checky.Common.Datastore {
         }
 
         public int Priority => 100;
-        public string HelpText => "@checky: cache clear";
+        public string HelpText => "*@checky*: cache [clear|performance]";
         public string Example => "@checky: cache clear";
         public string Verb => "cache";
+        public string Description => "Provides access to @checky's caching layer";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             if (!wasMentioned && !isDirectMessage) {

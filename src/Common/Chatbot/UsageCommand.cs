@@ -18,6 +18,7 @@ namespace Checky.Common.Chatbot {
         public string HelpText => "@checky usage";
         public string Example => "@checky usage";
         public string Verb => "usage";
+        public string Description => "Displays usage statistics for the bot";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             _usageCount++;

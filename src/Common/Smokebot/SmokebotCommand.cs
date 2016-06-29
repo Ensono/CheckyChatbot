@@ -41,6 +41,7 @@ namespace Checky.Common.Smokebot {
         public string HelpText => "@checky: test _environment_ _service_";
         public string Example => "@checky: test 52dev delivery";
         public string Verb => "test";
+        public string Description => "Executes tests against the specified environments";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             if (!wasMentioned && !isDirectMessage) {

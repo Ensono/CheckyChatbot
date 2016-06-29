@@ -36,6 +36,8 @@ namespace Checky.Common.Healthbot {
 
         public string Verb => "status";
 
+        public string Description => "Queries services for their version number and health";
+
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             if (!wasMentioned && !isDirectMessage) {
                 return false;
@@ -115,7 +117,7 @@ namespace Checky.Common.Healthbot {
             return responseHandler(_formatter.Render(environment.Id, service.Name, environmentState));
         }
 
-        public string HelpText => "@checky: status _environment_ _service_";
+        public string HelpText => "*@checky*: status _environment_ _service_";
 
         public string Example => "@checky: status 52dev delivery";
     }

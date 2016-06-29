@@ -12,6 +12,8 @@ namespace Checky.Common.ComponentModel {
 
         string Verb { get; }
 
+        string Description { get; }
+
         bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage);
 
         Task Process(string command, string user, Func<string, Task> responseHandler,

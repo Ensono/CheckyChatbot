@@ -14,6 +14,7 @@ namespace Checky.Common.Chatbot {
         public string HelpText => string.Empty;
         public string Example => string.Empty;
         public string Verb => string.Empty;
+        public string Description => string.Empty;
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             return true;
@@ -59,11 +60,9 @@ namespace Checky.Common.Chatbot {
 
         private static string FormatCommand(IChatbotCommand command) {
             var builder = new StringBuilder();
-            builder.AppendLine($"*{command.Verb}*");
-            builder.AppendLine("```");
-            builder.AppendLine(command.HelpText);
-            builder.AppendLine($"e.g. {command.Example}");
-            builder.AppendLine("```");
+            builder.AppendLine($"*{command.Verb}*: {command.Description}");
+            builder.AppendLine($"> {command.HelpText}");
+            builder.AppendLine($"> e.g. `{command.Example}`");
             return builder.ToString();
         }
     }

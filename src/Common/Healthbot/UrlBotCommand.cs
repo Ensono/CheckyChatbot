@@ -24,11 +24,14 @@ namespace Checky.Common.Healthbot {
         }
 
         public int Priority => 50;
-        public string HelpText => "@checky: url _environment_ _service_";
+
+        public string HelpText => "*@checky*: url _environment_ _service_";
 
         public string Example => "@checky: url 52dev delivery";
 
         public string Verb => "url";
+
+        public string Description => "Displays URLs for each environment";
 
         public bool CanAccept(string receivedText, bool wasMentioned, bool isDirectMessage) {
             if (!wasMentioned && !isDirectMessage) {
