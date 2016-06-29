@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Checky.Common.ComponentModel;
 
 namespace Checky.Common.Chatbot {
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class FallbackCommand : IChatbotCommand {
         public int Priority => int.MaxValue;
         public string HelpText => string.Empty;
