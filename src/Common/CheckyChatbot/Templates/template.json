@@ -55,7 +55,7 @@
         },
         {
             "comments": "Generalized from resource: '/subscriptions/7dcb028b-e632-406c-87a3-782507189331/resourceGroups/amido-checky-slackbot/providers/microsoft.insights/alertrules/proactive diagnostics - amido-checky-appservice'.",
-            "type": "microsoft.insights/alertrules",
+            "type": "Microsoft.insights/alertrules",
             "name": "[parameters('alertrules_proactive_diagnostics___amido_checky_appservice_name')]",
             "apiVersion": "2014-04-01",
             "location": "East US",
